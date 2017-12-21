@@ -1,23 +1,23 @@
-<?php 
-function test(){
-    $pass = "Pippopaperino123";
-    $var1 = 1;
-    $var2 = 2;
-    $var3 = $var1 + $var2;
-    $encodedPass = password_hash($pass, PASSWORD_DEFAULT);
-    print_r(encodedPass);
-    print_r(" ");
-    if(password_verify("Pippopaperino123", $encodedPass) == 1)
-        print_r("Password esatta!");
-    else
-        print_r("Password sbagliata!");
+<?php
+
+function test() {
+//    $pass = "Pippopaperino123";
+//    $var1 = 1;
+//    $var2 = 2;
+//    $var3 = $var1 + $var2;
+//    $encodedPass = password_hash($pass, PASSWORD_DEFAULT);
+//    print_r(encodedPass);
+//    print_r(" ");
+//    if(password_verify("Pippopaperino123", $encodedPass) == 1)
+//        print_r("Password esatta!");
+//    else
+//        print_r("Password sbagliata!");
 }
 ?>
 
 <?php
- test();
+// test();
 //phpinfo();
-
 ?>
 
 
@@ -28,166 +28,251 @@ function test(){
 	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
 -->
 <html>
-	<head>
-            <title>CarSEA</title>
-            <meta charset="utf-8" />
-            <meta name="viewport" content="width=device-width, initial-scale=1" />
-            <!-- CSS Start -->
-            <link rel="stylesheet" href="styles/css/carsea.css" />
-            <link rel="stylesheet" href="styles/css/bootstrap.min.css" />
-            <link rel="stylesheet" href="styles/css/bootstrap-grid.min.css" />
-            <link rel="stylesheet" href="styles/css/bootstrap-reboot.min.css" />
-            <!-- CSS End -->
-	</head>
-        
-        <!-- Scripts -->
-        <script src="styles/js/jquery-3.2.1.min.js"></script>
-        <script src="styles/js/bootstrap.bundle.min.js"></script>
-        <script src="styles/js/skel.min.js"></script>
-        <script src="styles/js/util.js"></script>
-        <script src="styles/js/main.js"></script>
-        
-        <script>
-        function openModal(){
-            $('#myModal').on('shown.bs.modal', function () {
-                $('#myInput').focus()
-            })
-        }
-     
-        </script>
-        <!-- END Scripts -->
-        
-	<body>
+    <head>
+	<title>CarSEA</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta name="description" content="">
+	<meta name="author" content="">
+	
+	<!-- CSS Start -->
+	<link rel="stylesheet" href="styles/css/carsea.css" />
 
-            <!-- Modal to move -->
-            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document" style="z-index:9999;">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                          ...
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
-                        </div>
-                    </div>
-                </div>
-              </div>
-            <!-- End modal -->
-            
-		<!-- Header -->
-                <header id="header">
-                        <div class="inner">
-                                <a href="index.html" class="logo"><strong>CarSEA</strong> by Gianmattia Gherardi</a>
-                                <nav id="nav">
-                                        <a href="#">Cerca un passaggio</a>
-                                        <button data-toggle="modal" data-target="#myModal">Iscriviti</button>
-                                        <a href="#">Login</a>
-                                </nav>
-                                <a href="#navPanel" class="navPanelToggle"><span class="fa fa-bars"></span></a>
-                        </div>
-                </header>
+	<link href="styles/css/bootstrap.min.css" rel="stylesheet">
+	<link href="styles/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+	<link href="styles/css/simple-line-icons.css" rel="stylesheet" type="text/css">
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+	<link href="styles/css/landing-page.css" rel="stylesheet">
+	<!-- CSS End -->
+	
+    </head>
 
-		<!-- Banner -->
-                <section id="banner">
-                    <div class="inner">
-                        <header>
-                                <h1>Benvenuti in CarSEA!</h1>
-                        </header>
-                        <div class="flex">
-                            <div>
-                                    <span class="icon fa-car"></span>
-                                    <h3>Aliquam</h3>
-                                    <p>Suspendisse amet ullamco</p>
-                            </div>
+    <!-- Scripts -->
+    <script src="styles/js/jquery-3.2.1.min.js"></script>
+    <script src="styles/js/bootstrap.bundle.min.js"></script>
+    <script src="styles/js/skel.min.js"></script>
+    <script src="styles/js/util.js"></script>
+    <script src="styles/js/main.js"></script>
 
-                            <div>
-                                    <span class="icon fa-camera"></span>
-                                    <h3>Elementum</h3>
-                                    <p>Class aptent taciti ad litora</p>
-                            </div>
+    <script>
 
-<!--						<div>
-                                    <span class="icon fa-bug"></span>
-                                    <h3>Ultrices</h3>
-                                    <p>Nulla vitae mauris non felis</p>
-                            </div>-->
-                        </div>
-                        <footer>
-                                <a href="#" class="button">Get Started</a>
-                        </footer>
-                    </div>
-                </section>
+    </script>
+    <!-- END Scripts -->
 
+    <body>
 
-		<!-- Three -->
-                <section id="three" class="wrapper align-center">
-                    <div class="inner">
-                        <div class="flex flex-2">
-                            <article>
-                                <div class="image round">
-                                        <img src="styles/images/pic01.jpg" alt="Pic 01" />
-                                </div>
-                                <header>
-                                        <h3>Lorem ipsum<br /> dolor amet nullam</h3>
-                                </header>
-                                <p>Morbi in sem quis dui placerat ornare. Pellentesquenisi<br />euismod in, pharetra a, ultricies in diam sed arcu. Cras<br />consequat  egestas augue vulputate.</p>
-                                <footer>
-                                        <a href="#" class="button">Learn More</a>
-                                </footer>
-                            </article>
-                            <article>
-                                <div class="image round">
-                                        <img src="styles/images/pic02.jpg" alt="Pic 02" />
-                                </div>
-                                <header>
-                                        <h3>Sed feugiat<br /> tempus adipicsing</h3>
-                                </header>
-                                <p>Pellentesque fermentum dolor. Aliquam quam lectus<br />facilisis auctor, ultrices ut, elementum vulputate, nunc<br /> blandit ellenste egestagus commodo.</p>
-                                <footer>
-                                        <a href="#" class="button">Learn More</a>
-                                </footer>
-                            </article>
-                        </div>
-                    </div>
-                </section>
+	<!-- Navigation -->
+	<nav class="navbar navbar-light bg-light static-top">
+	    <div class="container">
+		<nav id="nav">
+		    <ul>  
+			<li class="dropdown">
+<!--			    <span class="dropdown-toggle" data-toggle="dropdown">
+				Login
+			    </span>         -->
+			    <span class="btn btn-primary" class="dropdown-toggle" data-toggle="dropdown"><span class="icon-user"></span> Login</span>
+			    <div class="dropdown-menu" style="padding: 15px; padding-bottom: 10px;">
+				<form class="form-horizontal"  method="post" accept-charset="UTF-8">
+				    <input id="sp_uname" class="" type="text" name="sp_uname" placeholder="Username.." />
+				    <input id="sp_pass" class="" type="password" name="sp_pass" placeholder="Password.."/>
+				    <button class="btn btn-primary" type="submit" name="submit" value="login">Ciao</button>
+				</form>
+			    </div>
+			</li>
+			<li>
+			    <button class="btn btn-primary">Iscriviti</span>
+			</li>
+		    </ul>
+		</nav>
+	    </div>
+	</nav>
 
-		<!-- Footer -->
-                <footer id="footer">
-                    <div class="inner">
+	<!-- Masthead -->
+	<header class="masthead text-white text-center">
+	    <div class="overlay"></div>
+	    <div class="container">
+		<div class="row">
+		    <div class="col-xl-9 mx-auto">
+			<h1 class="mb-5">Benvenuto su CarSEA!<br>Dove vorresti andare?</h1>
+		    </div>
+		    <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
+			<form>
+			    <div class="form-row">
+				<div class="col-12 col-md-9 mb-2 mb-md-0">
+				    <input type="email" class="form-control form-control-lg" placeholder="Destinazione">
+				</div>
+				<div class="col-12 col-md-3">
+				    <button type="submit" class="btn btn-block btn-lg btn-primary" style="width: auto;">Trova un passaggio!</button>
+				</div>
+			    </div>
+			</form>
+		    </div>
+		</div>
+	    </div>
+	</header>
 
-                        <h3>Get in touch</h3>
+	<!-- Icons Grid -->
+	<section class="features-icons bg-light text-center">
+	    <div class="container">
+		<div class="row">
+		    <div class="col-lg-4">
+			<div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+			    <div class="features-icons-icon d-flex">
+				<i class="icon-screen-desktop m-auto text-primary"></i>
+			    </div>
+			    <h3>Fully Responsive</h3>
+			    <p class="lead mb-0">This theme will look great on any device, no matter the size!</p>
+			</div>
+		    </div>
+		    <div class="col-lg-4">
+			<div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+			    <div class="features-icons-icon d-flex">
+				<i class="icon-layers m-auto text-primary"></i>
+			    </div>
+			    <h3>Bootstrap 4 Ready</h3>
+			    <p class="lead mb-0">Featuring the latest build of the new Bootstrap 4 framework!</p>
+			</div>
+		    </div>
+		    <div class="col-lg-4">
+			<div class="features-icons-item mx-auto mb-0 mb-lg-3">
+			    <div class="features-icons-icon d-flex">
+				<i class="icon-check m-auto text-primary"></i>
+			    </div>
+			    <h3>Easy to Use</h3>
+			    <p class="lead mb-0">Ready to use with your own content, or customize the source files!</p>
+			</div>
+		    </div>
+		</div>
+	    </div>
+	</section>
 
-                        <form action="#" method="post">
+	<!-- Image Showcases -->
+	<section class="showcase">
+	    <div class="container-fluid p-0">
+		<div class="row no-gutters">
 
-                            <div class="field half first">
-                                    <label for="name">Name</label>
-                                    <input name="name" id="name" type="text" placeholder="Name">
-                            </div>
-                            <div class="field half">
-                                    <label for="email">Email</label>
-                                    <input name="email" id="email" type="email" placeholder="Email">
-                            </div>
-                            <div class="field">
-                                    <label for="message">Message</label>
-                                    <textarea name="message" id="message" rows="6" placeholder="Message"></textarea>
-                            </div>
-                            <ul class="actions">
-                                    <li><input value="Send Message" class="button alt" type="submit"></li>
-                            </ul>
-                        </form>
+		    <div class="col-lg-6 order-lg-2 text-white showcase-img" style="background-image: url('styles/images/bg-showcase-1.jpg');"></div>
+		    <div class="col-lg-6 order-lg-1 my-auto showcase-text">
+			<h2>Fully Responsive Design</h2>
+			<p class="lead mb-0">When you use a theme created by Start Bootstrap, you know that the theme will look great on any device, whether it's a phone, tablet, or desktop the page will behave responsively!</p>
+		    </div>
+		</div>
+		<div class="row no-gutters">
+		    <div class="col-lg-6 text-white showcase-img" style="background-image: url('styles/images/bg-showcase-2.jpg');"></div>
+		    <div class="col-lg-6 my-auto showcase-text">
+			<h2>Updated For Bootstrap 4</h2>
+			<p class="lead mb-0">Newly improved, and full of great utility classes, Bootstrap 4 is leading the way in mobile responsive web development! All of the themes on Start Bootstrap are now using Bootstrap 4!</p>
+		    </div>
+		</div>
+		<div class="row no-gutters">
+		    <div class="col-lg-6 order-lg-2 text-white showcase-img" style="background-image: url('styles/images/bg-showcase-3.jpg');"></div>
+		    <div class="col-lg-6 order-lg-1 my-auto showcase-text">
+			<h2>Easy to Use &amp; Customize</h2>
+			<p class="lead mb-0">Landing Page is just HTML and CSS with a splash of SCSS for users who demand some deeper customization options. Out of the box, just add your content and images, and your new landing page will be ready to go!</p>
+		    </div>
+		</div>
+	    </div>
+	</section>
 
-                        <div class="copyright">
-                                &copy; Gianmattia Gherardi
-                        </div>
+	<!-- Testimonials -->
+	<section class="testimonials text-center bg-light">
+	    <div class="container">
+		<h2 class="mb-5">What people are saying...</h2>
+		<div class="row">
+		    <div class="col-lg-4">
+			<div class="testimonial-item mx-auto mb-5 mb-lg-0">
+			    <img class="img-fluid rounded-circle mb-3" src="styles/images/testimonials-1.jpg" alt="">
+			    <h5>Margaret E.</h5>
+			    <p class="font-weight-light mb-0">"This is fantastic! Thanks so much guys!"</p>
+			</div>
+		    </div>
+		    <div class="col-lg-4">
+			<div class="testimonial-item mx-auto mb-5 mb-lg-0">
+			    <img class="img-fluid rounded-circle mb-3" src="styles/images/testimonials-2.jpg" alt="">
+			    <h5>Fred S.</h5>
+			    <p class="font-weight-light mb-0">"Bootstrap is amazing. I've been using it to create lots of super nice landing pages."</p>
+			</div>
+		    </div>
+		    <div class="col-lg-4">
+			<div class="testimonial-item mx-auto mb-5 mb-lg-0">
+			    <img class="img-fluid rounded-circle mb-3" src="styles/images/testimonials-3.jpg" alt="">
+			    <h5>Sarah	W.</h5>
+			    <p class="font-weight-light mb-0">"Thanks so much for making these free resources available to us!"</p>
+			</div>
+		    </div>
+		</div>
+	    </div>
+	</section>
 
-                    </div>
-                </footer>
-	</body>
+	<!-- Call to Action -->
+	<section class="call-to-action text-white text-center">
+	    <div class="overlay"></div>
+	    <div class="container">
+		<div class="row">
+		    <div class="col-xl-9 mx-auto">
+			<h2 class="mb-4">Ready to get started? Sign up now!</h2>
+		    </div>
+		    <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
+			<form>
+			    <div class="form-row">
+				<div class="col-12 col-md-9 mb-2 mb-md-0">
+				    <input type="email" class="form-control form-control-lg" placeholder="Enter your email...">
+				</div>
+				<div class="col-12 col-md-3">
+				    <button type="submit" class="btn btn-block btn-lg btn-primary">Sign up!</button>
+				</div>
+			    </div>
+			</form>
+		    </div>
+		</div>
+	    </div>
+	</section>
+
+	<!-- Footer -->
+	<footer class="footer bg-light">
+	    <div class="container">
+		<div class="row">
+		    <div class="col-lg-6 h-100 text-center text-lg-left my-auto">
+			<ul class="list-inline mb-2">
+			    <li class="list-inline-item">
+				<a href="#">About</a>
+			    </li>
+			    <li class="list-inline-item">&sdot;</li>
+			    <li class="list-inline-item">
+				<a href="#">Contact</a>
+			    </li>
+			    <li class="list-inline-item">&sdot;</li>
+			    <li class="list-inline-item">
+				<a href="#">Terms of Use</a>
+			    </li>
+			    <li class="list-inline-item">&sdot;</li>
+			    <li class="list-inline-item">
+				<a href="#">Privacy Policy</a>
+			    </li>
+			</ul>
+			<p class="text-muted small mb-4 mb-lg-0">&copy; Start Bootstrap 2017. All Rights Reserved.</p>
+		    </div>
+		    <div class="col-lg-6 h-100 text-center text-lg-right my-auto">
+			<ul class="list-inline mb-0">
+			    <li class="list-inline-item mr-3">
+				<a href="#">
+				    <i class="fa fa-facebook fa-2x fa-fw"></i>
+				</a>
+			    </li>
+			    <li class="list-inline-item mr-3">
+				<a href="#">
+				    <i class="fa fa-twitter fa-2x fa-fw"></i>
+				</a>
+			    </li>
+			    <li class="list-inline-item">
+				<a href="#">
+				    <i class="fa fa-instagram fa-2x fa-fw"></i>
+				</a>
+			    </li>
+			</ul>
+		    </div>
+		</div>
+	    </div>
+	</footer>
+    </body>
 </html>
