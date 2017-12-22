@@ -1,6 +1,6 @@
 <?php
 
-function test() {
+//function test() {
 //    $pass = "Pippopaperino123";
 //    $var1 = 1;
 //    $var2 = 2;
@@ -12,7 +12,7 @@ function test() {
 //        print_r("Password esatta!");
 //    else
 //        print_r("Password sbagliata!");
-}
+//}
 ?>
 
 <?php
@@ -34,7 +34,7 @@ function test() {
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<meta name="description" content="">
 	<meta name="author" content="">
-	
+
 	<!-- CSS Start -->
 	<link rel="stylesheet" href="styles/css/carsea.css" />
 
@@ -44,7 +44,7 @@ function test() {
 	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
 	<link href="styles/css/landing-page.css" rel="stylesheet">
 	<!-- CSS End -->
-	
+
     </head>
 
     <!-- Scripts -->
@@ -62,29 +62,25 @@ function test() {
     <body>
 
 	<!-- Navigation -->
-	<nav class="navbar navbar-light bg-light static-top">
-	    <div class="container">
-		<nav id="nav">
-		    <ul>  
-			<li class="dropdown">
+	<nav id="nav" class="top-navbar"> 
+	    <ul>  
+		<li class="dropdown">
 <!--			    <span class="dropdown-toggle" data-toggle="dropdown">
-				Login
-			    </span>         -->
-			    <span class="btn btn-primary" class="dropdown-toggle" data-toggle="dropdown"><span class="icon-user"></span> Login</span>
-			    <div class="dropdown-menu" style="padding: 15px; padding-bottom: 10px;">
-				<form class="form-horizontal"  method="post" accept-charset="UTF-8">
-				    <input id="sp_uname" class="" type="text" name="sp_uname" placeholder="Username.." />
-				    <input id="sp_pass" class="" type="password" name="sp_pass" placeholder="Password.."/>
-				    <button class="btn btn-primary" type="submit" name="submit" value="login">Ciao</button>
-				</form>
-			    </div>
-			</li>
-			<li>
-			    <button class="btn btn-primary">Iscriviti</span>
-			</li>
-		    </ul>
-		</nav>
-	    </div>
+			Login
+		    </span>         -->
+		    <span class="btn btn-primary" class="dropdown-toggle" data-toggle="dropdown"><span class="icon-user"></span> Login</span>
+		    <div class="dropdown-menu" style="padding: 15px; padding-bottom: 10px;">
+			<form class="form-horizontal"  method="post" accept-charset="UTF-8">
+			    <input id="sp_uname" class="input-login" type="text" name="sp_uname" placeholder="Username.." />
+			    <input id="sp_pass" class="input-login" type="password" name="sp_pass" placeholder="Password.."/>
+			    <button class="btn btn-primary" class="input-login" type="submit" name="submit" value="login">Login</button>
+			</form>
+		    </div>
+		</li>
+		<li>
+		    <button class="btn btn-primary">Iscriviti</span>
+		</li>
+	    </ul>
 	</nav>
 
 	<!-- Masthead -->

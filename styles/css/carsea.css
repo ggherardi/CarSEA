@@ -1,6 +1,18 @@
 @charset "UTF-8";
 
 /*NAVIGATION*/
+.top-navbar {
+    padding: 10px 0;
+    z-index: 9999;
+    background-color: #fff;
+    position: fixed;
+    width: 100%;
+}
+
+#nav {
+    float: right;
+}
+
 #nav ul li {
     padding: 0 20px;
     list-style: none;
@@ -8,3 +20,10 @@
     cursor: pointer;
 }
 /*END NAVIGATION*/
+
+/*LOGIN*/
+.input-login {
+    margin: 5px 0;
+    padding: 5px;
+}
+/*END LOGIN*/
