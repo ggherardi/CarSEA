@@ -1,26 +1,3 @@
-<?php
-
-//function test() {
-//    $pass = "Pippopaperino123";
-//    $var1 = 1;
-//    $var2 = 2;
-//    $var3 = $var1 + $var2;
-//    $encodedPass = password_hash($pass, PASSWORD_DEFAULT);
-//    print_r(encodedPass);
-//    print_r(" ");
-//    if(password_verify("Pippopaperino123", $encodedPass) == 1)
-//        print_r("Password esatta!");
-//    else
-//        print_r("Password sbagliata!");
-//}
-?>
-
-<?php
-// test();
-//phpinfo();
-?>
-
-
 <!DOCTYPE HTML>
 <!--
 	Projection by TEMPLATED
@@ -48,11 +25,9 @@
     </head>
 
     <!-- Scripts -->
-    <script src="styles/js/jquery-3.2.1.min.js"></script>
-    <script src="styles/js/bootstrap.bundle.min.js"></script>
-    <script src="styles/js/skel.min.js"></script>
-    <script src="styles/js/util.js"></script>
-    <script src="styles/js/main.js"></script>
+    <script src="js/jquery/jquery-3.2.1.min.js"></script>
+    <script src="js/bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="js/core/core.js"></script>
 
     <script>
 
