@@ -1,4 +1,8 @@
 <?php
+$name = isset($_POST["name"]) ? $_POST["name"] : "isnotset";
+echo $name;
+return;
+
 
 function test() {
    $pass = "Pippopaperino123";
@@ -13,11 +17,9 @@ function test() {
    else
        print_r("Password sbagliata!");
 }
-?>
 
-<?php
-test();
-phpinfo();
+// test();
+// phpinfo();
 ?>
 
 

@@ -1,6 +1,6 @@
 class Startup {
     public static main(): number {
-        console.log('Hello World');
+        console.log('Startup');
         return 0;
         }
     }
@@ -9,19 +9,20 @@ class Startup {
 class Login {
     public static Login() : void {
         $.ajax({
-            url: "lib/core.php",
-            data: {},
+            url: "lib/Login.php",
+            data: {name: "Paperino"},
+            method: "post",
             success: this.LoginSuccess,
             error: this.LoginFailure
         });
     }
 
-    private static LoginSuccess() : void {
-
+    private static LoginSuccess(data : any) : void {
+        console.log(data);
     }
 
-    private static LoginFailure() : void {
-
+    private static LoginFailure(data: any) : void {
+        console.log(data.statusText);
     }
 }
 

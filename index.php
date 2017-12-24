@@ -30,7 +30,7 @@
     <script src="js/core/core.js"></script>
 
     <script>
-
+	
     </script>
     <!-- END Scripts -->
 
@@ -48,7 +48,7 @@
 			<form class="form-horizontal"  method="post" accept-charset="UTF-8">
 			    <input id="sp_uname" class="input-login" type="text" name="sp_uname" placeholder="Username.." />
 			    <input id="sp_pass" class="input-login" type="password" name="sp_pass" placeholder="Password.."/>
-			    <button class="btn btn-primary" class="input-login" type="submit" name="submit" value="login">Login</button>
+			    <div onclick="javascript:Login.Login();" class="btn btn-primary" class="input-login" type="submit" name="submit" value="login">Login</div>
 			</form>
 		    </div>
 		</li>
