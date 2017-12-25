@@ -8,9 +8,11 @@ class Startup {
     
 class Login {
     public static Login() : void {
+        var username =  jQuery("#login_username").val() as string;
+        var password : string = jQuery("#login_password").val() as string;
         $.ajax({
             url: "lib/Login.php",
-            data: {name: "Paperino"},
+            data: {username: username, password: password},
             method: "post",
             success: this.LoginSuccess,
             error: this.LoginFailure

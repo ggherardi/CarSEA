@@ -46,8 +46,8 @@
 		    <span class="btn btn-primary" class="dropdown-toggle" data-toggle="dropdown"><span class="icon-user"></span> Login</span>
 		    <div class="dropdown-menu" style="padding: 15px; padding-bottom: 10px;">
 			<form class="form-horizontal"  method="post" accept-charset="UTF-8">
-			    <input id="sp_uname" class="input-login" type="text" name="sp_uname" placeholder="Username.." />
-			    <input id="sp_pass" class="input-login" type="password" name="sp_pass" placeholder="Password.."/>
+			    <input id="login_username" class="input-login" type="text" placeholder="Username.." />
+			    <input id="login_password" class="input-login" type="password" placeholder="Password.."/>
 			    <div onclick="javascript:Login.Login();" class="btn btn-primary" class="input-login" type="submit" name="submit" value="login">Login</div>
 			</form>
 		    </div>
