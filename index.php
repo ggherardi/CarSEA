@@ -4,6 +4,10 @@
 	templated.co @templatedco
 	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
 -->
+<?php 
+	include "Common.php";
+?>
+
 <html>
     <head>
 	<title>CarSEA</title>
@@ -49,6 +53,7 @@
 			    <input id="login_username" class="input-login" type="text" placeholder="Username.." />
 			    <input id="login_password" class="input-login" type="password" placeholder="Password.."/>
 			    <div onclick="javascript:Login.Login();" class="btn btn-primary" class="input-login" type="submit" name="submit" value="login">Login</div>
+				<div onclick="javascript:Login.Logout();" class="btn btn-primary" class="input-login" type="submit" name="submit" value="login">Logout</div>
 			</form>
 		    </div>
 		</li>

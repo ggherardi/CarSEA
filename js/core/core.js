@@ -1,4 +1,14 @@
 "use strict";
+jQuery("document").ready(function () {
+    $.ajax({
+        url: "lib/Session.php",
+        data: {},
+        method: "post",
+        success: function (res) {
+            console.log(res);
+        }
+    });
+});
 var Startup = /** @class */ (function () {
     function Startup() {
     }
@@ -18,6 +28,15 @@ var Login = /** @class */ (function () {
         $.ajax({
             url: "lib/Login.php",
             data: { username: username, password: password },
+            method: "post",
+            success: this.LoginSuccess,
+            error: this.LoginFailure
+        });
+    };
+    Login.Logout = function () {
+        $.ajax({
+            url: "lib/Login.php",
+            data: {},
             method: "post",
             success: this.LoginSuccess,
             error: this.LoginFailure

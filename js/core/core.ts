@@ -1,3 +1,14 @@
+jQuery("document").ready(function(){
+    $.ajax({
+        url: "lib/Session.php",
+        data: {},
+        method: "post",
+        success: function(res){
+            console.log(res)
+        }
+    });
+});
+
 class Startup {
     public static main(): number {
         console.log('Startup');
@@ -13,6 +24,16 @@ class Login {
         $.ajax({
             url: "lib/Login.php",
             data: {username: username, password: password},
+            method: "post",
+            success: this.LoginSuccess,
+            error: this.LoginFailure
+        });
+    }
+
+    public static Logout() : void {
+        $.ajax({
+            url: "lib/Login.php",
+            data: {},
             method: "post",
             success: this.LoginSuccess,
             error: this.LoginFailure

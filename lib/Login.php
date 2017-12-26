@@ -1,20 +1,31 @@
 <?php
+
 include "Common.php";
 
-$username = isset($_POST["username"]) ? $_POST["username"] : "isnotset";
-$password = isset($_POST["password"]) ? $_POST["password"] : "isnotset";
+$username = isset($_POST["username"]) ? $_POST["username"] : "";
+$password = isset($_POST["password"]) ? $_POST["password"] : "";
 $encodedPassword = password_hash($password, PASSWORD_DEFAULT);
+
 $dbContext = new DBConnection();
 $dbContext->Query = "SELECT *
                     FROM users 
                     WHERE Username = '$username'";
+
 $res = $dbContext->ExecuteQuery();
-echo $res->num_rows;
-$rows = $res->fetch_all();
-foreach($rows as $row){
-    echo $row[1];
+echo "\nRows: " . $res->num_rows . "\n";
+while($row = $res->fetch_assoc()){
+    $fetchedPassword = $row["Password"];
 }
-echo $res->fetch_row();
+if(password_verify($password, $fetchedPassword)){
+    echo "La password inserita è corretta!";
+    $_SESSION[Session::CONST_SESSION_USERNAME] = $username;
+}
+else{
+    echo "ATTENZIONE! Password sbagliata!";
+}
+session_write_close();
+print_r("\nTest sessione: " . $_SESSION[Session::CONST_SESSION_USERNAME]);
+
 // return;
 
 
