@@ -9,44 +9,34 @@ jQuery("document").ready(function () {
         }
     });
 });
-var Startup = /** @class */ (function () {
-    function Startup() {
+var Authentication = /** @class */ (function () {
+    function Authentication() {
     }
-    Startup.main = function () {
-        console.log('Startup');
-        return 0;
-    };
-    return Startup;
-}());
-Startup.main();
-var Login = /** @class */ (function () {
-    function Login() {
-    }
-    Login.Login = function () {
+    Authentication.Login = function () {
         var username = jQuery("#login_username").val();
         var password = jQuery("#login_password").val();
         $.ajax({
-            url: "lib/Login.php",
-            data: { username: username, password: password },
+            url: "lib/Authentication.php",
+            data: { action: "login", username: username, password: password },
             method: "post",
             success: this.LoginSuccess,
             error: this.LoginFailure
         });
     };
-    Login.Logout = function () {
+    Authentication.Logout = function () {
         $.ajax({
-            url: "lib/Login.php",
-            data: {},
+            url: "lib/Authentication.php",
+            data: { action: "logout" },
             method: "post",
             success: this.LoginSuccess,
             error: this.LoginFailure
         });
     };
-    Login.LoginSuccess = function (data) {
+    Authentication.LoginSuccess = function (data) {
         console.log(data);
     };
-    Login.LoginFailure = function (data) {
+    Authentication.LoginFailure = function (data) {
         console.log(data.statusText);
     };
-    return Login;
+    return Authentication;
 }());

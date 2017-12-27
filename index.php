@@ -52,8 +52,8 @@
 			<form class="form-horizontal"  method="post" accept-charset="UTF-8">
 			    <input id="login_username" class="input-login" type="text" placeholder="Username.." />
 			    <input id="login_password" class="input-login" type="password" placeholder="Password.."/>
-			    <div onclick="javascript:Login.Login();" class="btn btn-primary" class="input-login" type="submit" name="submit" value="login">Login</div>
-				<div onclick="javascript:Login.Logout();" class="btn btn-primary" class="input-login" type="submit" name="submit" value="login">Logout</div>
+			    <div onclick="javascript:Authentication.Login();" class="btn btn-primary" class="input-login" type="submit" name="submit" value="login">Login</div>
+				<div onclick="javascript:Authentication.Logout();" class="btn btn-primary" class="input-login" type="submit" name="submit" value="login">Logout</div>
 			</form>
 		    </div>
 		</li>

@@ -9,21 +9,13 @@ jQuery("document").ready(function(){
     });
 });
 
-class Startup {
-    public static main(): number {
-        console.log('Startup');
-        return 0;
-        }
-    }
-    Startup.main();
-    
-class Login {
+class Authentication {
     public static Login() : void {
         var username =  jQuery("#login_username").val() as string;
         var password : string = jQuery("#login_password").val() as string;
         $.ajax({
-            url: "lib/Login.php",
-            data: {username: username, password: password},
+            url: "lib/Authentication.php",
+            data: {action: "login", username: username, password: password},
             method: "post",
             success: this.LoginSuccess,
             error: this.LoginFailure
@@ -32,8 +24,8 @@ class Login {
 
     public static Logout() : void {
         $.ajax({
-            url: "lib/Login.php",
-            data: {},
+            url: "lib/Authentication.php",
+            data: {action: "logout"},
             method: "post",
             success: this.LoginSuccess,
             error: this.LoginFailure
