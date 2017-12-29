@@ -1,18 +1,23 @@
 <?php
 include "Common.php";
 
-switch($_POST["action"]){
-    case "login":
-        Login();
-        echo "Login";
+Init();
+
+function Init(){
+    switch($_POST["action"]){
+        case "login":
+            Login();
+            echo "Login";
+            break;
+        case "logout":
+            Logout();
+            echo "Logout";
+            break;
+        default: 
         break;
-    case "logout":
-        Logout();
-        echo "Logout";
-        break;
-    default: 
-    break;
+    }
 }
+
 function Login(){
     $username = isset($_POST["username"]) ? $_POST["username"] : "";
     $password = isset($_POST["password"]) ? $_POST["password"] : "";
