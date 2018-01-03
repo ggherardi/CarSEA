@@ -1,6 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { enableProdMode} from '@angular/core';
+import { HttpModule } from '@angular/http';
+import { PhpServiceComponent } from './common/api';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -13,12 +15,16 @@ import * as $ from 'jquery';
   declarations: [
     AppComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    PhpServiceComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    HttpModule
   ],
-  providers: [],
+  providers: [
+    PhpServiceComponent
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

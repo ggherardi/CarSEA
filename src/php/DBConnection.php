@@ -23,10 +23,7 @@ class DBConnection {
     function EstablishConnection(){
          $this->Connection = mysqli_connect($this->ServerName, $this->UserName, $this->Password, $this->DB);
         if(mysqli_connect_errno()){
-            echo "Error -> " . mysqli_connect_error();
-        }
-        else{
-            echo "Connection succesful ";
+            print_r("Error -> " . mysqli_connect_error);
         }
     }
 
