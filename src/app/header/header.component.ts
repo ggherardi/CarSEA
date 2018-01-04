@@ -23,8 +23,11 @@ export class HeaderComponent implements OnInit {
       password: password
     };
     const promise = this.http.postResponse('php/Authentication.php', data);
-    // promise.progress(function(){ console.log('.'); });
-    promise.then(function(res){ console.log(res); });
+    promise.then(function(res){
+      console.log(res);
+      sessionStorage.setItem('carseaSession', res);
+    });
+
   }
 
   logout(): void {

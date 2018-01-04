@@ -1,7 +1,8 @@
 <?php
 include 'PHPConst.php';
-include 'UserModel.php';
 include 'DBConnection.php';
+include 'models\Models.php';
+use Models;
 
 Init();
 
@@ -37,8 +38,7 @@ function Login(){
     }
     if(password_verify($password, $fetchedPassword)){
         $user = new Models\UserModel($validRow["Username"], $validRow["Id"]);
-
-        print_r(json_encode($user->getLoginName()));
+        print_r(json_encode($user));
     }
     else{
         print_r(json_encode("ATTENZIONE! Password sbagliata!"));
