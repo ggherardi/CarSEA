@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { enableProdMode} from '@angular/core';
 import { HttpModule } from '@angular/http';
-import { PhpServiceComponent } from './common/api';
+import { PHPService } from './common/api';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -15,15 +15,14 @@ import * as $ from 'jquery';
   declarations: [
     AppComponent,
     HeaderComponent,
-    FooterComponent,
-    PhpServiceComponent
+    FooterComponent
   ],
   imports: [
     BrowserModule,
     HttpModule
   ],
   providers: [
-    PhpServiceComponent
+    PHPService
   ],
   bootstrap: [AppComponent]
 })

@@ -2,14 +2,8 @@ import { Component, Injectable } from '@angular/core';
 import { Headers, Http, Response, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
 
-@Component({
-    selector: 'app-phpservicecomponent',
-    template: '',
-    styles: ['']
- })
-
 @Injectable()
-export class PhpServiceComponent {
+export class PHPService {
 
     constructor(private http: Http) { }
 

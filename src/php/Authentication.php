@@ -38,22 +38,11 @@ function Login(){
     }
     if(password_verify($password, $fetchedPassword)){
         $user = new Models\UserModel($validRow["Username"], $validRow["Id"]);
-        print_r(json_encode($user));
+        echo json_encode($user);
     }
     else{
-        print_r(json_encode("ATTENZIONE! Password sbagliata!"));
+        echo json_encode(-1);
     }
     session_write_close();
 }
-
-function Logout(){
-    session_start();
-    print_r("\nTest sessione: " . $_SESSION[PHPConst\Session::CONST_SESSION_USERNAME]);
-    print_r("\n\$_SESSION: " . json_encode($_SESSION));
-    // session_unset();
-    // session_destroy();
-}
-
 ?>
-
-

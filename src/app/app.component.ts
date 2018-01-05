@@ -1,5 +1,5 @@
 import { Component, Injectable } from '@angular/core';
-import { PhpServiceComponent } from './common/api';
+import { PHPService } from './common/api';
 
 @Component({
   selector: 'app-root',
@@ -11,10 +11,8 @@ export class AppComponent {
   title = 'app';
   testResponse: any;
 
-  constructor(private http: PhpServiceComponent) {
-    this.http.getResponse('/php/Session.php').subscribe(data => {
-      this.testResponse = data;
-      console.log(this.testResponse);
-    });
+  constructor(private http: PHPService) {
+    const session = sessionStorage.getItem('carsea');
+    console.log(session);
   }
 }
