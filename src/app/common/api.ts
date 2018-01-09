@@ -13,23 +13,12 @@ export class PHPService {
         });
     }
 
-    postResponse(url: string, data: any) {
+    postResponse(url: string, data: any, callback) {
         return jQuery.ajax({
             url: '/php/Authentication.php',
             data: data,
             method: 'post',
-            // success: this.LoginSuccess,
-            // error: this.LoginFailure
+            success: callback
         });
-    }
-
-    private LoginSuccess(data: any) {
-        console.log(data);
-        return data;
-      }
-
-    private LoginFailure(data: any) {
-        console.log(data.statusText);
-        return data;
     }
 }

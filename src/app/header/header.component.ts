@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PHPService } from '../common/api';
+import { Cookies } from '../common/cookies';
 
 @Component({
   selector: 'app-header',
@@ -9,7 +10,7 @@ import { PHPService } from '../common/api';
 
 export class HeaderComponent implements OnInit {
 
-  constructor(private http: PHPService) { }
+  constructor(private http: PHPService, private cookies: Cookies) { }
 
   ngOnInit() {
   }
@@ -22,15 +23,16 @@ export class HeaderComponent implements OnInit {
       username: username,
       password: password
     };
-    const promise = this.http.postResponse('php/Authentication.php', data);
-    promise.done(function(res){
-      if (JSON.parse(res) === -1) {
-        alert('Attenzione, la password è sbagliata!');
-      } else {
-        sessionStorage.setItem('carseaSession', res);
-      }
-    });
+    this.http.postResponse('php/Authentication.php', data, this.setAuthenticationCookies.bind(this));
+  }
 
+  setAuthenticationCookies(res) {
+    if (JSON.parse(res) === -1) {
+      alert('Attenzione, la password è sbagliata!');
+    } else {
+      this.cookies.setCookie('user', JSON.parse(res), 0.5);
+      sessionStorage.setItem('carseaSession', res);
+    }
   }
 
   logout(): void {
