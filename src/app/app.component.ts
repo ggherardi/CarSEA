@@ -1,6 +1,6 @@
 import { Component, Injectable } from '@angular/core';
-import { PHPService } from './common/phpService';
-import { Models } from './common/models';
+import { PHPService } from './_common/phpService';
+import { Models } from './_common/models';
 
 @Component({
   selector: 'app-root',

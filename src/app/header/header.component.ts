@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { PHPService } from '../common/phpService';
-import { Cookies } from '../common/cookies';
-import { Models } from '../common/models';
+import { PHPService } from '../_common/phpService';
+import { Cookies } from '../_common/cookies';
+import { Models } from '../_common/models';
 
 @Component({
   selector: 'app-header',
@@ -22,11 +22,12 @@ export class HeaderComponent implements OnInit {
   }
 
   private loadSession() {
-    const storedObject = this.cookies.getObjectFromCookie(this.USER_COOKIE_NAME);
-    if (storedObject !== undefined) {
-      console.log(storedObject);
-      this.user = storedObject;
+    const storedUserDetails = this.cookies.getObjectFromCookie(this.USER_COOKIE_NAME);
+    if (storedUserDetails !== undefined) {
+      console.log(storedUserDetails);
+      this.user = storedUserDetails;
       this.logged = true;
+      this.models.userModel = storedUserDetails;
       // this.user = storedObject;
       // console.log(this.user);
     }
@@ -49,12 +50,12 @@ export class HeaderComponent implements OnInit {
       alert('Attenzione, la password è sbagliata!');
     } else {
       this.cookies.setEncodedCookie(this.USER_COOKIE_NAME, parsedResult, 0.5);
-      this.logged = true;
-      this.user = parsedResult['Name'];
+      this.loadSession();
     }
   }
 
   logout(): void {
     this.cookies.disposeCookie(this.USER_COOKIE_NAME);
+    this.logged = false;
   }
 }
