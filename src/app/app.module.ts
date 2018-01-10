@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { enableProdMode} from '@angular/core';
 import { HttpModule } from '@angular/http';
-import { PHPService } from './common/api';
+import { PHPService } from './common/phpService';
 import { Cookies } from './common/cookies';
 
 import { AppComponent } from './app.component';

@@ -1,10 +1,11 @@
 import { Component, Injectable } from '@angular/core';
-import { PHPService } from './common/api';
+import { PHPService } from './common/phpService';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
+  providers: [ PHPService ]
 })
 
 export class AppComponent {
@@ -12,7 +13,6 @@ export class AppComponent {
   testResponse: any;
 
   constructor(private http: PHPService) {
-    const session = sessionStorage.getItem('carsea');
-    console.log(session);
+
   }
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PHPService } from '../common/api';
+import { PHPService } from '../common/phpService';
 import { Cookies } from '../common/cookies';
 
 @Component({
@@ -10,7 +10,11 @@ import { Cookies } from '../common/cookies';
 
 export class HeaderComponent implements OnInit {
 
-  constructor(private http: PHPService, private cookies: Cookies) { }
+  user: string;
+  logged = false;
+  USER_COOKIE_NAME = 'user';
+
+  constructor(private phpService: PHPService, private cookies: Cookies) { }
 
   ngOnInit() {
   }
@@ -23,19 +27,21 @@ export class HeaderComponent implements OnInit {
       username: username,
       password: password
     };
-    this.http.postResponse('php/Authentication.php', data, this.setAuthenticationCookies.bind(this));
+    this.phpService.postResponse('php/Authentication.php', data, this.setAuthenticationCookies.bind(this));
   }
 
-  setAuthenticationCookies(res) {
-    if (JSON.parse(res) === -1) {
+  private setAuthenticationCookies(res) {
+    const parsedResult = JSON.parse(res);
+    if (parsedResult === -1) {
       alert('Attenzione, la password è sbagliata!');
     } else {
-      this.cookies.setCookie('user', JSON.parse(res), 0.5);
-      sessionStorage.setItem('carseaSession', res);
+      this.cookies.setEncodedCookie(this.USER_COOKIE_NAME, parsedResult, 0.5);
+      this.logged = true;
+      this.user = parsedResult['Name'];
     }
   }
 
   logout(): void {
-    sessionStorage.removeItem('carseaSession');
+    this.cookies.disposeCookie(this.USER_COOKIE_NAME);
   }
 }

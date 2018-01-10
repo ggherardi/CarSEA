@@ -37,7 +37,7 @@ function Login(){
         $validRow = $row;
     }
     if(password_verify($password, $fetchedPassword)){
-        $user = new Models\UserModel($validRow["Username"], $validRow["Id"]);
+        $user = new Models\UserModel($validRow["Username"], $validRow["Id"], $validRow["Nome"]);
         echo json_encode($user);
     }
     else{

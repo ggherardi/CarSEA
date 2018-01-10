@@ -7,30 +7,53 @@ export class Cookies {
 
     constructor() { }
 
-    encodeObject(object: any) {
-        let b = '';
-        for (const prop of Object.keys(object)) {
-            b += prop + '=' + object[prop];
-            b += '|';
-        }
-        b = b.substring(0, b.lastIndexOf('|'));
-        console.log(b);
-        return btoa(b);
+    // Codifica il cookie in base64
+    private encodeObject(object: any) {
+        return btoa(JSON.stringify(object));
     }
 
-    setCookie(cookieName: string, valueAsObject: any, hours: number, path?: string) {
+    // Decodifica il cookie da base 64 a oggetto
+    private decodeObject(encodedObject: string) {
+        const objString = atob(encodedObject);
+        return JSON.parse(objString);
+    }
+
+    // Restituisce i cookie come array di stringhe senza whitespaces
+    private getAllCookiesAsArray() {
+        const allCookies = document.cookie;
+        return allCookies.replace(/\s/g, '').split(';');
+    }
+
+    // Setta il cookie codificato in base 64. Formato cookie: name=value; expires=expirationDate; path=selectedPath
+    setEncodedCookie(cookieName: string, object: any, hours: number, path?: string) {
+        const encodedObject = this.encodeObject(object);
+        this.setCookie(cookieName, encodedObject, hours, path);
+    }
+
+    setCookie(cookieName: string, cookieValue: string, hours: number, path?: string) {
         const date = new Date();
         const daysInMilliseconds: number = hours * 60 * 60 * 1000;
         date.setTime(date.getTime() + daysInMilliseconds);
         const expirationString = date.toUTCString();
-        const encodedObject = this.encodeObject(valueAsObject);
-        let cookie = cookieName + '=' + encodedObject;
+        let cookie = cookieName + '=' + cookieValue;
         cookie += '; expires=' + expirationString;
         cookie += '; path=' + path;
         document.cookie = cookie;
     }
 
-    getCookie() {
+    // Restituisce il cookie richiesto
+    getCookie(cookieName: string) {
+        const cookiesArray = this.getAllCookiesAsArray();
+        const encodedCookie = cookiesArray.find(c => c.startsWith(cookieName));
+        let cookie: any;
+        if (encodedCookie !== undefined) {
+            cookie = this.decodeObject(encodedCookie);
+        }
+        return cookie;
+    }
 
+    // Elimina il cookie dalla lista dei cookies
+    disposeCookie(cookieName: string) {
+        this.setCookie(cookieName, '', -1);
     }
 }

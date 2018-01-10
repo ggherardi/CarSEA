@@ -1,5 +1,5 @@
 <nav id="nav" class="top-navbar"> 
-  <ul>  
+  <ul *ngIf="!logged" >   
     <li class="dropdown">
         <span class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><span class="icon-user"></span> Login</span>
         <div class="dropdown-menu" style="padding: 15px; padding-bottom: 10px;">
@@ -15,4 +15,12 @@
         <button class="btn btn-primary">Iscriviti</button>
     </li>
   </ul>
+  <ul *ngIf="logged" > 
+    <li>
+      <button class="btn btn-primary">Bentornato {{ varHeader }}, {{ user }} </button>
+    </li>
+  </ul>
 </nav>
+<div style="height: 74px; display: block;">
+
+</div>
