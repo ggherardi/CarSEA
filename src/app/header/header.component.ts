@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PHPService } from '../common/phpService';
 import { Cookies } from '../common/cookies';
+import { Models } from '../common/models';
 
 @Component({
   selector: 'app-header',
@@ -10,13 +11,25 @@ import { Cookies } from '../common/cookies';
 
 export class HeaderComponent implements OnInit {
 
-  user: string;
+  user: any; // this.models; // this.models.userModel;
   logged = false;
   USER_COOKIE_NAME = 'user';
 
-  constructor(private phpService: PHPService, private cookies: Cookies) { }
+  constructor(private phpService: PHPService, private cookies: Cookies, private models: Models) { }
 
   ngOnInit() {
+    this.loadSession();
+  }
+
+  private loadSession() {
+    const storedObject = this.cookies.getObjectFromCookie(this.USER_COOKIE_NAME);
+    if (storedObject !== undefined) {
+      console.log(storedObject);
+      this.user = storedObject;
+      this.logged = true;
+      // this.user = storedObject;
+      // console.log(this.user);
+    }
   }
 
   login(): void {

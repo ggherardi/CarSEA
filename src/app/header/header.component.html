@@ -17,7 +17,15 @@
   </ul>
   <ul *ngIf="logged" > 
     <li>
-      <button class="btn btn-primary">Bentornato {{ varHeader }}, {{ user }} </button>
+      <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><span class="icon-user"></span> Il mio profilo {{ user.Name }} </button>
+        <div class="dropdown-menu" style="padding: 15px; padding-bottom: 10px;">
+          <form class="form-horizontal"  method="post" accept-charset="UTF-8">
+              <input id="login_username" class="input-login" type="text" placeholder="Username.." />
+              <input id="login_password" class="input-login" type="password" placeholder="Password.."/>
+              <div (click)="login()" class="btn btn-primary input-login" type="submit" name="submit" value="login">Login</div>
+              <div (click)="logout()" class="btn btn-primary input-login" type="submit" name="submit" value="login">Logout</div>
+          </form>
+        </div>
     </li>
   </ul>
 </nav>

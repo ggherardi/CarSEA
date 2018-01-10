@@ -12,7 +12,7 @@ export class Cookies {
         return btoa(JSON.stringify(object));
     }
 
-    // Decodifica il cookie da base 64 a oggetto
+    // Decodifica il cookie da base64
     private decodeObject(encodedObject: string) {
         const objString = atob(encodedObject);
         return JSON.parse(objString);
@@ -24,12 +24,19 @@ export class Cookies {
         return allCookies.replace(/\s/g, '').split(';');
     }
 
-    // Setta il cookie codificato in base 64. Formato cookie: name=value; expires=expirationDate; path=selectedPath
+    // Restituisce il cookie richiesto
+    private getCookie(cookieName: string): string {
+        const cookiesArray = this.getAllCookiesAsArray();
+        return cookiesArray.find(c => c.startsWith(cookieName));
+    }
+
+    // Setta il cookie codificato in base 64
     setEncodedCookie(cookieName: string, object: any, hours: number, path?: string) {
         const encodedObject = this.encodeObject(object);
         this.setCookie(cookieName, encodedObject, hours, path);
     }
 
+    // Setta il cookie. Formato cookie: name=value; expires=expirationDate; path=selectedPath
     setCookie(cookieName: string, cookieValue: string, hours: number, path?: string) {
         const date = new Date();
         const daysInMilliseconds: number = hours * 60 * 60 * 1000;
@@ -41,15 +48,15 @@ export class Cookies {
         document.cookie = cookie;
     }
 
-    // Restituisce il cookie richiesto
-    getCookie(cookieName: string) {
-        const cookiesArray = this.getAllCookiesAsArray();
-        const encodedCookie = cookiesArray.find(c => c.startsWith(cookieName));
-        let cookie: any;
+    // Restituisce l'oggetto immagazzinato nel cookie
+    getObjectFromCookie(cookieName: string): any {
+        let encodedCookie = this.getCookie(cookieName);
+        let object: any;
         if (encodedCookie !== undefined) {
-            cookie = this.decodeObject(encodedCookie);
+            encodedCookie = encodedCookie.split('=')[1];
+            object = this.decodeObject(encodedCookie);
         }
-        return cookie;
+        return object;
     }
 
     // Elimina il cookie dalla lista dei cookies
