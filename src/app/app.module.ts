@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { enableProdMode} from '@angular/core';
+import { NgModule, enableProdMode } from '@angular/core';
 import { HttpModule } from '@angular/http';
+import { RouterModule } from '@angular/router';
 import { PHPService } from './_common/phpService';
 import { Cookies } from './_common/cookies';
 
@@ -22,7 +22,22 @@ import { BodyComponent } from './body/body.component';
   ],
   imports: [
     BrowserModule,
-    HttpModule
+    HttpModule,
+    RouterModule.forRoot([
+      {
+        path: '',
+        component: BodyComponent
+      },
+      {
+        path: 'test',
+        component: HeaderComponent,
+      },
+      {
+        path: '**',
+        component: HeaderComponent
+      }
+    ], { enableTracing: true, useHash: true }
+    )
   ],
   providers: [
     PHPService,

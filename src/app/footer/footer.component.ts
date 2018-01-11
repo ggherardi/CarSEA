@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PHPService } from '../_common/phpService';
 import { Models } from '../_common/models';
+import { AppComponent } from '../app.component';
 
 @Component({
   selector: 'app-footer',
@@ -9,10 +10,10 @@ import { Models } from '../_common/models';
 })
 export class FooterComponent implements OnInit {
   user: any;
-  constructor(private phpService: PHPService, private models: Models) { }
+  constructor(private app: AppComponent) { }
 
   ngOnInit() {
-    this.user = this.models.userModel;
+    this.user = this.app.models.userModel;
   }
 
   changeVar() {

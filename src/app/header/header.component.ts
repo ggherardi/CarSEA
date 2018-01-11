@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PHPService } from '../_common/phpService';
 import { Cookies } from '../_common/cookies';
 import { Models } from '../_common/models';
+import { AppComponent } from '../app.component';
 
 @Component({
   selector: 'app-header',
@@ -15,21 +16,19 @@ export class HeaderComponent implements OnInit {
   logged = false;
   USER_COOKIE_NAME = 'user';
 
-  constructor(private phpService: PHPService, private cookies: Cookies, private models: Models) { }
+  constructor(private app: AppComponent) { }
 
   ngOnInit() {
     this.loadSession();
   }
 
   private loadSession() {
-    const storedUserDetails = this.cookies.getObjectFromCookie(this.USER_COOKIE_NAME);
+    const storedUserDetails = this.app.cookies.getObjectFromCookie(this.USER_COOKIE_NAME);
     if (storedUserDetails !== undefined) {
       console.log(storedUserDetails);
       this.user = storedUserDetails;
       this.logged = true;
-      this.models.userModel = storedUserDetails;
-      // this.user = storedObject;
-      // console.log(this.user);
+      this.app.models.userModel = storedUserDetails;
     }
   }
 
@@ -41,21 +40,22 @@ export class HeaderComponent implements OnInit {
       username: username,
       password: password
     };
-    this.phpService.postResponse('php/Authentication.php', data, this.setAuthenticationCookies.bind(this));
+    this.app.phpService.postResponse('php/Authentication.php', data, this.setAuthCookiesCallBack.bind(this));
   }
 
-  private setAuthenticationCookies(res) {
+  private setAuthCookiesCallBack(res) {
     const parsedResult = JSON.parse(res);
     if (parsedResult === -1) {
       alert('Attenzione, la password è sbagliata!');
     } else {
-      this.cookies.setEncodedCookie(this.USER_COOKIE_NAME, parsedResult, 0.5);
+      this.app.cookies.setEncodedCookie(this.USER_COOKIE_NAME, parsedResult, 0.5);
       this.loadSession();
+      this.app.router.navigateByUrl('test');
     }
   }
 
   logout(): void {
-    this.cookies.disposeCookie(this.USER_COOKIE_NAME);
+    this.app.cookies.disposeCookie(this.USER_COOKIE_NAME);
     this.logged = false;
   }
 }
