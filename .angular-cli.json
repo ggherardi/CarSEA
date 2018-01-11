@@ -12,7 +12,8 @@
         "styles",
         "js",
         "php",
-        "favicon.ico"
+        "favicon.ico",
+        "web.config"
       ],
       "index": "index.html",
       "main": "main.ts",

@@ -36,7 +36,7 @@ import { BodyComponent } from './body/body.component';
         path: '**',
         component: HeaderComponent
       }
-    ], { enableTracing: true, useHash: true }
+    ], { enableTracing: true }
     )
   ],
   providers: [
