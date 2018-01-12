@@ -31,8 +31,8 @@ import { SignupComponent } from './signup/signup.component';
         component: BodyComponent
       },
       {
-        path: 'test',
-        component: HeaderComponent,
+        path: 'myProfile',
+        component: SignupComponent,
       },
       {
         path: '**',

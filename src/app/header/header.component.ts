@@ -50,7 +50,7 @@ export class HeaderComponent implements OnInit {
     } else {
       this.app.cookies.setEncodedCookie(this.USER_COOKIE_NAME, parsedResult, 0.5);
       this.loadSession();
-      this.app.router.navigateByUrl('test');
+      this.app.router.navigateByUrl('myProfile');
     }
   }
 
