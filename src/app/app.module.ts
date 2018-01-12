@@ -5,12 +5,13 @@ import { RouterModule } from '@angular/router';
 import { PHPService } from './_common/phpService';
 import { Cookies } from './_common/cookies';
 
+import * as $ from 'jquery';
+
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
-
-import * as $ from 'jquery';
 import { BodyComponent } from './body/body.component';
+import { SignupComponent } from './signup/signup.component';
 
 // enableProdMode();
 @NgModule({
@@ -18,7 +19,8 @@ import { BodyComponent } from './body/body.component';
     AppComponent,
     HeaderComponent,
     FooterComponent,
-    BodyComponent
+    BodyComponent,
+    SignupComponent
   ],
   imports: [
     BrowserModule,
