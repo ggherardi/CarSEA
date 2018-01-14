@@ -32,6 +32,10 @@ export class HeaderComponent implements OnInit {
     }
   }
 
+  signup(): void {
+    this.app.router.navigateByUrl('signup');
+  }
+
   login(): void {
     const username: string =  jQuery('#login_username').val() as string;
     const password: string = jQuery('#login_password').val() as string;
@@ -57,5 +61,6 @@ export class HeaderComponent implements OnInit {
   logout(): void {
     this.app.cookies.disposeCookie(this.USER_COOKIE_NAME);
     this.logged = false;
+    this.app.router.navigateByUrl('/');
   }
 }

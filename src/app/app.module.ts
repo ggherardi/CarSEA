@@ -38,7 +38,7 @@ import { SignupComponent } from './signup/signup.component';
         path: '**',
         component: HeaderComponent
       }
-    ], { enableTracing: true }
+    ], { enableTracing: false }
     )
   ],
   providers: [
