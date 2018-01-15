@@ -1,15 +1,21 @@
 <section class="features-icons bg-light text-center">
   <div class="container">
     <div class="row">
-      <div class="col-lg-12">
-        <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
-            <div class="features-icons-icon d-flex">
-              <i class="icon-screen-desktop m-auto text-primary"></i>
-            </div>
-            <h3>Fully Responsive</h3>
-            <p class="lead mb-0">This theme will look great on any device, no matter the size!</p>
-        </div>
-      </div>     
+      <div id="form-signup" class="col-lg-4 offset-lg-4">
+        <div class="row">
+          <div class="col-lg-6 col-sm-6 col-12">
+              <!-- <input id="signup_name" [(ngModel)]="data.Name" class="input-login" type="text" placeholder="Nome" /> -->
+            <input id="signup_name" class="input-login" type="text" placeholder="Nome" />
+          </div>
+          <div class="col-lg-6 col-sm-6 col-12">
+            <input id="signup_surname" class="input-login" type="text" placeholder="Cognome" />
+          </div>
+        </div> 
+        <input id="signup_email" class="input-login" type="text" placeholder="Email" />
+        <input id="signup_password" class="input-login" type="text" placeholder="Password" />
+        <input id="signup_password_confirm" class="input-login" type="text" placeholder="Conferma Password" />
+        <div class="btn btn-primary">Iscriviti!</div>
+      </div>
     </div>
   </div>
 </section>

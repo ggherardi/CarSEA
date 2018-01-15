@@ -8,11 +8,11 @@ Init();
 
 function Init(){
     switch($_POST["action"]){
+        case "signup":
+            SignUp();
+        break;
         case "login":
             Login();
-            break;
-        case "logout":
-            Logout();
             break;
         default: 
             echo json_encode($_POST);
@@ -44,5 +44,9 @@ function Login(){
         echo json_encode(-1);
     }
     session_write_close();
+}
+
+function SignUp(){
+    
 }
 ?>

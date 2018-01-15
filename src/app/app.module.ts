@@ -13,6 +13,24 @@ import { FooterComponent } from './footer/footer.component';
 import { BodyComponent } from './body/body.component';
 import { SignupComponent } from './signup/signup.component';
 import { MyprofileComponent } from './myprofile/myprofile.component';
+import { NgModel } from '@angular/forms';
+
+const sitemap = [{
+  path: '',
+  component: BodyComponent
+},
+{
+  path: 'signup',
+  component: SignupComponent
+},
+{
+  path: 'myProfile',
+  component: MyprofileComponent,
+},
+{
+  path: '**',
+  component: HeaderComponent
+}];
 
 // enableProdMode();
 @NgModule({
@@ -22,30 +40,14 @@ import { MyprofileComponent } from './myprofile/myprofile.component';
     FooterComponent,
     BodyComponent,
     SignupComponent,
-    MyprofileComponent
+    MyprofileComponent,
+    NgModel
   ],
   imports: [
     BrowserModule,
     HttpModule,
-    RouterModule.forRoot([
-      {
-        path: '',
-        component: BodyComponent
-      },
-      {
-        path: 'signup',
-        component: SignupComponent
-      },
-      {
-        path: 'myProfile',
-        component: MyprofileComponent,
-      },
-      {
-        path: '**',
-        component: HeaderComponent
-      }
-    ], { enableTracing: false }
-    )
+    RouterModule.forRoot(sitemap, { enableTracing: false }
+    ),
   ],
   providers: [
     PHPService,
@@ -55,4 +57,5 @@ import { MyprofileComponent } from './myprofile/myprofile.component';
     AppComponent
   ]
 })
+
 export class AppModule { }
