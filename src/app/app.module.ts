@@ -12,6 +12,7 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { BodyComponent } from './body/body.component';
 import { SignupComponent } from './signup/signup.component';
+import { MyprofileComponent } from './myprofile/myprofile.component';
 
 // enableProdMode();
 @NgModule({
@@ -20,7 +21,8 @@ import { SignupComponent } from './signup/signup.component';
     HeaderComponent,
     FooterComponent,
     BodyComponent,
-    SignupComponent
+    SignupComponent,
+    MyprofileComponent
   ],
   imports: [
     BrowserModule,
@@ -31,8 +33,12 @@ import { SignupComponent } from './signup/signup.component';
         component: BodyComponent
       },
       {
+        path: 'signup',
+        component: SignupComponent
+      },
+      {
         path: 'myProfile',
-        component: SignupComponent,
+        component: MyprofileComponent,
       },
       {
         path: '**',

@@ -1,4 +1,5 @@
 <nav id="nav" class="top-navbar"> 
+  <img (click)="homepage()" src="assets/img/carsea-logo.png" height="40" style="float:left; margin-left:20px;">
   <ul *ngIf="!logged" >   
     <li class="dropdown">
         <span class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
@@ -13,7 +14,7 @@
         </div>
     </li>
     <li>
-        <button class="btn btn-primary">Iscriviti</button>
+        <div (click)="signup()" class="btn btn-primary">Iscriviti</div>
     </li>
   </ul>
   <ul *ngIf="logged" > 

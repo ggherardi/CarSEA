@@ -32,6 +32,10 @@ export class HeaderComponent implements OnInit {
     }
   }
 
+  homepage(): void {
+    this.app.router.navigateByUrl('/');
+  }
+
   signup(): void {
     this.app.router.navigateByUrl('signup');
   }
