@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AppComponent } from '../app.component';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-signup',
@@ -7,16 +8,25 @@ import { AppComponent } from '../app.component';
   styleUrls: ['./signup.component.css']
 })
 export class SignupComponent implements OnInit {
-  data: any;
+  signupForm: FormGroup;
 
-  constructor(private app: AppComponent) { }
+  constructor(private app: AppComponent, private formBuilder: FormBuilder) {
+    this.createForm();
+   }
 
-  ngOnInit() {
-    this.data = { Name: 'pippo' };
+  ngOnInit() { }
+
+  createForm() {
+    this.signupForm = this.formBuilder.group({
+      name: ['', Validators.required],
+      surname: '',
+      email: '',
+      password: '',
+    });
   }
 
-  signup() {
-    console.log(this.data.Name);
+  onSubmit() {
+    console.log();
     const username: string =  jQuery('#login_username').val() as string;
     const password: string = jQuery('#login_password').val() as string;
     const data = {
@@ -24,7 +34,7 @@ export class SignupComponent implements OnInit {
       username: username,
       password: password
     };
-    this.app.phpService.postResponse('php/Authentication.php', data, this.setAuthCookiesCallBack.bind(this));
+    // this.app.phpService.postResponse('php/Authentication.php', data, this.setAuthCookiesCallBack.bind(this));
   }
 
   private setAuthCookiesCallBack(res) {

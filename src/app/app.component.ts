@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { PHPService } from './_common/phpService';
 import { Models } from './_common/models';
 import { Cookies } from './_common/cookies';
+import { ReactiveFormsModule } from '@angular/forms';
+
 
 @Component({
   selector: 'app-root',

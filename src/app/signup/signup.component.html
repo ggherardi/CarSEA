@@ -1,21 +1,24 @@
 <section class="features-icons bg-light text-center">
   <div class="container">
     <div class="row">
-      <div id="form-signup" class="col-lg-4 offset-lg-4">
-        <div class="row">
-          <div class="col-lg-6 col-sm-6 col-12">
-              <!-- <input id="signup_name" [(ngModel)]="data.Name" class="input-login" type="text" placeholder="Nome" /> -->
-            <input id="signup_name" class="input-login" type="text" placeholder="Nome" />
-          </div>
-          <div class="col-lg-6 col-sm-6 col-12">
-            <input id="signup_surname" class="input-login" type="text" placeholder="Cognome" />
-          </div>
-        </div> 
-        <input id="signup_email" class="input-login" type="text" placeholder="Email" />
-        <input id="signup_password" class="input-login" type="text" placeholder="Password" />
-        <input id="signup_password_confirm" class="input-login" type="text" placeholder="Conferma Password" />
-        <div class="btn btn-primary">Iscriviti!</div>
-      </div>
+      <form id="form-signup" [formGroup]="signupForm" class="col-lg-4 offset-lg-4" novalidate>
+        <div class="form-group">
+          <div class="row">
+            <div class="col-lg-6 col-sm-6 col-12">
+                <input name="name" formControlName="name" class="input-login" type="text" placeholder="Nome" required/>
+            </div>
+            <div class="col-lg-6 col-sm-6 col-12">
+              <input name="surname" formControlName="surname" class="input-login" type="text" placeholder="Cognome" />
+            </div>
+          </div> 
+          <input id="signup_email" formControlName="email" class="input-login" type="text" placeholder="Email" />
+          <input id="signup_password" class="input-login" type="text" placeholder="Password" />
+          <input id="signup_password_confirm" formControlName="password" class="input-login" type="text" placeholder="Conferma Password" />
+          <button class="btn btn-primary">Iscriviti!</button>
+          <div>{{ signupForm.value | json }}</div>
+          <div>{{ signupForm.status | json }}</div>
+        </div>      
+      </form>
     </div>
   </div>
 </section>

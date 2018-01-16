@@ -13,7 +13,7 @@ import { FooterComponent } from './footer/footer.component';
 import { BodyComponent } from './body/body.component';
 import { SignupComponent } from './signup/signup.component';
 import { MyprofileComponent } from './myprofile/myprofile.component';
-import { NgModel } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
 const sitemap = [{
   path: '',
@@ -40,12 +40,12 @@ const sitemap = [{
     FooterComponent,
     BodyComponent,
     SignupComponent,
-    MyprofileComponent,
-    NgModel
+    MyprofileComponent
   ],
   imports: [
     BrowserModule,
     HttpModule,
+    ReactiveFormsModule,
     RouterModule.forRoot(sitemap, { enableTracing: false }
     ),
   ],
