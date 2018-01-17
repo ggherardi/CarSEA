@@ -8,10 +8,6 @@ class DBConnection {
     public $Password;
     public $DB;
 
-    function getConnection() : mysqli{
-        return $this->Connection;
-    }
-
     function __construct($servername = "127.0.0.1", $username = "root", $password = "root", $db = "carsea"){
         $this->ServerName = $servername;
         $this->UserName = $username;
@@ -20,7 +16,11 @@ class DBConnection {
         $this->EstablishConnection();
     }
 
-    function EstablishConnection(){
+    private function getConnection() : mysqli {
+        return $this->Connection;
+    }
+
+    private function EstablishConnection(){
          $this->Connection = mysqli_connect($this->ServerName, $this->UserName, $this->Password, $this->DB);
         if(mysqli_connect_errno()){
             print_r("Error -> " . mysqli_connect_error);
@@ -33,6 +33,4 @@ class DBConnection {
         return $msRes;
     }
 }
-// $DBContext = new DBConnection();
-// $DBContext->ExecuteQuery();
 ?>

@@ -1,22 +1,56 @@
 <section class="features-icons bg-light text-center">
   <div class="container">
     <div class="row">
-      <form id="form-signup" [formGroup]="signupForm" class="col-lg-4 offset-lg-4" novalidate>
+      <form id="form-signup" [formGroup]="signupForm" (ngSubmit)="signup()" #formDir="ngForm" class="col-lg-4 offset-lg-4">
         <div class="form-group">
           <div class="row">
-            <div class="col-lg-6 col-sm-6 col-12">
-                <input name="name" formControlName="name" class="input-login" type="text" placeholder="Nome" required/>
+            <div class="col-lg-6 col-sm-6 col-12 form-control-row">
+              <input name="name" formControlName="name" type="text" placeholder="Nome *" class="form-control" />
+              <div 
+                *ngIf="sFormControls.name.invalid && (sFormControls.name.dirty || sFormControls.name.touched)" 
+                class="alert alert-danger" style="font-size:12px;">Campo obbligatorio
+              </div>
             </div>
-            <div class="col-lg-6 col-sm-6 col-12">
-              <input name="surname" formControlName="surname" class="input-login" type="text" placeholder="Cognome" />
+            <div class="col-lg-6 col-sm-6 col-12 form-control-row">
+              <input name="surname" formControlName="surname" type="text" placeholder="Cognome *" class="form-control" />
+              <div 
+                *ngIf="sFormControls.surname.invalid && (sFormControls.surname.dirty || sFormControls.surname.touched)" 
+                class="alert alert-danger" style="font-size:12px;">Campo obbligatorio
+              </div>
             </div>
           </div> 
-          <input id="signup_email" formControlName="email" class="input-login" type="text" placeholder="Email" />
-          <input id="signup_password" class="input-login" type="text" placeholder="Password" />
-          <input id="signup_password_confirm" formControlName="password" class="input-login" type="text" placeholder="Conferma Password" />
-          <button class="btn btn-primary">Iscriviti!</button>
+          <div class="form-group">
+            <input formControlName="username" type="text" placeholder="username *" class="form-control" />
+            <div 
+              *ngIf="sFormControls.username.invalid && (sFormControls.username.dirty || sFormControls.username.touched)" 
+              class="alert alert-danger" style="font-size:12px;">Campo obbligatorio
+            </div>
+          </div>
+          <div class="form-group">
+            <input formControlName="email" type="text" placeholder="Email *" class="form-control" />
+            <div 
+              *ngIf="sFormControls.email.invalid && (sFormControls.email.dirty || sFormControls.email.touched)" 
+              class="alert alert-danger" style="font-size:12px;">Campo obbligatorio
+            </div>
+          </div>
+          <div class="form-group">
+            <input formControlName="password" type="text" placeholder="Password *" class="form-control" />
+            <div 
+              *ngIf="sFormControls.password.invalid && (sFormControls.password.dirty || sFormControls.password.touched)" 
+              class="alert alert-danger" style="font-size:12px;">Campo obbligatorio
+            </div>
+          </div>
+          <div class="form-group">              
+            <input formControlName="passwordConfirm" type="text" placeholder="Conferma Password *" class="form-control" />
+            <div 
+              *ngIf="sFormControls.passwordConfirm.value != sFormControls.password.value" 
+              class="alert alert-danger" style="font-size:12px;">Le password devono essere uguali
+            </div>
+          </div>
+          <button [disabled]="signupForm.invalid" class="btn btn-primary" type="submit">Iscriviti!</button>
           <div>{{ signupForm.value | json }}</div>
           <div>{{ signupForm.status | json }}</div>
+          <div>{{ sFormControls.password.value | json }}</div>
         </div>      
       </form>
     </div>

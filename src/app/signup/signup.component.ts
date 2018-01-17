@@ -10,34 +10,65 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class SignupComponent implements OnInit {
   signupForm: FormGroup;
 
-  constructor(private app: AppComponent, private formBuilder: FormBuilder) {
+  get sFormControls() { return this.signupForm.controls; }
+
+  constructor(private app: AppComponent, private formBuilder: FormBuilder) { }
+
+  ngOnInit() {
     this.createForm();
    }
 
-  ngOnInit() { }
-
   createForm() {
     this.signupForm = this.formBuilder.group({
-      name: ['', Validators.required],
-      surname: '',
-      email: '',
-      password: '',
+      name: ['',
+        [
+          Validators.required,
+          Validators.minLength(3)
+        ]
+      ],
+      surname: ['',
+        [
+          Validators.required,
+          Validators.minLength(3)
+        ]
+      ],
+      username: ['',
+        [
+          Validators.required,
+          Validators.minLength(3)
+        ]
+      ],
+      email: ['',
+        [
+          Validators.required,
+          Validators.email
+        ]
+      ],
+      password: ['',
+        [
+          Validators.required,
+          Validators.minLength(4)
+        ]
+      ],
+      passwordConfirm: ['', Validators.required]
     });
   }
 
-  onSubmit() {
-    console.log();
-    const username: string =  jQuery('#login_username').val() as string;
-    const password: string = jQuery('#login_password').val() as string;
+  signup() {
+
     const data = {
       action: 'signup',
-      username: username,
-      password: password
+      name: this.signupForm.controls.name.value,
+      surname: this.signupForm.controls.surname.value,
+      email: this.signupForm.controls.email.value,
+      username: this.signupForm.controls.username.value,
+      password: this.signupForm.controls.password.value
     };
-    // this.app.phpService.postResponse('php/Authentication.php', data, this.setAuthCookiesCallBack.bind(this));
+    this.app.phpService.postResponse('php/Authentication.php', data, this.signupCallBack.bind(this));
   }
 
-  private setAuthCookiesCallBack(res) {
-    
+  private signupCallBack(res) {
+    console.log('res: ');
+    console.log(JSON.parse(res));
   }
 }
