@@ -10,9 +10,10 @@ class Authentication {
     private $username;
     private $email;
     private $password;
-    
+    private $dbContext;
+
     function __construct() {
-        $this->retrievePostVariables();
+        self::retrievePostVariables();
     }
 
     // Recupera le variabili POST passate dalla chiamata lato client
@@ -24,31 +25,26 @@ class Authentication {
         $this->password = isset($_POST["password"]) ? $_POST["password"] : "";
     }
 
-    // Switch per l'operazione richiesta lato client
-    function Init(){
-        switch($_POST["action"]){
-            case "signup":
-                $this->SignUp();
-            break;
-            case "login":
-                $this->Login();
-                break;
-            default: 
-                echo json_encode($_POST);
-                break;
+    // Metodo per eseguire le Query. Utilizza la classe ausiliare DBConnection
+    private function ExecuteQuery($query = "") {        
+        if($this->dbContext == null) {
+            $this->dbContext = new DBConnection();
         }
+        return $this->dbContext->ExecuteQuery($query);
     }
-    
+
     // Effettua il login al sito con l'username inserito, ritorna:
     // -1 se non è stato trovato l'account associato
-    // L'oggetto $user se l'account è stato trovato
-    function Login(){
+    // L'oggetto $user (UserModel) se l'account è stato trovato
+    private function Login(){
         // $encodedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-        $query = "SELECT *
-                FROM users 
-                WHERE Username = '$this->username'";
-        $res = $this->GetData($query);
+        $query = 
+            "SELECT *
+            FROM users 
+            WHERE Username = '$this->username'";
+
+        $res = self::ExecuteQuery($query);
 
         while($row = $res->fetch_assoc()){
             $fetchedPassword = $row["Password"];
@@ -63,47 +59,81 @@ class Authentication {
             echo json_encode(-1);
         }
     }
-    
-    // Effettua l'iscrizione al sito, ritorna:
-    // -1 se l'username esiste già nel DB
-    // -2 se l'email esiste già nel DB
-    // -3 se l'email e lo username esistono già nel DB
+
+    // Effettua l'iscrizione al sito, ritorna responseCode:
+    // -1 se l'email e lo username esistono già nel DB
+    // -2 se l'username esiste già nel DB
+    // -3 se l'email esiste già nel DB
+    // -4 per errori incontrati durante l'inserimento
     // 1 se l'iscrizione è andata a buon fine
-    function SignUp(){      
-        $query = "SELECT *
-                FROM users
-                WHERE Username = '$this->username'
-                OR Email = '$this->email'";
+    private function SignUp(){      
+        $responseCode = self::CheckIfUserAlreadyExists();
 
-        $res = $this->GetData($query);
-
-        while($row = $res->fetch_assoc()){
-            if($row["Username"] == $this->username && $row["Email"] == $this->email) {
-                echo json_encode("Email e Username!");
-                return;
-            }
-            if($row["Username"] == $this->username) {
-                echo json_encode("Username!");
-            }
-            else {
-                echo json_encode("Email!"); 
-            }
+        if($errorCode != 0) {
+            echo json_encode($responseCode);
             return;
         }
 
-        echo json_encode("Inizio inserimento");
-        
+        $successInsert = self::InsertNewUser();
+        if(!$successInsert){
+            $responseCode = -4;
+        }
+
+        echo json_encode($responseCode);
     }
-    
-    // Metodo per recuperare le row. Utilizza la classe ausiliare DBConnection
-    function GetData($query = "") {
-        $dbContext = new DBConnection();
-        $dbContext->Query = $query;
-        return $dbContext->ExecuteQuery();
+
+    private function CheckIfUserAlreadyExists() {
+        $errorCode = 0;
+        
+        $query = 
+            "SELECT *
+            FROM users
+            WHERE Username = '$this->username'
+            OR Email = '$this->email'";
+
+        $res = self::ExecuteQuery($query);
+
+        while($row = $res->fetch_assoc()){
+            if($row["Username"] == $this->username && $row["Email"] == $this->email) {
+                $errorCode = -1;
+            }
+            else if($row["Username"] == $this->username) {
+                $errorCode = -2;
+            }
+            else {
+                $errorCode = -3;
+            }
+        }
+        return $errorCode;
+    }
+
+    private function InsertNewUser() {
+        $encodedPassword = password_hash($this->password, PASSWORD_DEFAULT);
+
+        $query = 
+            "INSERT INTO users
+            VALUES (DEFAULT, '$this->username', '$this->email', '$encodedPassword', '$this->name', '$this->surname')";
+
+        return self::ExecuteQuery($query);
+    }
+
+    // Switcha l'operazione richiesta lato client
+    function Init(){
+        switch($_POST["action"]){
+            case "signup":
+                self::SignUp();
+            break;
+            case "login":
+                self::Login();
+                break;
+            default: 
+                echo json_encode($_POST);
+                break;
+        }
     }
 }
 
-// Inizializza la classe per restituire i risultati
+// Inizializza la classe per restituire i risultati e richiama il metodo d'ingresso
 $Auth = new Authentication();
 $Auth->Init();
 

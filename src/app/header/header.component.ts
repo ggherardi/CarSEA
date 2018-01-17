@@ -40,9 +40,13 @@ export class HeaderComponent implements OnInit {
     this.app.router.navigateByUrl('signup');
   }
 
-  login(): void {
+  loginFromForm(): void {
     const username: string =  jQuery('#login_username').val() as string;
     const password: string = jQuery('#login_password').val() as string;
+    this.login(username, password);
+  }
+
+  login(username: string, password: string): void {
     const data = {
       action: 'login',
       username: username,

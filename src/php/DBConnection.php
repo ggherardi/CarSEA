@@ -2,7 +2,6 @@
 class DBConnection {
     private $Connection;
 
-    public $Query;
     public $ServerName;
     public $UserName;
     public $Password;
@@ -27,8 +26,8 @@ class DBConnection {
         }
     }
 
-    function ExecuteQuery() : mysqli_result {
-        $msRes = $this->getConnection()->query($this->Query);
+    function ExecuteQuery($query = "") {
+        $msRes = $this->getConnection()->query($query);
         // echo "Rows number -> " . $msRes->num_rows;
         return $msRes;
     }

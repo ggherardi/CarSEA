@@ -43,11 +43,11 @@
           <div class="form-group">              
             <input formControlName="passwordConfirm" type="text" placeholder="Conferma Password *" class="form-control" />
             <div 
-              *ngIf="sFormControls.passwordConfirm.value != sFormControls.password.value" 
+              *ngIf="sFormControls.passwordConfirm.value != sFormControls.password.value && sFormControls.passwordConfirm.touched" 
               class="alert alert-danger" style="font-size:12px;">Le password devono essere uguali
             </div>
           </div>
-          <button [disabled]="signupForm.invalid" class="btn btn-primary" type="submit">Iscriviti!</button>
+          <button [disabled]="signupForm.invalid" class="btn btn-default float-left" type="submit">Registrati</button>
           <div>{{ signupForm.value | json }}</div>
           <div>{{ signupForm.status | json }}</div>
           <div>{{ sFormControls.password.value | json }}</div>

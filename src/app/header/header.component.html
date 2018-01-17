@@ -1,29 +1,22 @@
 <nav id="nav" class="top-navbar"> 
   <img (click)="homepage()" src="assets/img/carsea-logo.png" height="40" style="float:left; margin-left:20px;">
-  <ul *ngIf="!logged" >   
+  <ul>   
     <li class="dropdown">
         <span class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-          <span class="icon-user"></span> Login</span>
+          <span class="icon-user"></span>
+            <span *ngIf="!logged"> Login</span>
+            <span *ngIf="logged"> Il profilo di {{ user.Name }}</span>  
+        </span>
         <div class="dropdown-menu">
-            <input id="login_username" class="input-login" type="text" placeholder="Username.." />
-            <input id="login_password" class="input-login" type="password" placeholder="Password.."/>
-            <div (click)="login()" class="btn btn-primary input-login" type="submit" name="submit" value="login">Login</div>
-            <div (click)="logout()" class="btn btn-primary input-login" type="submit" name="submit" value="login">Logout</div>
+            <input *ngIf="!logged" id="login_username" class="input-login" type="text" placeholder="Username.." />
+            <input *ngIf="!logged" id="login_password" class="input-login" type="password" placeholder="Password.."/>
+            <div *ngIf="!logged" (click)="loginFromForm()" class="btn btn-primary " type="submit" name="submit" value="login">Login</div>
+            <div *ngIf="logged" class="btn btn-link">Impostazioni</div><br>
+            <div *ngIf="logged" (click)="logout()" class="btn btn-link" type="submit" name="submit" value="login">Logout</div>
         </div>
     </li>
     <li>
-        <div (click)="signup()" class="btn btn-primary">Iscriviti</div>
-    </li>
-  </ul>
-  <ul *ngIf="logged" > 
-    <li>
-      <span class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-        <span class="icon-user"></span> Il profilo di {{ user.Name }} 
-      </span>
-        <div class="dropdown-menu">
-            <div (click)="login()" class="btn btn-primary input-login" type="submit" name="submit" value="login">Login</div>
-            <div (click)="logout()" class="btn btn-primary input-login" type="submit" name="submit" value="login">Logout</div>
-        </div>
+        <div *ngIf="!logged" (click)="signup()" class="btn btn-primary">Iscriviti</div>
     </li>
   </ul>
 </nav>

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AppComponent } from '../app.component';
+import { HeaderComponent } from '../header/header.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -9,10 +10,13 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class SignupComponent implements OnInit {
   signupForm: FormGroup;
+  headerComponent: HeaderComponent;
 
   get sFormControls() { return this.signupForm.controls; }
 
-  constructor(private app: AppComponent, private formBuilder: FormBuilder) { }
+  constructor(private app: AppComponent, private formBuilder: FormBuilder) { 
+    // this.headerComponent = new
+  }
 
   ngOnInit() {
     this.createForm();
@@ -20,42 +24,16 @@ export class SignupComponent implements OnInit {
 
   createForm() {
     this.signupForm = this.formBuilder.group({
-      name: ['',
-        [
-          Validators.required,
-          Validators.minLength(3)
-        ]
-      ],
-      surname: ['',
-        [
-          Validators.required,
-          Validators.minLength(3)
-        ]
-      ],
-      username: ['',
-        [
-          Validators.required,
-          Validators.minLength(3)
-        ]
-      ],
-      email: ['',
-        [
-          Validators.required,
-          Validators.email
-        ]
-      ],
-      password: ['',
-        [
-          Validators.required,
-          Validators.minLength(4)
-        ]
-      ],
+      name: ['', [Validators.required, Validators.minLength(3)]],
+      surname: ['', [Validators.required, Validators.minLength(3)]],
+      username: ['', [Validators.required, Validators.minLength(3)]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(4)]],
       passwordConfirm: ['', Validators.required]
     });
   }
 
   signup() {
-
     const data = {
       action: 'signup',
       name: this.signupForm.controls.name.value,
@@ -68,6 +46,7 @@ export class SignupComponent implements OnInit {
   }
 
   private signupCallBack(res) {
+    this.headerComponent.login(this.signupForm.controls.username.value, this.signupForm.controls.password.value);
     console.log('res: ');
     console.log(JSON.parse(res));
   }
