@@ -17,6 +17,7 @@ export class HeaderComponent implements OnInit, DoCheck {
   logged = false;
 
   ngDoCheck () {
+    this.app.shared.loadSession();
     this.populateView();
   }
 
@@ -47,9 +48,11 @@ export class HeaderComponent implements OnInit, DoCheck {
   }
 
   logout(): void {
-    this.app.shared.cookies.disposeCookie(this.app.shared.USER_COOKIE_NAME);
+    this.app.shared.disposeSession();
+    // this.app.shared.cookies.disposeCookie(this.app.shared.USER_COOKIE_NAME);
     this.app.shared.userLogged = false;
     this.logged = false;
+    this.user = {};
     this.app.router.navigateByUrl('/');
   }
 }

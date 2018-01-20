@@ -11,7 +11,6 @@ import { Cookies } from './cookies';
 
 @Injectable()
 export class SharedComponent implements OnInit {
-    USER_COOKIE_NAME = 'user';
     userLogged = false;
 
     constructor(public router: Router, public phpService: PHPService, public models: Models,
@@ -33,18 +32,23 @@ export class SharedComponent implements OnInit {
           if (parsedResult === -1) {
             alert('Attenzione, la password è sbagliata!');
           } else {
-            this.cookies.setEncodedCookie(this.USER_COOKIE_NAME, parsedResult, 0.5);
+            this.cookies.setEncodedCookie(this.cookies.USER_COOKIE_NAME, parsedResult, 0.5);
             this.loadSession();
             this.router.navigateByUrl('myProfile');
           }
       }
 
       loadSession() {
-        const storedUserDetails = this.cookies.getObjectFromCookie(this.USER_COOKIE_NAME);
+        const storedUserDetails = this.cookies.getObjectFromCookie(this.cookies.USER_COOKIE_NAME);
         if (storedUserDetails !== undefined) {
-            console.log(storedUserDetails);
             this.models.userModel = storedUserDetails;
             this.userLogged = true;
         }
+      }
+
+      disposeSession() {
+          this.cookies.disposeCookie(this.cookies.USER_COOKIE_NAME);
+          this.userLogged = false;
+          this.models.dispose(this.models.userModel);
       }
 }
