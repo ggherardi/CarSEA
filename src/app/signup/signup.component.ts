@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { AppComponent } from '../app.component';
-import { HeaderComponent } from '../header/header.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -10,13 +9,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class SignupComponent implements OnInit {
   signupForm: FormGroup;
-  headerComponent: HeaderComponent;
 
   get sFormControls() { return this.signupForm.controls; }
 
-  constructor(private app: AppComponent, private formBuilder: FormBuilder) { 
-    // this.headerComponent = new
-  }
+  constructor(private app: AppComponent, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
     this.createForm();
@@ -42,11 +38,11 @@ export class SignupComponent implements OnInit {
       username: this.signupForm.controls.username.value,
       password: this.signupForm.controls.password.value
     };
-    this.app.phpService.postResponse('php/Authentication.php', data, this.signupCallBack.bind(this));
+    this.app.shared.phpService.postResponse('php/Authentication.php', data, this.signupCallBack.bind(this));
   }
 
   private signupCallBack(res) {
-    this.headerComponent.login(this.signupForm.controls.username.value, this.signupForm.controls.password.value);
+    this.app.shared.login(this.signupForm.controls.username.value, this.signupForm.controls.password.value);
     console.log('res: ');
     console.log(JSON.parse(res));
   }

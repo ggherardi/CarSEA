@@ -17,6 +17,7 @@ export class PHPService {
 
     postResponse(url: string, data: any, callback) {
         return jQuery.ajax({
+            async: false,
             url: '/php/Authentication.php',
             data: data,
             method: 'post',

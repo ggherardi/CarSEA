@@ -4,6 +4,7 @@ import { PHPService } from './_common/phpService';
 import { Models } from './_common/models';
 import { Cookies } from './_common/cookies';
 import { ReactiveFormsModule } from '@angular/forms';
+import { SharedComponent } from './_common/shared';
 
 
 @Component({
@@ -20,7 +21,7 @@ export class AppComponent {
   testResponse: any;
 
   constructor(public phpService: PHPService, public cookies: Cookies, public models: Models,
-              public router: Router) {
+              public router: Router, public shared: SharedComponent) {
 
   }
 }

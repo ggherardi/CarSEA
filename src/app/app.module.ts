@@ -13,7 +13,9 @@ import { FooterComponent } from './footer/footer.component';
 import { BodyComponent } from './body/body.component';
 import { SignupComponent } from './signup/signup.component';
 import { MyprofileComponent } from './myprofile/myprofile.component';
+import { SharedComponent } from './_common/shared';
 import { ReactiveFormsModule } from '@angular/forms';
+import { Models } from './_common/models';
 
 const sitemap = [{
   path: '',
@@ -51,7 +53,9 @@ const sitemap = [{
   ],
   providers: [
     PHPService,
-    Cookies
+    Cookies,
+    SharedComponent,
+    Models
   ],
   bootstrap: [
     AppComponent

@@ -5,6 +5,8 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class Cookies {
 
+    USER_COOKIE_NAME = 'user';
+
     constructor() { }
 
     // Codifica il cookie in base64
