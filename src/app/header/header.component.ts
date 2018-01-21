@@ -42,17 +42,12 @@ export class HeaderComponent implements OnInit, DoCheck {
   }
 
   loginFromForm(): void {
-    const username: string =  jQuery('#login_username').val() as string;
+    const username: string = jQuery('#login_username').val() as string;
     const password: string = jQuery('#login_password').val() as string;
     this.app.shared.login(username, password);
   }
 
-  logout(): void {
-    this.app.shared.disposeSession();
-    // this.app.shared.cookies.disposeCookie(this.app.shared.USER_COOKIE_NAME);
-    this.app.shared.userLogged = false;
-    this.logged = false;
-    this.user = {};
-    this.app.router.navigateByUrl('/');
+  logoutFromForm(): void {
+    this.app.shared.logout();
   }
 }

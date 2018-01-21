@@ -12,7 +12,7 @@
             <input *ngIf="!logged" id="login_password" class="input-login" type="password" placeholder="Password.."/>
             <div *ngIf="!logged" (click)="loginFromForm()" class="btn btn-primary " type="submit" name="submit" value="login">Login</div>
             <div *ngIf="logged" class="btn btn-link">Impostazioni</div><br>
-            <div *ngIf="logged" (click)="logout()" class="btn btn-link" type="submit" name="submit" value="login">Logout</div>
+            <div *ngIf="logged" (click)="logoutFromForm()" class="btn btn-link" type="submit" name="submit" value="login">Logout</div>
         </div>
     </li>
     <li>

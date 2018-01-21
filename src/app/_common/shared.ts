@@ -11,44 +11,45 @@ import { Cookies } from './cookies';
 
 @Injectable()
 export class SharedComponent implements OnInit {
-    userLogged = false;
+  userLogged = false;
 
-    constructor(public router: Router, public phpService: PHPService, public models: Models,
-                public cookies: Cookies) { }
+  constructor(public router: Router, public phpService: PHPService, public models: Models,
+              public cookies: Cookies) { }
 
-    ngOnInit() { }
+  private setAuthCookiesCallBack(res) {
+    const parsedResult = JSON.parse(res);
+    if (parsedResult === -1) {
+      alert('Attenzione, la password è sbagliata!');
+    } else {
+      this.cookies.setEncodedCookie(this.cookies.USER_COOKIE_NAME, parsedResult, 0.5);
+      this.loadSession();
+      this.router.navigateByUrl('myProfile');
+    }
+  }
 
-    login(username: string, password: string): void {
-        const data = {
-          action: 'login',
-          username: username,
-          password: password
-        };
-        this.phpService.postResponse('php/Authentication.php', data, this.setAuthCookiesCallBack.bind(this));
-      }
+  ngOnInit() { }
 
-      private setAuthCookiesCallBack(res) {
-          const parsedResult = JSON.parse(res);
-          if (parsedResult === -1) {
-            alert('Attenzione, la password è sbagliata!');
-          } else {
-            this.cookies.setEncodedCookie(this.cookies.USER_COOKIE_NAME, parsedResult, 0.5);
-            this.loadSession();
-            this.router.navigateByUrl('myProfile');
-          }
-      }
+  login(username: string, password: string): void {
+    const data = {
+      action: 'login',
+      username: username,
+      password: password
+    };
+    this.phpService.postResponse('php/Authentication.php', data, this.setAuthCookiesCallBack.bind(this));
+    }
 
-      loadSession() {
-        const storedUserDetails = this.cookies.getObjectFromCookie(this.cookies.USER_COOKIE_NAME);
-        if (storedUserDetails !== undefined) {
-            this.models.userModel = storedUserDetails;
-            this.userLogged = true;
-        }
-      }
+  logout() {
+    this.cookies.disposeCookie(this.cookies.USER_COOKIE_NAME);
+    this.userLogged = false;
+    this.models.disposeUserModel();
+    this.router.navigateByUrl('/');
+  }
 
-      disposeSession() {
-          this.cookies.disposeCookie(this.cookies.USER_COOKIE_NAME);
-          this.userLogged = false;
-          this.models.dispose(this.models.userModel);
-      }
+  loadSession() {
+    const storedUserDetails = this.cookies.getObjectFromCookie(this.cookies.USER_COOKIE_NAME);
+    if (storedUserDetails !== undefined) {
+      this.models.userModel = storedUserDetails;
+      this.userLogged = true;
+    }
+  }
 }

@@ -1,12 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { AppComponent } from '../app.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+// import { AbstractControl } from '@angular/forms/src/model';
+import { AbstractControl } from '@angular/forms';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.css']
 })
+
 export class SignupComponent implements OnInit {
   signupForm: FormGroup;
 
@@ -25,7 +29,9 @@ export class SignupComponent implements OnInit {
       username: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(4)]],
-      passwordConfirm: ['', Validators.required]
+      passwordConfirm: ['', Validators.required, Validators.minLength(4)]
+    }, {
+      validators: [ PasswordValidation.MatchPassword ]
     });
   }
 
@@ -45,5 +51,20 @@ export class SignupComponent implements OnInit {
     this.app.shared.login(this.signupForm.controls.username.value, this.signupForm.controls.password.value);
     console.log('res: ');
     console.log(JSON.parse(res));
+  }
+}
+
+export class PasswordValidation {
+
+  static MatchPassword(AC: AbstractControl) {
+    const password = AC.parent.controls['password'].value;
+    const confirmPassword = AC.value;
+    if (password !== confirmPassword) {
+        console.log('false');
+        AC.get('passwordConfirm').setErrors( {MatchPassword: true} );
+    } else {
+        console.log('true');
+        return null;
+    }
   }
 }

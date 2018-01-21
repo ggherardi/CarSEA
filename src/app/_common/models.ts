@@ -6,27 +6,20 @@ import 'rxjs/add/operator/map';
 export class Models {
     userModel: UserModel;
 
-    constructor() { }
+    constructor() {
+        this.userModel = new UserModel();
+    }
 
-    dispose(model: ICarSeaModel) {
-        model.dispose();
+    disposeUserModel() {
+        this.userModel = new UserModel();
     }
 }
 
-interface ICarSeaModel {
-    dispose();
-}
-
-export class UserModel implements ICarSeaModel {
+// @Injectable()
+class UserModel {
     UserID: string;
     Name: string;
-    UserName: string;
+    username: string;
 
     constructor() { }
-
-    dispose() {
-        this.UserID = '';
-        this.Name = '';
-        this.UserName = '';
-    }
 }

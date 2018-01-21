@@ -44,7 +44,7 @@
             <input formControlName="passwordConfirm" type="text" placeholder="Conferma Password *" class="form-control" />
             <div 
               *ngIf="sFormControls.passwordConfirm.value != sFormControls.password.value && sFormControls.passwordConfirm.touched" 
-              class="alert alert-danger" style="font-size:12px;">Le password devono essere uguali
+              class="alert alert-danger" style="font-size:12px;">Le password devono coincidere
             </div>
           </div>
           <button [disabled]="signupForm.invalid" class="btn btn-default float-left" type="submit">Registrati</button>
