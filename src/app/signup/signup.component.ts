@@ -29,10 +29,24 @@ export class SignupComponent implements OnInit {
       username: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(4)]],
-      passwordConfirm: ['', Validators.required, Validators.minLength(4)]
-    }, {
-      validators: [ PasswordValidation.MatchPassword ]
+      passwordConfirm: ['', [this.MatchPassword]]
     });
+  }
+
+  MatchPassword(AC: AbstractControl) {
+    if (AC.pristine) {
+      return null;
+    }
+    const password = AC.parent.get('password').value;
+    const confirmPassword =  AC.parent.get('passwordConfirm').value;
+    if (password !== confirmPassword) {
+      console.log('false');
+      AC.setErrors( {MatchPassword: false} );
+      // AC.parent.get('password').setErrors( {MatchPassword: false} );
+    } else {
+      console.log('true');
+      return null;
+    }
   }
 
   signup() {

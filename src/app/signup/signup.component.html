@@ -47,7 +47,7 @@
               class="alert alert-danger" style="font-size:12px;">Le password devono coincidere
             </div>
           </div>
-          <button [disabled]="signupForm.invalid" class="btn btn-default float-left" type="submit">Registrati</button>
+          <button [disabled]="!signupForm.valid" class="btn btn-default float-left" type="submit">Registrati</button>
           <div>{{ signupForm.value | json }}</div>
           <div>{{ signupForm.status | json }}</div>
           <div>{{ sFormControls.password.value | json }}</div>

@@ -15,7 +15,6 @@ export class Models {
     }
 }
 
-// @Injectable()
 class UserModel {
     UserID: string;
     Name: string;
