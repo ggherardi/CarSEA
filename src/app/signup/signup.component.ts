@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AppComponent } from '../app.component';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 // import { AbstractControl } from '@angular/forms/src/model';
 import { AbstractControl } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
@@ -13,6 +13,7 @@ import { Observable } from 'rxjs/Observable';
 
 export class SignupComponent implements OnInit {
   signupForm: FormGroup;
+  signupError = 0;
 
   get sFormControls() { return this.signupForm.controls; }
 
@@ -22,34 +23,20 @@ export class SignupComponent implements OnInit {
     this.createForm();
    }
 
-  createForm() {
+  private createForm() {
     this.signupForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
       surname: ['', [Validators.required, Validators.minLength(3)]],
       username: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(4)]],
-      passwordConfirm: ['', [this.MatchPassword]]
+      passwordConfirm: ['', [Validators.required, Validators.minLength(4)]]
+    }, {
+      validator: PasswordValidation.MatchPassword
     });
   }
 
-  MatchPassword(AC: AbstractControl) {
-    if (AC.pristine) {
-      return null;
-    }
-    const password = AC.parent.get('password').value;
-    const confirmPassword =  AC.parent.get('passwordConfirm').value;
-    if (password !== confirmPassword) {
-      console.log('false');
-      AC.setErrors( {MatchPassword: false} );
-      // AC.parent.get('password').setErrors( {MatchPassword: false} );
-    } else {
-      console.log('true');
-      return null;
-    }
-  }
-
-  signup() {
+  private signup() {
     const data = {
       action: 'signup',
       name: this.signupForm.controls.name.value,
@@ -62,23 +49,27 @@ export class SignupComponent implements OnInit {
   }
 
   private signupCallBack(res) {
-    this.app.shared.login(this.signupForm.controls.username.value, this.signupForm.controls.password.value);
-    console.log('res: ');
-    console.log(JSON.parse(res));
+    const signupResult = JSON.parse(res);
+    console.log('res: ' + signupResult);
+    this.signupError = signupResult;
+    if (signupResult === 0) {
+      this.app.shared.login(this.signupForm.controls.username.value, this.signupForm.controls.password.value);
+    }
   }
 }
 
 export class PasswordValidation {
 
-  static MatchPassword(AC: AbstractControl) {
-    const password = AC.parent.controls['password'].value;
-    const confirmPassword = AC.value;
-    if (password !== confirmPassword) {
-        console.log('false');
-        AC.get('passwordConfirm').setErrors( {MatchPassword: true} );
+  static MatchPassword(AC: FormGroup) {
+    const password = AC.get('password');
+    const confirmPassword =  AC.get('passwordConfirm');
+    if (!password || !confirmPassword) {
+      return null;
+    }
+    if (password.value !== confirmPassword.value) {
+      return {MatchPassword: false};
     } else {
-        console.log('true');
-        return null;
+      return null;
     }
   }
 }

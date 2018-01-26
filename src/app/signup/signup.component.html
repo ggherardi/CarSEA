@@ -47,10 +47,16 @@
               class="alert alert-danger" style="font-size:12px;">Le password devono coincidere
             </div>
           </div>
-          <button [disabled]="!signupForm.valid" class="btn btn-default float-left" type="submit">Registrati</button>
-          <div>{{ signupForm.value | json }}</div>
-          <div>{{ signupForm.status | json }}</div>
-          <div>{{ sFormControls.password.value | json }}</div>
+          <div class="form-group">
+            <button [disabled]="!signupForm.valid" class="btn btn-default" type="submit">Registrati</button><br>
+          </div>
+          <div ngSwitch="!signupError" class="alert alert-danger" style="font-size:12px;">
+            <span *ngSwitchCase="-1">L'email e lo username inseriti sono già presenti in archivio</span>
+            <span *ngSwitchCase="-2">Lo username è già presente in archivio</span>
+            <span *ngSwitchCase="-3">L'email è già presente in archivio</span>
+            <span *ngSwitchCase="-4">Si è verificato un errore durante la registrazione, si prega di riprovare</span>
+          </div>
+          <!-- <div>{{ signupForm.status | json }}</div> -->
         </div>      
       </form>
     </div>

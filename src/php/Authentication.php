@@ -65,11 +65,11 @@ class Authentication {
     // -2 se l'username esiste già nel DB
     // -3 se l'email esiste già nel DB
     // -4 per errori incontrati durante l'inserimento
-    // 1 se l'iscrizione è andata a buon fine
+    // 0 se l'iscrizione è andata a buon fine
     private function SignUp(){      
         $responseCode = self::CheckIfUserAlreadyExists();
 
-        if($errorCode != 0) {
+        if($responseCode != 0) {
             echo json_encode($responseCode);
             return;
         }
@@ -84,7 +84,7 @@ class Authentication {
 
     private function CheckIfUserAlreadyExists() {
         $errorCode = 0;
-        
+
         $query = 
             "SELECT *
             FROM users
