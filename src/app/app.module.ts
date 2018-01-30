@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, enableProdMode } from '@angular/core';
 import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { PHPService } from './_common/phpService';
 import { Cookies } from './_common/cookies';
@@ -16,6 +17,7 @@ import { MyprofileComponent } from './myprofile/myprofile.component';
 import { SharedComponent } from './_common/shared';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Models } from './_common/models';
+import { PathchooserComponent } from './pathchooser/pathchooser.component';
 
 const sitemap = [{
   path: '',
@@ -30,6 +32,10 @@ const sitemap = [{
   component: MyprofileComponent,
 },
 {
+  path: 'pathChooser',
+  component: PathchooserComponent,
+},
+{
   path: '**',
   component: HeaderComponent
 }];
@@ -42,11 +48,13 @@ const sitemap = [{
     FooterComponent,
     BodyComponent,
     SignupComponent,
-    MyprofileComponent
+    MyprofileComponent,
+    PathchooserComponent
   ],
   imports: [
     BrowserModule,
     HttpModule,
+    HttpClientModule,
     ReactiveFormsModule,
     RouterModule.forRoot(sitemap, { enableTracing: false }
     ),

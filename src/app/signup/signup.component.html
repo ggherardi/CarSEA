@@ -50,7 +50,9 @@
           <div class="form-group">
             <button [disabled]="!signupForm.valid" class="btn btn-default" type="submit">Registrati</button><br>
           </div>
-          <div ngSwitch="!signupError" class="alert alert-danger" style="font-size:12px;">
+          <div *ngIf="signupError != 0" [ngSwitch]="signupError" class="alert alert-danger" style="font-size:12px;">
+            <div>              
+            </div>
             <span *ngSwitchCase="-1">L'email e lo username inseriti sono già presenti in archivio</span>
             <span *ngSwitchCase="-2">Lo username è già presente in archivio</span>
             <span *ngSwitchCase="-3">L'email è già presente in archivio</span>

@@ -2,6 +2,7 @@ import { Component, Injectable } from '@angular/core';
 import { Headers, Response, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
 
+// Classe singleton per i vari modelli, incluso l'utente
 @Injectable()
 export class Models {
     userModel: UserModel;

@@ -23,6 +23,7 @@ export class SignupComponent implements OnInit {
     this.createForm();
    }
 
+  // Crea l'oggetto del Form, contenente i singoli controlli
   private createForm() {
     this.signupForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
@@ -36,6 +37,7 @@ export class SignupComponent implements OnInit {
     });
   }
 
+  // Effettua la chiamata al servizio d'iscrizione. Il servizio si trova in Authentication.php
   private signup() {
     const data = {
       action: 'signup',
@@ -48,6 +50,7 @@ export class SignupComponent implements OnInit {
     this.app.shared.phpService.postResponse('php/Authentication.php', data, this.signupCallBack.bind(this));
   }
 
+  // Callback del metodo d'iscrizione, gestisce i result code del servizio
   private signupCallBack(res) {
     const signupResult = JSON.parse(res);
     console.log('res: ' + signupResult);
@@ -58,8 +61,8 @@ export class SignupComponent implements OnInit {
   }
 }
 
+// Classe per metodo di validazione custom per il matching delle password
 export class PasswordValidation {
-
   static MatchPassword(AC: FormGroup) {
     const password = AC.get('password');
     const confirmPassword =  AC.get('passwordConfirm');
