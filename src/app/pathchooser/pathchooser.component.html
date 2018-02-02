@@ -1,8 +1,12 @@
-<p>
-    <iframe
-    width="600"
-    height="450"
-    frameborder="0" style="border:0"
-    src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCb2-mkLHWGdDBQAchtHhuQcucgbPNuO-M&q=Space+Needle,Seattle+WA" allowfullscreen>
-  </iframe>
-</p>
+
+<div *ngIf="!boolean">
+  PROVA
+  {{ mapComponent }}
+  <agm-map [latitude]="map.lat" [longitude]="map.lng" [zoom]="11" [mapTypeControl]="true" [gestureHandling]="greedy">
+    <!-- <agm-marker [latitude]="map.lat" [longitude]="map.lng"></agm-marker> -->
+    <agm-polyline [strokeColor]="'#2196f3'">
+        <agm-polyline-point [latitude]="51.678418" [longitude]="7.809007"></agm-polyline-point>
+        <agm-polyline-point [latitude]="map.lat" [longitude]="map.lng"></agm-polyline-point>
+    </agm-polyline>
+  </agm-map>
+</div>

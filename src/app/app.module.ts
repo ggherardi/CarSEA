@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { PHPService } from './_common/phpService';
 import { Cookies } from './_common/cookies';
+import { AgmCoreModule } from '@agm/core';
 
 import * as $ from 'jquery';
 
@@ -18,6 +19,9 @@ import { SharedComponent } from './_common/shared';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Models } from './_common/models';
 import { PathchooserComponent } from './pathchooser/pathchooser.component';
+import { PolylineManager } from '@agm/core/services/managers/polyline-manager';
+
+const googleMapsAPIKey = 'AIzaSyCb2-mkLHWGdDBQAchtHhuQcucgbPNuO-M';
 
 const sitemap = [{
   path: '',
@@ -56,14 +60,15 @@ const sitemap = [{
     HttpModule,
     HttpClientModule,
     ReactiveFormsModule,
-    RouterModule.forRoot(sitemap, { enableTracing: false }
-    ),
+    RouterModule.forRoot(sitemap, { enableTracing: false }),
+    AgmCoreModule.forRoot({ apiKey: googleMapsAPIKey})
   ],
   providers: [
     PHPService,
     Cookies,
     SharedComponent,
-    Models
+    Models,
+    PolylineManager
   ],
   bootstrap: [
     AppComponent
