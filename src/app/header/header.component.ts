@@ -4,6 +4,7 @@ import { Cookies } from '../_common/cookies';
 import { Models } from '../_common/models';
 import { AppComponent } from '../app.component';
 import { DoCheck } from '@angular/core/src/metadata/lifecycle_hooks';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-header',
@@ -15,22 +16,31 @@ export class HeaderComponent implements OnInit, DoCheck {
 
   user: any;
   logged = false;
+  loginForm: FormGroup;
 
   ngDoCheck () {
     this.app.shared.loadSession();
     this.populateView();
   }
 
-  constructor(private app: AppComponent) { }
+  constructor(private app: AppComponent, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
     this.app.shared.loadSession();
     this.populateView();
+    this.buildForm();
   }
 
   private populateView () {
     this.user = this.app.shared.models.userModel;
     this.logged = this.app.shared.userLogged;
+  }
+
+  private buildForm() {
+    this.loginForm = this.formBuilder.group({
+      username: '',
+      password: ''
+    });
   }
 
   homepage(): void {
@@ -42,8 +52,8 @@ export class HeaderComponent implements OnInit, DoCheck {
   }
 
   loginFromForm(): void {
-    const username: string = jQuery('#login_username').val() as string;
-    const password: string = jQuery('#login_password').val() as string;
+    const username = this.loginForm.get('username').value;
+    const password = this.loginForm.get('password').value;
     this.app.shared.login(username, password);
   }
 

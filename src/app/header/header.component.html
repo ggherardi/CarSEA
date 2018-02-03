@@ -8,9 +8,11 @@
             <span *ngIf="logged"> Il profilo di {{ user.Name }}</span>  
         </span>
         <div class="dropdown-menu">
-            <input *ngIf="!logged" id="login_username" class="input-login" type="text" placeholder="Username.." />
-            <input *ngIf="!logged" id="login_password" class="input-login" type="password" placeholder="Password.."/>
-            <div *ngIf="!logged" (click)="loginFromForm()" class="btn btn-primary " type="submit" name="submit" value="login">Login</div>
+            <form id="form-login" [formGroup]="loginForm" (ngSubmit)="loginFromForm()">
+                <input *ngIf="!logged" formControlName="username" class="input-login" type="text" placeholder="Username.." />
+                <input *ngIf="!logged" formControlName="password" class="input-login" type="password" placeholder="Password.."/>
+                <button *ngIf="!logged" class="btn btn-primary" type="submit">Login</button>
+            </form>
             <div *ngIf="logged" class="btn btn-link">Impostazioni</div><br>
             <div *ngIf="logged" (click)="logoutFromForm()" class="btn btn-link" type="submit" name="submit" value="login">Logout</div>
         </div>
