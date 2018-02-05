@@ -3,7 +3,7 @@ import { AppComponent } from '../app.component';
 import { HeaderComponent } from '../header/header.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { PHPService } from './phpService';
+import { HttpService } from './httpService';
 import { Models } from './models';
 import { Cookies } from './cookies';
 
@@ -13,30 +13,30 @@ import { Cookies } from './cookies';
 export class SharedComponent implements OnInit {
   userLogged = false;
 
-  constructor(public router: Router, public phpService: PHPService, public models: Models,
+  constructor(public router: Router, public httpService: HttpService, public models: Models,
               public cookies: Cookies) { }
+
+  ngOnInit() { }
+
+  login(username: string, password: string, callback: any = function(){}): void {
+    const data = {
+      action: 'login',
+      username: username,
+      password: password
+    };
+    this.httpService.postResponse('php/Authentication.php', data, this.setAuthCookiesCallBack.bind(this), callback);
+    }
 
   private setAuthCookiesCallBack(res) {
     const parsedResult = JSON.parse(res);
     if (parsedResult === -1) {
-      alert('Attenzione, la password è sbagliata!');
+      alert('Attenzione, le credenziali inserite non sono corrette!');
     } else {
       this.cookies.setEncodedCookie(this.cookies.USER_COOKIE_NAME, parsedResult, 0.5);
       this.loadSession();
       this.router.navigateByUrl('myProfile');
     }
   }
-
-  ngOnInit() { }
-
-  login(username: string, password: string): void {
-    const data = {
-      action: 'login',
-      username: username,
-      password: password
-    };
-    this.phpService.postResponse('php/Authentication.php', data, this.setAuthCookiesCallBack.bind(this));
-    }
 
   logout() {
     this.cookies.disposeCookie(this.cookies.USER_COOKIE_NAME);

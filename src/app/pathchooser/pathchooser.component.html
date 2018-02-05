@@ -1,6 +1,9 @@
 
 <div *ngIf="!boolean">
   PROVA
+  <!-- <mat-autocomplete>
+    <mat-option>test</mat-option>
+  </mat-autocomplete> -->
   {{ mapComponent }}
   <agm-map [latitude]="map.lat" [longitude]="map.lng" [zoom]="11" [mapTypeControl]="true" [gestureHandling]="greedy">
     <!-- <agm-marker [latitude]="map.lat" [longitude]="map.lng"></agm-marker> -->

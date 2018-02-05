@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { PHPService } from '../_common/phpService';
 import { Cookies } from '../_common/cookies';
 import { Models } from '../_common/models';
 import { AppComponent } from '../app.component';
 import { DoCheck } from '@angular/core/src/metadata/lifecycle_hooks';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-header',
@@ -36,10 +35,10 @@ export class HeaderComponent implements OnInit, DoCheck {
     this.logged = this.app.shared.userLogged;
   }
 
-  private buildForm() {
+  private buildForm(username: string = '', password: string = '') {
     this.loginForm = this.formBuilder.group({
-      username: '',
-      password: ''
+      username: username,
+      password: password
     });
   }
 
@@ -54,10 +53,21 @@ export class HeaderComponent implements OnInit, DoCheck {
   loginFromForm(): void {
     const username = this.loginForm.get('username').value;
     const password = this.loginForm.get('password').value;
-    this.app.shared.login(username, password);
+    this.app.shared.login(username, password, this.callbackClearForm.bind(this));
   }
 
   logoutFromForm(): void {
     this.app.shared.logout();
+  }
+
+  // Callback per pulire il form di login una volta che questo è stato effettuato
+  callbackClearForm(res) {
+    console.log(res);
+    const parsedRes = JSON.parse(res);
+    if (parsedRes === -1) {
+      this.buildForm(this.loginForm.get('username').value, '');
+    } else {
+      this.buildForm();
+    }
   }
 }

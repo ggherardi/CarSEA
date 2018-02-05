@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { PHPService } from '../_common/phpService';
 import { Models } from '../_common/models';
 import { AppComponent } from '../app.component';
 

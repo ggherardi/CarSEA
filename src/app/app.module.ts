@@ -3,7 +3,7 @@ import { NgModule, enableProdMode } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
-import { PHPService } from './_common/phpService';
+import { HttpService } from './_common/httpService';
 import { Cookies } from './_common/cookies';
 import { AgmCoreModule } from '@agm/core';
 
@@ -64,7 +64,7 @@ const sitemap = [{
     AgmCoreModule.forRoot({ apiKey: googleMapsAPIKey})
   ],
   providers: [
-    PHPService,
+    HttpService,
     Cookies,
     SharedComponent,
     Models,

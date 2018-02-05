@@ -22,7 +22,7 @@ class DBConnection {
     private function EstablishConnection(){
          $this->Connection = mysqli_connect($this->ServerName, $this->UserName, $this->Password, $this->DB);
         if(mysqli_connect_errno()){
-            print_r("Error -> " . mysqli_connect_error);
+            print_r("Error -> " . mysqli_connect_error());
         }
     }
 

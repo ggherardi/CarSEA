@@ -27,7 +27,7 @@ export class PathchooserComponent implements OnInit, DoCheck {
   }
 
   getCurrentLocation() {
-    this.http.get('http://ipinfo.io/json').subscribe(data => this.mapLocation(data));
+    this.app.httpService.publicHttp.get('http://ipinfo.io/json').subscribe(data => this.mapLocation(data));
   }
 
   mapLocation(data) {

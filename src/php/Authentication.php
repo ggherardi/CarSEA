@@ -13,11 +13,11 @@ class Authentication {
     private $dbContext;
 
     function __construct() {
-        self::retrievePostVariables();
+        self::RetrievePostVariables();
     }
 
     // Recupera le variabili POST passate dalla chiamata lato client
-    private function retrievePostVariables() {
+    private function RetrievePostVariables() {
         $this->name = isset($_POST["name"]) ? $_POST["name"] : "";
         $this->surname = isset($_POST["surname"]) ? $_POST["surname"] : "";
         $this->username = isset($_POST["username"]) ? $_POST["username"] : "";
