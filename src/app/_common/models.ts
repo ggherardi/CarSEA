@@ -16,10 +16,22 @@ export class Models {
     }
 }
 
-class UserModel {
+export class UserModel {
     UserID: string;
     Name: string;
     username: string;
 
     constructor() { }
 }
+
+export class City {
+    id: number;
+    value: string;
+    id_regione: number;
+    id_provincia: number;
+    latitudine: number;
+    longitudine: number;
+
+    constructor() { }
+}
+

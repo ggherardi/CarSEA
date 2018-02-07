@@ -20,8 +20,7 @@ export class AppComponent {
   title = 'app';
   testResponse: any;
 
-  constructor(public httpService: HttpService, public cookies: Cookies, public models: Models,
-              public router: Router, public shared: SharedComponent) {
+  constructor(public cookies: Cookies, public models: Models, public router: Router, public shared: SharedComponent) {
 
   }
 }

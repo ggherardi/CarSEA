@@ -20,6 +20,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { Models } from './_common/models';
 import { PathchooserComponent } from './pathchooser/pathchooser.component';
 import { PolylineManager } from '@agm/core/services/managers/polyline-manager';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NguiAutoCompleteModule } from '@ngui/auto-complete';
+import { AdminpanelComponent } from './adminpanel/adminpanel.component';
 
 const googleMapsAPIKey = 'AIzaSyCb2-mkLHWGdDBQAchtHhuQcucgbPNuO-M';
 
@@ -34,6 +37,10 @@ const sitemap = [{
 {
   path: 'myProfile',
   component: MyprofileComponent,
+},
+{
+  path: 'adminpanel',
+  component: AdminpanelComponent,
 },
 {
   path: 'pathChooser',
@@ -53,13 +60,16 @@ const sitemap = [{
     BodyComponent,
     SignupComponent,
     MyprofileComponent,
-    PathchooserComponent
+    PathchooserComponent,
+    AdminpanelComponent
   ],
   imports: [
     BrowserModule,
     HttpModule,
     HttpClientModule,
     ReactiveFormsModule,
+    BrowserAnimationsModule,
+    NguiAutoCompleteModule,
     RouterModule.forRoot(sitemap, { enableTracing: false }),
     AgmCoreModule.forRoot({ apiKey: googleMapsAPIKey})
   ],

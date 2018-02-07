@@ -39,8 +39,7 @@ class Authentication {
     private function Login(){
         // $encodedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-        $query = 
-            "SELECT *
+        $query = "SELECT *
             FROM users 
             WHERE Username = '$this->username'";
 

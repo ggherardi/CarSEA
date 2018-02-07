@@ -1,10 +1,18 @@
-
-<div *ngIf="!boolean">
   PROVA
-  <!-- <mat-autocomplete>
-    <mat-option>test</mat-option>
-  </mat-autocomplete> -->
-  {{ mapComponent }}
+  <form [formGroup]="formGroup">
+      <input ngui-auto-complete
+        formControlName="searchKey"
+        [source]="searchCities"
+        [list-formatter]="autocompleListFormatter"
+        value-property-name="id"
+        display-property-name="value"
+        placeholder="Destinazione"
+        max-num-list="5"
+        min-chars="2"
+        class="form-control">
+  </form>
+  <br><br>
+
   <agm-map [latitude]="map.lat" [longitude]="map.lng" [zoom]="11" [mapTypeControl]="true" [gestureHandling]="greedy">
     <!-- <agm-marker [latitude]="map.lat" [longitude]="map.lng"></agm-marker> -->
     <agm-polyline [strokeColor]="'#2196f3'">
@@ -12,4 +20,3 @@
         <agm-polyline-point [latitude]="map.lat" [longitude]="map.lng"></agm-polyline-point>
     </agm-polyline>
   </agm-map>
-</div>

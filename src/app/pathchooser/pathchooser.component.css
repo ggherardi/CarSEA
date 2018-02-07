@@ -2,3 +2,6 @@ agm-map {
     height: 500px;
   }
   
+.autocomplete-input {
+  border-bottom: solid 1px rgb(210,210,210);
+}
