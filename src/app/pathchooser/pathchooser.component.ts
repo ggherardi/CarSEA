@@ -16,7 +16,7 @@ import { Headers } from '@angular/http';
   templateUrl: './pathchooser.component.html?ver=${new Date().getTime()}',
   styleUrls: ['./pathchooser.component.css?ver=${new Date().getTime()}']
 })
-export class PathchooserComponent implements OnInit, DoCheck {
+export class PathchooserComponent implements OnInit {
 
   formGroup: FormGroup;
   map = new Map(0, 0);
@@ -25,28 +25,32 @@ export class PathchooserComponent implements OnInit, DoCheck {
   allCities: City[] = [];
 
   searchCities = (keyword: any): Observable<any[]> => {
-    const searchKey = this.formGroup.get('searchKey').value;
     const serviceUrl = 'php/CitiesServices.php';
-    const data = {
+    const objData = {
       action: 'search',
-      searchKey: searchKey
+      searchKey: keyword
     };
-
-    this.http.post('php/CitiesServices.php', data).map(r =>  r).subscribe(a => console.log(a));
-    return this.http.post('php/CitiesServices.php', data).map(r =>  r.json());
+    const options = new RequestOptions({
+      headers: new Headers({
+        'Content-Type': 'application/x-www-form-urlencoded'
+      })
+    });
+    const querystringData = this.app.shared.httpService.toQueryString(objData);
+    this.http.post('php/CitiesServices.php?first=1', querystringData, options)
+      .map(r =>  r)
+      .subscribe(a => console.log(a));
+    return this.http.post('php/CitiesServices.php', querystringData, options).map(r =>  r.json());
   }
-
 
   constructor(private app: AppComponent, private http: Http, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
     this.getCurrentLocation();
-    this.formGroup = this.formBuilder.group({ searchKey: '' });
+    this.formGroup = this.formBuilder.group({
+      origine: '',
+      destinazione: ''
+    });
     // this.retrieveRoute();
-  }
-
-  ngDoCheck () {
-
   }
 
   getCurrentLocation() {
@@ -60,27 +64,6 @@ export class PathchooserComponent implements OnInit, DoCheck {
       this.map.lng = Number(location[1]);
       console.log(this.map);
     }
-  }
-
-  searchCities2() {
-    const searchKey = this.formGroup.get('searchKey').value;
-    const serviceUrl = 'php/CitiesServices.php';
-    const data = {
-      action: 'search',
-      searchKey: searchKey
-    };
-    const opt = 'action=search';
-    // this.app.shared.httpService.postResponse(serviceUrl, data, this.searchCitiesCallback.bind(this));
-    const httpOptions = new RequestOptions({
-      headers: new Headers({
-        // 'Content-type': 'application/x-www-form-urlencoded',
-        // 'Cache-Control': 'no-cache',
-        // 'Accept': '*/*',
-        // 'X-Requested-With': 'XMLHttpRequest'
-      })
-    });
-    // return this.http.post('php/test.php', opt, httpOptions).map(r => r.json());
-    this.app.shared.httpService.postResponse('php/CitiesServices.php', opt, this.searchCitiesCallback);
   }
 
   searchCitiesCallback(res) {

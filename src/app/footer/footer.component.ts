@@ -18,7 +18,6 @@ export class FooterComponent implements OnInit, DoCheck {
 
   ngDoCheck() {
     this.user = this.app.shared.models.userModel;
-    console.log('ngDoCheck');
   }
 
   changeVar() {

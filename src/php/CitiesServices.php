@@ -42,17 +42,19 @@ class CitiesService {
 
     function SearchCities() {
         $searchKey = isset($_POST["searchKey"]) ? $_POST["searchKey"] : "";
-        $query = "SELECT * FROM cities
-            WHERE nome LIKE '$searchKey%'";
+        // $searchKey = mysqli_escape_string($searchKey);
+
+        $query = "SELECT *
+            FROM cities
+            WHERE nome LIKE '$searchKey%'
+            ORDER BY nome asc
+            LIMIT 10";
 
         $res = self::ExecuteQuery($query);
 
         $allResults = [];
-        // while($row = $res->fetch_assoc()){
-        //     $allResults." ".$row;
-        // }
-        for($i = 0; $i < 10; $i++){
-            $row = $res->fetch_assoc();
+
+        while($row = $res->fetch_assoc()) {      
             $allResults[] = new Models\City($row["id"], $row["id_regione"], $row["id_provincia"], $row["nome"], $row["latitudine"], $row["longitudine"]); 
         }
         return $allResults;
@@ -69,10 +71,7 @@ class CitiesService {
 
     // Switcha l'operazione richiesta lato client
     function Init() {
-        json_decode($_POST, $res);
-        echo json_encode($res);
-        return;
-        switch(json_decode($_POST["action"])){
+        switch(isset($_POST["action"]) ? $_POST["action"] : ""){
             case "insertCities":
                 $res = self::InsertCities();
             break;

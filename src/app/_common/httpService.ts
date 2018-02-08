@@ -17,8 +17,8 @@ export class HttpService {
         });
     }
 
-    // Effettua una XmlHttpRequest con metodo POST tramite jQuery per ottenere i dati dal servizio PHP specificato nell'url
-    // componentCallBack viene utilizzata per eseguire azioni sul componente che ha chiamato il servizio (se specificate)
+    /** Effettua una XmlHttpRequest con metodo POST tramite jQuery per ottenere i dati dal servizio PHP specificato nell'url
+    componentCallBack viene utilizzata per eseguire azioni sul componente che ha chiamato il servizio (se specificate) */
     postResponse(url: string, data: any, callback: any = function(){}, componentCallBack: any = function(){}) {
         return jQuery.ajax({
             async: false,
@@ -33,5 +33,16 @@ export class HttpService {
                 console.log('Errore:' + err);
             }
         });
+    }
+
+    /** Formatta l'oggetto in formato querstring (key=value&key2=value2). Non è ricorsivo. */
+    toQueryString(obj: any): string {
+        const str = [];
+        for (const key in obj) {
+            if (obj.hasOwnProperty(key)) {
+                str.push(encodeURIComponent(key) + '=' + encodeURIComponent(obj[key]));
+            }
+        }
+        return str.join('&');
     }
 }
