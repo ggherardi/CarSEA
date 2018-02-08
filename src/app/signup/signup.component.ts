@@ -37,7 +37,7 @@ export class SignupComponent implements OnInit {
     });
   }
 
-  // Effettua la chiamata al servizio d'iscrizione. Il servizio si trova in Authentication.php
+  /** Effettua la chiamata al servizio d'iscrizione. Il servizio si trova in Authentication.php */
   private signup() {
     const data = {
       action: 'signup',
@@ -47,10 +47,10 @@ export class SignupComponent implements OnInit {
       username: this.signupForm.controls.username.value,
       password: this.signupForm.controls.password.value
     };
-    this.app.shared.httpService.postResponse('php/Authentication.php', data, this.signupCallBack.bind(this));
+    this.app.shared.httpService.postAjax('php/Authentication.php', data, this.signupCallBack.bind(this));
   }
 
-  // Callback del metodo d'iscrizione, gestisce i result code del servizio
+  /** Callback del metodo d'iscrizione, gestisce i result code del servizio */
   private signupCallBack(res) {
     const signupResult = JSON.parse(res);
     console.log('res: ' + signupResult);
@@ -61,7 +61,7 @@ export class SignupComponent implements OnInit {
   }
 }
 
-// Classe per metodo di validazione custom per il matching delle password
+/** Classe per metodo di validazione custom per il matching delle password */
 export class PasswordValidation {
   static MatchPassword(AC: FormGroup) {
     const password = AC.get('password');

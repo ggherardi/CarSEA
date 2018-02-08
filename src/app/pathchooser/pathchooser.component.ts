@@ -5,11 +5,11 @@ import { Http, Response } from '@angular/http';
 import { DoCheck } from '@angular/core/src/metadata/lifecycle_hooks';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { MapsAPILoader } from '@agm/core/services/maps-api-loader/maps-api-loader';
-import { google } from '@agm/core/services/google-maps-types';
-import { Models, City } from '../_common/models';
+import { Models, City } from '../_services/models';
 import { HttpHeaders } from '@angular/common/http';
 import { RequestOptions } from '@angular/http/';
 import { Headers } from '@angular/http';
+import { google } from '@agm/core/services/google-maps-types';
 
 @Component({
   selector: 'app-pathchooser',
@@ -20,29 +20,19 @@ export class PathchooserComponent implements OnInit {
 
   formGroup: FormGroup;
   map = new Map(0, 0);
-  res: any;
-  cities: any = [];
-  allCities: City[] = [];
+  origineCity: any;
+  destinazioneCity: any;
 
   searchCities = (keyword: any): Observable<any[]> => {
     const serviceUrl = 'php/CitiesServices.php';
-    const objData = {
+    const data = {
       action: 'search',
       searchKey: keyword
     };
-    const options = new RequestOptions({
-      headers: new Headers({
-        'Content-Type': 'application/x-www-form-urlencoded'
-      })
-    });
-    const querystringData = this.app.shared.httpService.toQueryString(objData);
-    this.http.post('php/CitiesServices.php?first=1', querystringData, options)
-      .map(r =>  r)
-      .subscribe(a => console.log(a));
-    return this.http.post('php/CitiesServices.php', querystringData, options).map(r =>  r.json());
+    return this.app.shared.httpService.post(serviceUrl, data);
   }
 
-  constructor(private app: AppComponent, private http: Http, private formBuilder: FormBuilder) { }
+  constructor(private app: AppComponent, private http: Http, private formBuilder: FormBuilder, private mapsApiLoader: MapsAPILoader) { }
 
   ngOnInit() {
     this.getCurrentLocation();
@@ -54,7 +44,16 @@ export class PathchooserComponent implements OnInit {
   }
 
   getCurrentLocation() {
-    this.app.shared.httpService.getResponse('http://ipinfo.io/json').subscribe(data => this.mapLocation(data));
+    if (navigator.geolocation !== undefined) {
+      navigator.geolocation.getCurrentPosition(res => {
+        this.map.lat = res.coords.latitude;
+        this.map.lng = res.coords.longitude;
+      }, err => {
+        console.log('Errore durante il get della posizione: ' + err);
+      });
+    } else {
+      this.app.shared.httpService.get('http://ipinfo.io/json').subscribe(data => this.mapLocation(data));
+    }
   }
 
   mapLocation(data) {
@@ -66,20 +65,30 @@ export class PathchooserComponent implements OnInit {
     }
   }
 
-  searchCitiesCallback(res) {
-    const cities: City[] = JSON.parse(res);
-    this.allCities = [];
-    cities.forEach(a => {
-      this.allCities.push(a);
-    });
-    this.cities.push({id: 1, value: 'sonounvalue'});
+  setMarker(event) {
+    console.log(this.origineCity);
+    this.retrieveRoute();
   }
 
   retrieveRoute() {
-    let routeBaseUrl = 'https://maps.googleapis.com/maps/api/directions/json?';
-    routeBaseUrl += 'origin=41.9,12.4&destination=51.678418,7.809007';
-    routeBaseUrl += '&key=AIzaSyCb2-mkLHWGdDBQAchtHhuQcucgbPNuO-M';
-    this.http.options(routeBaseUrl, ).subscribe(data => this.mapRoute(data));
+    this.mapsApiLoader.load().then(res => {
+      console.log(res);
+      const origin = new google.maps.LatLng(55.930385, -3.118425);
+      const destination = new google.maps.LatLng(50.087692, 14.421150);
+      const directions = new google.maps.DirectionsService();
+        directions.route({
+        origin: origin,
+          destination: destination,
+          travelMode: 'DRIVING',
+          avoidHighways: false,
+          avoidTolls: false,
+        }, this.retrieveRouteCallback);
+    });
+ 
+  }
+
+  retrieveRouteCallback = (res) => {
+    console.log(res);
   }
 
   mapRoute(data) {

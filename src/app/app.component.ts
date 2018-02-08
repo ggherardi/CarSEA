@@ -1,10 +1,10 @@
 import { Component, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpService } from './_common/httpService';
-import { Models } from './_common/models';
-import { Cookies } from './_common/cookies';
+import { HttpService } from './_services/httpService';
+import { Models } from './_services/models';
+import { Cookies } from './_services/cookies';
 import { ReactiveFormsModule } from '@angular/forms';
-import { SharedComponent } from './_common/shared';
+import { SharedComponent } from './_services/shared';
 
 
 @Component({

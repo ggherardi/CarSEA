@@ -14,11 +14,11 @@ export class AdminpanelComponent implements OnInit {
   }
 
   deleteCities() {
-    this.app.shared.httpService.getResponse('php/cities2.json').subscribe(res => this.insertCitiesCallback(res, 'deleteCities'));
+    this.app.shared.httpService.get('php/cities2.json').subscribe(res => this.insertCitiesCallback(res, 'deleteCities'));
   }
 
   insertCities() {
-    this.app.shared.httpService.getResponse('php/cities2.json').subscribe(res => this.insertCitiesCallback(res, 'insertCities'));
+    this.app.shared.httpService.get('php/cities2.json').subscribe(res => this.insertCitiesCallback(res, 'insertCities'));
   }
 
   private insertCitiesCallback(res, action) {
@@ -33,7 +33,7 @@ export class AdminpanelComponent implements OnInit {
         longitudine: el.longitudine
       };
       console.log('[' + i++ +  ']' + action + ': ' + data.nome);
-      this.app.shared.httpService.postResponse('php/CitiesServices.php', data, function(r){ console.log(r); });
+      this.app.shared.httpService.postAjax('php/CitiesServices.php', data, function(r){ console.log(r); });
     });
     console.log(res);
   }
