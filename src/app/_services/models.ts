@@ -35,3 +35,12 @@ export class City {
     constructor() { }
 }
 
+export class Map {
+    lat: number;
+    lng: number;
+
+    constructor(lat, lgn) {
+      this.lat = lat;
+      this.lng = lgn;
+    }
+  }

@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Cookies } from '../_common/cookies';
-import { Models } from '../_common/models';
 import { AppComponent } from '../app.component';
 import { DoCheck } from '@angular/core/src/metadata/lifecycle_hooks';
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';

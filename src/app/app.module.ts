@@ -23,6 +23,7 @@ import { PolylineManager } from '@agm/core/services/managers/polyline-manager';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NguiAutoCompleteModule } from '@ngui/auto-complete';
 import { AdminpanelComponent } from './adminpanel/adminpanel.component';
+import { GooglemapsService } from './_services/googlemaps.service';
 
 const googleMapsAPIKey = 'AIzaSyCb2-mkLHWGdDBQAchtHhuQcucgbPNuO-M';
 
@@ -71,14 +72,15 @@ const sitemap = [{
     BrowserAnimationsModule,
     NguiAutoCompleteModule,
     RouterModule.forRoot(sitemap, { enableTracing: false }),
-    AgmCoreModule.forRoot({ apiKey: googleMapsAPIKey})
+    AgmCoreModule.forRoot({ apiKey:  googleMapsAPIKey})
   ],
   providers: [
     HttpService,
     Cookies,
     SharedComponent,
     Models,
-    PolylineManager
+    PolylineManager,
+    GooglemapsService
   ],
   bootstrap: [
     AppComponent
