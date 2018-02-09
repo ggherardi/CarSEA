@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MapsAPILoader } from '@agm/core';
 import { City, Map } from './models';
+import { Polyline, LatLng } from '@agm/core/services/google-maps-types';
 declare var google;
 
 @Injectable()
@@ -26,9 +27,16 @@ export class GooglemapsService {
 
   /** Recupera l'array di polylines necessario per disegnare sulla mappa un percorso
    * più armonioso (seguendo la strada anziché in linea retta) */
-  getPolylinesArray(overview_polyline: string) {
-    return new google.maps.Polyline({
+  getPolylinesArray(overview_polyline: string): any[] {
+    const polyLineArray: Polyline = new google.maps.Polyline({
       path: google.maps.geometry.encoding.decodePath(overview_polyline)
     });
+    const path: LatLng[] = polyLineArray.getPath();
+    const poly: LatLng[] = [];
+    path.forEach(p => {
+      poly.push(new google.maps.LatLng(p.lat(), p.lng()));
+    });
+    // path
+    return poly;
   }
 }

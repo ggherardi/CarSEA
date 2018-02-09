@@ -26,15 +26,14 @@ export class SharedComponent implements OnInit {
       password: password
     };
     // this.httpService.postAjax('php/Authentication.php', data, this.setAuthCookiesCallBack.bind(this), callback);
-    this.httpService.post('php/Authentication.php', data).subscribe(res => this.setAuthCookiesCallBack.bind(this));
+    this.httpService.post('php/Authentication.php', data).subscribe(this.setAuthCookiesCallBack.bind(this), err => console.log(err));
     }
 
-  private setAuthCookiesCallBack(res) {
-    const parsedResult = JSON.parse(res);
-    if (parsedResult === -1) {
+  private setAuthCookiesCallBack(data) {
+    if (data === -1) {
       alert('Attenzione, le credenziali inserite non sono corrette!');
     } else {
-      this.cookies.setEncodedCookie(this.cookies.USER_COOKIE_NAME, parsedResult, 0.5);
+      this.cookies.setEncodedCookie(this.cookies.USER_COOKIE_NAME, data, 0.5);
       this.loadSession();
       this.router.navigateByUrl('myProfile');
     }

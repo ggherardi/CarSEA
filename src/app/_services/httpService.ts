@@ -21,9 +21,6 @@ export class HttpService {
           })
         });
         const querystringData = this.toQueryString(data);
-        // this.http.post('php/CitiesServices.php?first=1', querystringData, options)
-        //   .map(r =>  r)
-        //   .subscribe(a => console.log(a));
         return this.http.post(serviceUrl, querystringData, options).map(r =>  r.json());
       }
 

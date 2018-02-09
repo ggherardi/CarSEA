@@ -24,6 +24,7 @@ export class PathchooserComponent implements OnInit {
   destinazioneCity: City;
   startingPoint: Map;
   arrivalPoint: Map;
+  polyArray: any[];
 
   /** Effettua una query sul DB utilizzando la chiave di ricerca inserita nelle textbox
    * origine e destinazione. Ritorna il valore esatto come primo risultato, poi gli altri. */
@@ -90,7 +91,7 @@ export class PathchooserComponent implements OnInit {
     }
     if (this.startingPoint && this.arrivalPoint) {
       this.app.shared.googleMapsService.retrieveRoute(
-        this.startingPoint, this.arrivalPoint, this.retrieveRouteCallback
+        this.startingPoint, this.arrivalPoint, this.retrieveRouteCallback.bind(this)
       );
     }
   }
@@ -98,7 +99,8 @@ export class PathchooserComponent implements OnInit {
   retrieveRouteCallback = (res: any) => {
     console.log(res);
     if (res.routes.length > 0) {
-      const array = this.app.shared.googleMapsService.getPolylinesArray(res.routes[0].overview_polyline);
+      this.polyArray = this.app.shared.googleMapsService.getPolylinesArray(res.routes[0].overview_polyline);
+      console.log(this.polyArray);
     }
   }
 
