@@ -7,49 +7,107 @@
   <div class="row">
     <div class="col-sm-6">
       <form [formGroup]="formGroup" (ngSubmit)="getCurrentLocation()">
-        <span>Seleziona la città dalla quale partirai:</span>
-        <input ngui-auto-complete
-          formControlName="origine"
-          [source]="searchCities"
-          [list-formatter]="autocompleListFormatter"
-          [(ngModel)]="origineCity"
-          value-property-name="id"
-          display-property-name="value"
-          placeholder="Partenza"
-          accept-user-input="false"
-          max-num-list="10"
-          min-chars="2"
-          auto-select-first-item="true"
-          select-on-blur="true"
-          (valueChanged)="manageCitiesChoices($event, 'origin')"
-          class="form-control autocomplete-input">
-        <span>Seleziona la tua meta:</span>
-        <input ngui-auto-complete
-          formControlName="destinazione"
-          [source]="searchCities"
-          [list-formatter]="autocompleListFormatter"
-          [(ngModel)]="destinazioneCity"
-          value-property-name="id"
-          display-property-name="value"
-          placeholder="Destinazione"
-          accept-user-input="false"
-          max-num-list="10"
-          min-chars="2"
-          auto-select-first-item="true"
-          select-on-blur="true"
-          (valueChanged)="manageCitiesChoices($event, 'destination')"
-          class="form-control autocomplete-input">
-        </form>
-        <!-- (blur)="setMarker($event)" -->
+        <p>Seleziona la città dalla quale partirai:</p>
+          <div class="row">
+            <div class="col-sm-8">
+              <input ngui-auto-complete
+              formControlName="origin"
+              [source]="searchCities"
+              [list-formatter]="autocompleListFormatter"
+              [value-formatter]="autocompleteValueFormatter"
+              [(ngModel)]="origineCity"
+              value-property-name="id"
+              display-property-name="value"
+              placeholder="Partenza"
+              accept-user-input="false"
+              max-num-list="10"
+              min-chars="2"
+              auto-select-first-item="true"
+              select-on-blur="true"
+              (valueChanged)="manageCitiesChoices($event, 'origin')"
+              class="form-control autocomplete-input">
+            </div>
+            <div class="col-sm-4">
+              <div *ngIf="checkValueNotEmpty('origin')">
+                <span (click)="removeWaypoint('origin', 0)" >
+                  <i class="fas fa-2x fa-trash-alt icon-button delete-button"></i>
+                </span>
+              </div>
+            </div>
+          </div>        
+        <p>Seleziona la tua meta:</p>
+        <div class="row">
+          <div class="col-sm-8">
+            <input ngui-auto-complete
+            formControlName="destination"
+            [source]="searchCities"
+            [list-formatter]="autocompleListFormatter"
+            [(ngModel)]="destinazioneCity"
+            value-property-name="id"
+            display-property-name="value"
+            placeholder="Destinazione"
+            accept-user-input="false"
+            max-num-list="10"
+            min-chars="2"
+            auto-select-first-item="true"
+            select-on-blur="true"
+            (valueChanged)="manageCitiesChoices($event, 'destination')"
+            class="form-control autocomplete-input">
+          </div>
+          <div class="col-sm-4">
+            <div *ngIf="checkValueNotEmpty('destination')">
+              <span (click)="removeWaypoint('destination', 1)" >
+                <i class="fas fa-2x fa-trash-alt icon-button delete-button"></i>
+              </span>
+            </div>
+          </div>
+        </div>     
+        <p>Aggiungi ulteriori tappe al tuo viaggio:</p>
+        <div class="row" *ngFor="let cityControl of cityControls, let i = index">
+          <div class="col-sm-8">
+            <input ngui-auto-complete
+            [formControlName]="cityControl.name"
+            [source]="searchCities"
+            [list-formatter]="autocompleListFormatter"
+            value-property-name="id"
+            display-property-name="value"
+            placeholder="Tappa"
+            accept-user-input="false"
+            max-num-list="10"
+            min-chars="2"
+            auto-select-first-item="true"
+            select-on-blur="true"
+            (valueChanged)="manageCitiesChoices($event, cityControl.name)"
+            class="form-control autocomplete-input">
+          </div>
+          <div class="col-sm-4">
+            <div *ngIf="checkValueNotEmpty(cityControl.name)">
+              <span (click)="removeWaypoint(cityControl.name, i)">
+                <i class="fas fa-2x fa-trash-alt icon-button delete-button"></i>
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+      <button [disabled]="disableAddControl" class="btn btn-primary" (click)="addCityControl()">Aggiungi Tappa</button>
     </div>
     <div class="col-sm-6">
-      <agm-map [latitude]="map.lat" [longitude]="map.lng" [zoom]="11" [mapTypeControl]="true" [gestureHandling]="greedy">
-          <!-- <agm-marker [latitude]="map.lat" [longitude]="map.lng"></agm-marker> -->
-          <agm-polyline [strokeColor]="'#2196f3'">
-            <agm-polyline-point *ngFor="let poly of polyArray" [latitude]="poly.latitude" [longitude]="poly.longitude"></agm-polyline-point>
-            <!-- <agm-polyline-point [latitude]="map.lat" [longitude]="map.lng"></agm-polyline-point> -->
-          </agm-polyline>
-        </agm-map>
+      <agm-map 
+        [latitude]="currentPosition.lat" 
+        [longitude]="currentPosition.lng" 
+        [zoom]="mapZoom" 
+        [mapTypeControl]="true" 
+        [gestureHandling]="greedy" 
+        [fitBounds]="bounds">
+        <agm-marker 
+          *ngFor="let mark of allMarkers; let i = index"
+          [latitude]="mark.lat" 
+          [longitude]="mark.lng" 
+          [label]="alphabet[i]"></agm-marker>
+        <agm-polyline [strokeColor]="'#2196f3'">
+          <agm-polyline-point *ngFor="let poly of polyArray" [latitude]="poly.lat()" [longitude]="poly.lng()"></agm-polyline-point>
+        </agm-polyline>
+      </agm-map>
     </div>
   </div>
 </div>

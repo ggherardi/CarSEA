@@ -39,7 +39,7 @@ export class Map {
     lat: number;
     lng: number;
 
-    constructor(lat, lgn) {
+    constructor(lat: number, lgn: number) {
       this.lat = lat;
       this.lng = lgn;
     }

@@ -6,3 +6,12 @@ agm-map {
   border-bottom: solid 1px rgb(210,210,210);
   margin-bottom: 10px;
 }
+
+.icon-button {
+  margin-top: 2px;
+}
+
+.delete-button {
+  color: #FF0000;
+  cursor: pointer;
+}
