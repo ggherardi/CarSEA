@@ -25,3 +25,13 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+## Necessary packages for development (per ambienti di sviluppo vergini): 
+
+Autocomplete: 
+    - https://github.com/ng2-ui/auto-complete
+    - $ npm install @ngui/auto-complete --save
+
+Angular Google Maps
+    - https://angular-maps.com/
+    - $ npm install -g @angular/cli

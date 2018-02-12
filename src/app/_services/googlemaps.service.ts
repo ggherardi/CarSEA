@@ -10,11 +10,14 @@ export class GooglemapsService {
   constructor(private mapsApiLoader: MapsAPILoader) { }
 
   /** Ritorna nel metodo di callback il percorso selezionato tramite origine e destinazione */
-  retrieveRoute(originCoordinates: Map, destinationCoordinates: Map, callback, waypointsArray: Map[]) {
-    // this.mapsApiLoader.load().then(() => {
+  retrieveRoute(waypointsArray: Map[], callback) {
+    this.mapsApiLoader.load().then(() => {
+      const tempWayPointsArray = waypointsArray.slice();
+      const originCoordinates = tempWayPointsArray.shift();
+      const destinationCoordinates = tempWayPointsArray.pop();
       const origin = new google.maps.LatLng(originCoordinates.lat, originCoordinates.lng);
       const destination = new google.maps.LatLng(destinationCoordinates.lat, destinationCoordinates.lng);
-      const directionWaypointArray = this.createLatLngWaypointsArray(waypointsArray.slice());
+      const directionWaypointArray = this.createLatLngWaypointsArray(tempWayPointsArray);
       const directions = new google.maps.DirectionsService();
       directions.route({
         origin: origin,
@@ -24,12 +27,10 @@ export class GooglemapsService {
         avoidHighways: false,
         avoidTolls: false,
       }, callback);
-    // });
+    });
   }
 
   private createLatLngWaypointsArray(waypointsArray: Map[]): DirectionWaypoint[] {
-    waypointsArray.shift();
-    waypointsArray.pop();
     const directionWayPointArray: DirectionWaypoint[] = [];
     if (waypointsArray.length !== 0) {
       waypointsArray.forEach(w => {

@@ -1,6 +1,49 @@
 /* You can add global styles to this file, and also import other style files */
+input[type=date], input[type=datetime-local], input[type=month], input[type=time] {
+  -webkit-appearance: button-bevel;
+}
+
+btn {
+  font-family: Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.margin-top-20 {
+  margin-top: 20px;
+}
+
+.margin-bottom-20 {
+  margin-bottom: 20px;
+}
+
 .page-title {
-    margin-bottom: 30px;
-    font-size: 20px;
-    text-align: center;
-  }
+  margin-bottom: 30px;
+  font-size: 20px;
+  text-align: center;
+}
+
+.gray-tile {
+  background-color: #f1f1f1;
+  border: solid 1px #d2d2d2;
+}
+
+.gray-tile p {
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.btn:focus, .btn:active {
+  box-shadow: none!important;
+}
+
+.button-text-left {
+  margin-right: 5px;
+}
+
+.button-text-right {
+  margin-left: 5px;
+}
+
+.pull-right {
+  text-align: right;
+}

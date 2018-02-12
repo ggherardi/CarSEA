@@ -24,6 +24,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NguiAutoCompleteModule } from '@ngui/auto-complete';
 import { AdminpanelComponent } from './adminpanel/adminpanel.component';
 import { GooglemapsService } from './_services/googlemaps.service';
+import { PricechooserComponent } from './pricechooser/pricechooser.component';
 
 const googleMapsAPIKey = 'AIzaSyCb2-mkLHWGdDBQAchtHhuQcucgbPNuO-M';
 
@@ -44,8 +45,12 @@ const sitemap = [{
   component: AdminpanelComponent,
 },
 {
-  path: 'pathChooser',
+  path: 'newtrip/pathChooser',
   component: PathchooserComponent,
+},
+{
+  path: 'newtrip/priceChooser',
+  component: PricechooserComponent,
 },
 {
   path: '**',
@@ -62,7 +67,8 @@ const sitemap = [{
     SignupComponent,
     MyprofileComponent,
     PathchooserComponent,
-    AdminpanelComponent
+    AdminpanelComponent,
+    PricechooserComponent
   ],
   imports: [
     BrowserModule,

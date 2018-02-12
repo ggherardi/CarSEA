@@ -5,7 +5,7 @@ import { Http, Response } from '@angular/http';
 import { DoCheck } from '@angular/core/src/metadata/lifecycle_hooks';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { MapsAPILoader } from '@agm/core/services/maps-api-loader/maps-api-loader';
-import { Models, City, Map } from '../_services/models';
+import { Models, City, Map, Trip } from '../_services/models';
 import { HttpHeaders } from '@angular/common/http';
 import { RequestOptions } from '@angular/http/';
 import { Headers } from '@angular/http';
@@ -20,10 +20,13 @@ declare var google;
 export class PathchooserComponent implements OnInit {
 
   alphabet: String[] = 'abcdefghilmnopqrstuvz'.toUpperCase().split('');
+  maxNumeroTappe: Number = 3;
   formGroup: FormGroup;
+  formGroupDates: FormGroup;
   currentPosition: Map = new Map(0, 0);
   baseMarkers: SortableMap[] = [];
   additionalMarkers: SortableMap[] = [];
+  encodedWaypoints: string;
   allMarkers: SortableMap[] = [];
   startingCity: SortableMap;
   arrivalCity: SortableMap;
@@ -33,7 +36,8 @@ export class PathchooserComponent implements OnInit {
   polyArray: any[];
   bounds: LatLngBounds;
   mapZoom: Number = 5;
-  disableAddControl = true;
+  disableAddControl = false;
+  nextStepDisabled: Boolean = true;
 
   /** Effettua una query sul DB utilizzando la chiave di ricerca inserita nelle textbox
    * origine e destinazione. Ritorna il valore esatto come primo risultato, poi gli altri. */
@@ -55,9 +59,11 @@ export class PathchooserComponent implements OnInit {
 
   private buildForm() {
     this.formGroup = this.formBuilder.group({
-      origin: '',
-      destination: '',
-      wayPoint_0: ''
+      departureCityPicker: ['', [Validators.required]],
+      arrivalCityPicker: ['', [Validators.required]],
+      wayPoint_0: ['', ],
+      startDatePicker: ['', [Validators.required]],
+      startTimePicker: ['', [Validators.required]]
     });
   }
 
@@ -104,18 +110,17 @@ export class PathchooserComponent implements OnInit {
     const index = parseInt(controlName.split('_')[1], 10);
     const waypoint: SortableMap = new SortableMap(lat, lng, event.id, index);
     switch (controlName) {
-      case 'origin':
+      case 'departureCityPicker':
         this.startingCity = waypoint;
         this.baseMarkers.unshift(waypoint);
         break;
-      case 'destination':
+      case 'arrivalCityPicker':
         this.arrivalCity = waypoint;
         this.baseMarkers.push(waypoint);
         break;
       default:
         this.additionalMarkers.push(waypoint);
         this.additionalMarkers.sort(a => a.index);
-        this.disableAddControl = false;
         break;
     }
     this.formGroup.get(controlName).disable();
@@ -129,9 +134,7 @@ export class PathchooserComponent implements OnInit {
       const originPoint = this.baseMarkers[0];
       const destinationPoint = this.baseMarkers[this.baseMarkers.length - 1];
       this.combineAllMarkers();
-      this.app.shared.googleMapsService.retrieveRoute(
-        originPoint, destinationPoint, this.retrieveRouteCallback.bind(this), this.allMarkers
-      );
+      this.app.shared.googleMapsService.retrieveRoute(this.allMarkers, this.retrieveRouteCallback.bind(this));
     }
   }
 
@@ -147,8 +150,8 @@ export class PathchooserComponent implements OnInit {
 
   /** Setta nella proprietà polyArray il percorso stradale tra l'origine e la destinazione */
   retrieveRouteCallback(res: any, d) {
-    console.log(res);
     if (res.routes.length > 0) {
+      this.encodedWaypoints = res.routes[0].overview_polyline;
       this.polyArray = this.app.shared.googleMapsService.getPolylinesArray(res.routes[0].overview_polyline);
       this.bounds = res.routes[0].bounds;
     }
@@ -160,10 +163,10 @@ export class PathchooserComponent implements OnInit {
     this.formGroup.get(controlName).setValue('');
 
     switch (controlName) {
-      case 'origin':
+      case 'departureCityPicker':
         this.startingCity = undefined;
         break;
-      case 'destination':
+      case 'arrivalCityPicker':
         this.arrivalCity = undefined;
         break;
     }
@@ -184,15 +187,35 @@ export class PathchooserComponent implements OnInit {
   }
 
   /** Aggiunge dinamicamente i controlli di autocompletamento per gestire le tappe intermedie.
-   * Se estiono più di 5 controlli, il pulsante di aggiunta viene disattivato.   */
+   * Se estiono più di 4 controlli (cioè al massimo numero di tappe sulla table Trips),
+   * il pulsante di aggiunta viene disattivato.   */
   addCityControl(nomeTappa: string) {
-    const newControlId = this.cityControls.length + 1;
+    const newControlId = this.cityControls.length;
     const newControlName = 'wayPoint_' + newControlId;
     this.cityControls.push(new CityControl(newControlId, newControlName));
     this.formGroup.addControl(newControlName, new FormControl());
-    if (newControlId < 5) {
+    if (newControlId >= this.maxNumeroTappe) {
       this.disableAddControl = true;
     }
+  }
+
+  saveFirstStep() {
+    console.log('saving');
+    const formValues: City[] = [];
+    for (const controlName of Object.keys(this.formGroup.controls)) {
+      formValues[controlName] = this.formGroup.get(controlName).value;
+    }
+    this.app.shared.models.newTrip = new Trip();
+    this.app.shared.models.newTrip.departureCity =  formValues['departureCityPicker'];
+    this.app.shared.models.newTrip.arrivalCity = formValues['arrivalCityPicker'];
+    this.app.shared.models.newTrip.stopoverCity1 = formValues['wayPoint_0'];
+    this.app.shared.models.newTrip.stopoverCity2 = formValues['wayPoint_1'];
+    this.app.shared.models.newTrip.stopoverCity3 = formValues['wayPoint_2'];
+    this.app.shared.models.newTrip.stopoverCity4 = formValues['wayPoint_3'];
+    const fullDate = formValues['startDatePicker'] + ' ' + formValues['startTimePicker'];
+    this.app.shared.models.newTrip.departureDate = new Date(fullDate);
+    this.app.shared.models.allMarkers = this.allMarkers.slice();
+    this.app.router.navigateByUrl('/newtrip/priceChooser');
   }
 }
 
@@ -207,6 +230,7 @@ class CityControl {
   }
 }
 
+/** Classe di supporto per il sorting delle tappe */
 class SortableMap extends Map {
   id: number;
   lat: number;
