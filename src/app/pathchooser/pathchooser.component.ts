@@ -120,13 +120,21 @@ export class PathchooserComponent implements OnInit {
         break;
       default:
         this.additionalMarkers.push(waypoint);
-        this.additionalMarkers.sort(a => a.index);
-        break;
+        this.additionalMarkers.sort(this.indexSorting);
     }
     this.formGroup.get(controlName).disable();
     this.allMarkers = this.baseMarkers.slice();
     this.retrieveRoute();
   }
+
+  private indexSorting = function(a, b) {
+    let sort = 0;
+    if (a.index === b.index) {
+      sort = 0;
+    }
+    a.index > b.index ? sort = 1 : sort = -1;
+    return sort;
+  };
 
   /** Recupera il percorso tramite le API JavaScript di google maps */
   retrieveRoute() {

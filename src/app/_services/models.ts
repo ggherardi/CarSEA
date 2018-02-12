@@ -11,6 +11,7 @@ export class Models {
 
     constructor() {
         this.userModel = new UserModel();
+        // this.newTrip = new Trip()
     }
 
     disposeUserModel() {

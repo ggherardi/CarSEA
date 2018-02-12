@@ -14,7 +14,7 @@ export class PricechooserComponent implements OnInit {
     if (this.app.shared.models.newTrip === undefined) {
       this.app.shared.router.navigateByUrl('/newtrip/pathChooser');
     }
-    console.log(this.app.shared.models.newTrip);
+    console.log(JSON.stringify(this.app.shared.models.newTrip));
   }
 
 }
