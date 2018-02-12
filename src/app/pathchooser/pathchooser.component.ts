@@ -89,7 +89,7 @@ export class PathchooserComponent implements OnInit {
         this.currentPosition.lng = res.coords.longitude;
       }, err => {
         console.log('(getCurrentLocation) Errore: ' + err);
-      });
+      }, {timeout: 5000});
     } else {
       this.app.shared.httpService.get('http://ipinfo.io/json').subscribe((data: any) => {
         if (data !== undefined) {
