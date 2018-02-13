@@ -25,6 +25,7 @@ import { NguiAutoCompleteModule } from '@ngui/auto-complete';
 import { AdminpanelComponent } from './adminpanel/adminpanel.component';
 import { GooglemapsService } from './_services/googlemaps.service';
 import { PricechooserComponent } from './pricechooser/pricechooser.component';
+import { ConstantsService } from './_services/constants.service';
 
 const googleMapsAPIKey = 'AIzaSyCb2-mkLHWGdDBQAchtHhuQcucgbPNuO-M';
 
@@ -86,7 +87,8 @@ const sitemap = [{
     SharedComponent,
     Models,
     PolylineManager,
-    GooglemapsService
+    GooglemapsService,
+    ConstantsService
   ],
   bootstrap: [
     AppComponent

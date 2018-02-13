@@ -9,8 +9,7 @@ import { Models, City, Map, Trip } from '../_services/models';
 import { HttpHeaders } from '@angular/common/http';
 import { RequestOptions } from '@angular/http/';
 import { Headers } from '@angular/http';
-import { LatLngBounds } from '@agm/core/services/google-maps-types';
-declare var google;
+import { LatLngBounds, LatLng } from '@agm/core/services/google-maps-types';
 
 @Component({
   selector: 'app-pathchooser',
@@ -19,21 +18,19 @@ declare var google;
 })
 export class PathchooserComponent implements OnInit {
 
-  alphabet: String[] = 'abcdefghilmnopqrstuvz'.toUpperCase().split('');
   maxNumeroTappe: Number = 3;
   formGroup: FormGroup;
   formGroupDates: FormGroup;
   currentPosition: Map = new Map(0, 0);
   baseMarkers: SortableMap[] = [];
   additionalMarkers: SortableMap[] = [];
-  encodedWaypoints: string;
   allMarkers: SortableMap[] = [];
   startingCity: SortableMap;
   arrivalCity: SortableMap;
   cityControls: CityControl[] = [new CityControl(0, 'wayPoint_0')];
   origineCity: City;
   destinazioneCity: City;
-  polyArray: any[];
+  polyArray: LatLng[];
   bounds: LatLngBounds;
   mapZoom: Number = 5;
   disableAddControl = false;
@@ -50,7 +47,7 @@ export class PathchooserComponent implements OnInit {
     return this.app.shared.httpService.post(serviceUrl, data);
   }
 
-  constructor(private app: AppComponent, private http: Http, private formBuilder: FormBuilder, private mapsApiLoader: MapsAPILoader) { }
+  constructor(private app: AppComponent, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
     this.getCurrentLocation();
@@ -139,8 +136,6 @@ export class PathchooserComponent implements OnInit {
   /** Recupera il percorso tramite le API JavaScript di google maps */
   retrieveRoute() {
     if (this.startingCity !== undefined && this.arrivalCity !== undefined) {
-      const originPoint = this.baseMarkers[0];
-      const destinationPoint = this.baseMarkers[this.baseMarkers.length - 1];
       this.combineAllMarkers();
       this.app.shared.googleMapsService.retrieveRoute(this.allMarkers, this.retrieveRouteCallback.bind(this));
     }
@@ -159,7 +154,6 @@ export class PathchooserComponent implements OnInit {
   /** Setta nella proprietà polyArray il percorso stradale tra l'origine e la destinazione */
   retrieveRouteCallback(res: any, d) {
     if (res.routes.length > 0) {
-      this.encodedWaypoints = res.routes[0].overview_polyline;
       this.polyArray = this.app.shared.googleMapsService.getPolylinesArray(res.routes[0].overview_polyline);
       this.bounds = res.routes[0].bounds;
     }

@@ -1,8 +1,6 @@
-<div class="container">
-  <div class="row">
-    <div class="col-sm-12 page-title">
-      Scegli un punto partenza, uno di arrivo e l'orario del tuo viaggio!
-    </div>
+<div class="container-fluid">
+  <div class="page-title">
+    <p>Scegli un punto partenza, uno di arrivo e l'orario del tuo viaggio!</p>
   </div>
   <div class="row">
     <div class="col-sm-6 gray-tile">
@@ -105,7 +103,7 @@
           *ngFor="let mark of allMarkers; let i = index"
           [latitude]="mark.lat" 
           [longitude]="mark.lng" 
-          [label]="alphabet[i]"></agm-marker>
+          [label]="app.shared.constantsService.alphabet[i]"></agm-marker>
         <agm-polyline [strokeColor]="'#2196f3'">
           <agm-polyline-point *ngFor="let poly of polyArray" [latitude]="poly.lat()" [longitude]="poly.lng()"></agm-polyline-point>
         </agm-polyline>

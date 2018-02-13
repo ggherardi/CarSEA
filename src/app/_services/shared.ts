@@ -7,6 +7,7 @@ import { HttpService } from './httpService';
 import { Models } from './models';
 import { Cookies } from './cookies';
 import { GooglemapsService } from './googlemaps.service';
+import { ConstantsService } from './constants.service';
 
 @Component({ })
 
@@ -15,7 +16,8 @@ export class SharedComponent implements OnInit {
   userLogged = false;
 
   constructor(public router: Router, public httpService: HttpService, public models: Models,
-              public cookies: Cookies, public googleMapsService: GooglemapsService) { }
+              public cookies: Cookies, public googleMapsService: GooglemapsService,
+              public constantsService: ConstantsService) { }
 
   ngOnInit() { }
 
