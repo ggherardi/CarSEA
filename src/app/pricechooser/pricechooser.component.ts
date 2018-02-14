@@ -6,8 +6,8 @@ import { LatLngBounds, LatLng } from '@agm/core/services/google-maps-types';
 
 @Component({
   selector: 'app-pricechooser',
-  templateUrl: './pricechooser.component.html',
-  styleUrls: ['./pricechooser.component.css']
+  templateUrl: './pricechooser.component.html?ver=${new Date().getTime()}',
+  styleUrls: ['./pricechooser.component.css?ver=${new Date().getTime()}']
 })
 export class PricechooserComponent implements OnInit {
 

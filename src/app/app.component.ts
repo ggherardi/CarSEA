@@ -9,8 +9,8 @@ import { SharedComponent } from './_services/shared';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
+  templateUrl: './app.component.html?ver=${new Date().getTime()}',
+  styleUrls: ['./app.component.css?ver=${new Date().getTime()}'],
   providers: [
     Models
   ]
