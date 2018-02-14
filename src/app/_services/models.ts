@@ -66,6 +66,7 @@ export class Trip {
     departureDate: Date;
     price: number;
     seats: number;
+    description: string;
 
     constructor(ownerId: number = 0, departureCity: number = 0, arrivalCity: number = 0,
                 stopoverCity1: number = 0, encodedWaypoints: string = '',

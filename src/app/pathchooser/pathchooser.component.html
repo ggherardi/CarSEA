@@ -1,135 +1,133 @@
-<div class="container-fluid">
-  <div class="page-title">
-    <p>Scegli un punto partenza, uno di arrivo e l'orario del tuo viaggio!</p>
-  </div>
-  <div class="row">
-    <div class="col-sm-6 gray-tile">
-      <form [formGroup]="formGroup" (ngSubmit)="getCurrentLocation()">
-        <p>Seleziona la città dalla quale partirai:</p>
-          <div class="row">
-            <div class="col-sm-8">
-              <input ngui-auto-complete
-              formControlName="departureCityPicker"
-              [source]="searchCities"
-              [list-formatter]="autocompleListFormatter"
-              [value-formatter]="autocompleteValueFormatter"
-              [(ngModel)]="origineCity"
-              value-property-name="id"
-              display-property-name="value"
-              placeholder="Partenza"
-              accept-user-input="false"
-              max-num-list="10"
-              min-chars="2"
-              auto-select-first-item="true"
-              select-on-blur="true"
-              (valueChanged)="manageCitiesChoices($event, 'departureCityPicker')"
-              class="form-control autocomplete-input">
-            </div>
-            <div class="col-sm-4">
-              <div *ngIf="checkValueNotEmpty('departureCityPicker')">
-                <span (click)="removeWaypoint('departureCityPicker', 0)" >
-                  <i class="fas fa-2x fa-trash-alt icon-button delete-button"></i>
-                </span>
-              </div>
-            </div>
-          </div>        
-        <p>Seleziona la tua meta:</p>
+<div class="page-title">
+  <p>Scegli un punto partenza, uno di arrivo e l'orario del tuo viaggio!</p>
+</div>
+<div class="row">
+  <div class="col-sm-6 gray-tile">
+    <form [formGroup]="formGroup" (ngSubmit)="getCurrentLocation()">
+      <p>Seleziona la città dalla quale partirai:</p>
         <div class="row">
           <div class="col-sm-8">
             <input ngui-auto-complete
-            formControlName="arrivalCityPicker"
+            formControlName="departureCityPicker"
             [source]="searchCities"
             [list-formatter]="autocompleListFormatter"
-            [(ngModel)]="destinazioneCity"
+            [value-formatter]="autocompleteValueFormatter"
+            [(ngModel)]="origineCity"
             value-property-name="id"
             display-property-name="value"
-            placeholder="Destinazione"
+            placeholder="Partenza"
             accept-user-input="false"
             max-num-list="10"
             min-chars="2"
             auto-select-first-item="true"
             select-on-blur="true"
-            (valueChanged)="manageCitiesChoices($event, 'arrivalCityPicker')"
+            (valueChanged)="manageCitiesChoices($event, 'departureCityPicker')"
             class="form-control autocomplete-input">
           </div>
           <div class="col-sm-4">
-            <div *ngIf="checkValueNotEmpty('arrivalCityPicker')">
-              <span (click)="removeWaypoint('arrivalCityPicker', 1)" >
+            <div *ngIf="checkValueNotEmpty('departureCityPicker')">
+              <span (click)="removeWaypoint('departureCityPicker', 0)" >
                 <i class="fas fa-2x fa-trash-alt icon-button delete-button"></i>
               </span>
             </div>
           </div>
-        </div>     
-        <p>Aggiungi ulteriori tappe al tuo viaggio:</p>
-        <div class="row" *ngFor="let cityControl of cityControls, let i = index">
-          <div class="col-sm-8">
-            <input ngui-auto-complete
-            [formControlName]="cityControl.name"
-            [source]="searchCities"
-            [list-formatter]="autocompleListFormatter"
-            value-property-name="id"
-            display-property-name="value"
-            placeholder="Tappa"
-            accept-user-input="false"
-            max-num-list="10"
-            min-chars="2"
-            auto-select-first-item="true"
-            select-on-blur="true"
-            (valueChanged)="manageCitiesChoices($event, cityControl.name)"
-            class="form-control autocomplete-input">
-          </div>
-          <div class="col-sm-4">
-            <div *ngIf="checkValueNotEmpty(cityControl.name)">
-              <span (click)="removeWaypoint(cityControl.name, i)">
-                <i class="fas fa-2x fa-trash-alt icon-button delete-button"></i>
-              </span>
-            </div>
+        </div>        
+      <p>Seleziona la tua meta:</p>
+      <div class="row">
+        <div class="col-sm-8">
+          <input ngui-auto-complete
+          formControlName="arrivalCityPicker"
+          [source]="searchCities"
+          [list-formatter]="autocompleListFormatter"
+          [(ngModel)]="destinazioneCity"
+          value-property-name="id"
+          display-property-name="value"
+          placeholder="Destinazione"
+          accept-user-input="false"
+          max-num-list="10"
+          min-chars="2"
+          auto-select-first-item="true"
+          select-on-blur="true"
+          (valueChanged)="manageCitiesChoices($event, 'arrivalCityPicker')"
+          class="form-control autocomplete-input">
+        </div>
+        <div class="col-sm-4">
+          <div *ngIf="checkValueNotEmpty('arrivalCityPicker')">
+            <span (click)="removeWaypoint('arrivalCityPicker', 1)" >
+              <i class="fas fa-2x fa-trash-alt icon-button delete-button"></i>
+            </span>
           </div>
         </div>
-      </form>
-      <button [disabled]="disableAddControl" class="btn btn-outline-success btn-sm" (click)="addCityControl()">
-        <i class="fas fa-plus"></i><span class="button-text-right"> Aggiungi Tappa</span>
-      </button>
-    </div>
-    <div class="col-sm-6">
-      <agm-map 
-        [latitude]="currentPosition.lat" 
-        [longitude]="currentPosition.lng" 
-        [zoom]="mapZoom" 
-        [mapTypeControl]="true" 
-        [gestureHandling]="greedy" 
-        [fitBounds]="bounds">
-        <agm-marker 
-          *ngFor="let mark of allMarkers; let i = index"
-          [latitude]="mark.lat" 
-          [longitude]="mark.lng" 
-          [label]="app.shared.constantsService.alphabet[i]"></agm-marker>
-        <agm-polyline [strokeColor]="'#2196f3'">
-          <agm-polyline-point *ngFor="let poly of polyArray" [latitude]="poly.lat()" [longitude]="poly.lng()"></agm-polyline-point>
-        </agm-polyline>
-      </agm-map>
-    </div>
-  </div>
-  <div class="row margin-top-20">
-    <div class="col-sm-12 gray-tile">
-      <p>
-        Scegli l'orario di partenza:
-      </p>
-      <div class="margin-bottom-20">
-        <form [formGroup]="formGroup" (ngSubmit)="getCurrentLocation()">
-          <input type="date" formControlName="startDatePicker">
-          <input type="time" formControlName="startTimePicker">
-        </form>
+      </div>     
+      <p>Aggiungi ulteriori tappe al tuo viaggio:</p>
+      <div class="row" *ngFor="let cityControl of cityControls, let i = index">
+        <div class="col-sm-8">
+          <input ngui-auto-complete
+          [formControlName]="cityControl.name"
+          [source]="searchCities"
+          [list-formatter]="autocompleListFormatter"
+          value-property-name="id"
+          display-property-name="value"
+          placeholder="Tappa"
+          accept-user-input="false"
+          max-num-list="10"
+          min-chars="2"
+          auto-select-first-item="true"
+          select-on-blur="true"
+          (valueChanged)="manageCitiesChoices($event, cityControl.name)"
+          class="form-control autocomplete-input">
+        </div>
+        <div class="col-sm-4">
+          <div *ngIf="checkValueNotEmpty(cityControl.name)">
+            <span (click)="removeWaypoint(cityControl.name, i)">
+              <i class="fas fa-2x fa-trash-alt icon-button delete-button"></i>
+            </span>
+          </div>
+        </div>
       </div>
-    </div>
+    </form>
+    <button [disabled]="disableAddControl" class="btn btn-outline-success btn-sm" (click)="addCityControl()">
+      <i class="fas fa-plus"></i><span class="button-text-right"> Aggiungi Tappa</span>
+    </button>
   </div>
-  <div class="row pull-right">
-    <div class="col-sm-12">
-      <form [formGroup]="formGroup" (ngSubmit)="saveFirstStep()">
-        <button type="submit" [disabled]="!formGroup.valid" class="btn btn-primary" style="margin-top:20px">
-          <span class="button-text-left">Prosegui </span><i class="fas fa-arrow-circle-right"></i>
-        </button>
+  <div class="col-sm-6">
+    <agm-map 
+      [latitude]="currentPosition.lat" 
+      [longitude]="currentPosition.lng" 
+      [zoom]="mapZoom" 
+      [mapTypeControl]="true" 
+      [gestureHandling]="greedy" 
+      [fitBounds]="bounds">
+      <agm-marker 
+        *ngFor="let mark of allMarkers; let i = index"
+        [latitude]="mark.lat" 
+        [longitude]="mark.lng" 
+        [label]="app.shared.constantsService.alphabet[i]"></agm-marker>
+      <agm-polyline [strokeColor]="'#2196f3'">
+        <agm-polyline-point *ngFor="let poly of polyArray" [latitude]="poly.lat()" [longitude]="poly.lng()"></agm-polyline-point>
+      </agm-polyline>
+    </agm-map>
+  </div>
+</div>
+<div class="row margin-top-20">
+  <div class="col-sm-12 gray-tile">
+    <p>
+      Scegli l'orario di partenza:
+    </p>
+    <div class="margin-bottom-20">
+      <form [formGroup]="formGroup" (ngSubmit)="getCurrentLocation()">
+        <input type="date" formControlName="startDatePicker">
+        <input type="time" formControlName="startTimePicker">
       </form>
     </div>
+  </div>
+</div>
+<div class="row pull-right">
+  <div class="col-sm-12">
+    <form [formGroup]="formGroup" (ngSubmit)="saveFirstStep()">
+      <button type="submit" [disabled]="!formGroup.valid" class="btn btn-primary" style="margin-top:20px">
+        <span class="button-text-left">Prosegui </span><i class="fas fa-arrow-circle-right"></i>
+      </button>
+    </form>
   </div>
 </div>

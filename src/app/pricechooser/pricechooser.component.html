@@ -1,25 +1,32 @@
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-sm-6">
-      Prova
+<div class="row">
+  <div class="col-sm-6">
+    <div class="row gray-tile">
+      Prezzo
     </div>
-    <div class="col-sm-6">
-      <agm-map        
-        [latitude]="allMarkers[0].lat" 
-        [longitude]="allMarkers[0].lng" 
-        [zoom]="10" 
-        [mapTypeControl]="true" 
-        [gestureHandling]="greedy" 
-        [fitBounds]="bounds">
-        <agm-marker 
-          *ngFor="let mark of allMarkers; let i = index"
-          [latitude]="mark.lat" 
-          [longitude]="mark.lng" 
-          [label]="app.shared.constantsService.alphabet[i]"></agm-marker>
-        <agm-polyline [strokeColor]="'#2196f3'">
-          <agm-polyline-point *ngFor="let poly of polyArray" [latitude]="poly.lat()" [longitude]="poly.lng()"></agm-polyline-point>
-        </agm-polyline>
-      </agm-map>
+    <div class="row gray-tile margin-top-20">
+      Sedili
     </div>
+    <div class="row gray-tile margin-top-20">
+      Descrizione
+    </div>
+  </div>
+  <div class="col-sm-6">
+  <agm-map        
+    [latitude]="allMarkers[0].lat" 
+    [longitude]="allMarkers[0].lng" 
+    [zoom]="10" 
+    [mapTypeControl]="true" 
+    [gestureHandling]="greedy" 
+    [fitBounds]="bounds">
+      <agm-marker 
+        *ngFor="let mark of allMarkers; let i = index"
+        [latitude]="mark.lat" 
+        [longitude]="mark.lng" 
+        [label]="app.shared.constantsService.alphabet[i]">
+      </agm-marker>
+      <agm-polyline [strokeColor]="'#2196f3'">
+        <agm-polyline-point *ngFor="let poly of polyArray" [latitude]="poly.lat()" [longitude]="poly.lng()"></agm-polyline-point>
+      </agm-polyline>
+    </agm-map>
   </div>
 </div>

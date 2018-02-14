@@ -1,19 +1,13 @@
 /*NAVBAR*/
 .top-navbar {
     padding: 10px 0;
-    z-index: 9999;
     background-color: #fff;
-    width: 100%;
+    /* width: 100%; */
 }
 
-#nav {
-    float: right;
-}
-
-#nav ul li {
+.top-navbar ul li {
     padding: 0 10px;
     list-style: none;
-    float: right;
     cursor: pointer;
 }
 /*END NAVBAR*/

@@ -21,14 +21,14 @@ export class SharedComponent implements OnInit {
 
   ngOnInit() { }
 
-  login(username: string, password: string, callback: any = function(){}): void {
+  login(username: string, password: string, callback: any = function(a){}): void {
     const data = {
       action: 'login',
       username: username,
       password: password
     };
-    // this.httpService.postAjax('php/Authentication.php', data, this.setAuthCookiesCallBack.bind(this), callback);
-    this.httpService.post('php/Authentication.php', data).subscribe(this.setAuthCookiesCallBack.bind(this), err => console.log(err));
+    this.httpService.post('php/Authentication.php', data)
+        .subscribe(this.setAuthCookiesCallBack.bind(this), err => console.log(err), callback);
     }
 
   private setAuthCookiesCallBack(data) {

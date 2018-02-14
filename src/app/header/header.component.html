@@ -1,30 +1,28 @@
-<nav id="nav" class="top-navbar"> 
-  <img (click)="homepage()" src="assets/img/carsea-logo.png" height="40" style="float:left; margin-left:20px;">
-  <ul>   
-    <li class="dropdown">
-        <span class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-          <span class="icon-user"></span>
-            <span *ngIf="!logged"> Login</span>
-            <span *ngIf="logged"> Il profilo di {{ user.Name }}</span>  
-        </span>
-        <div class="dropdown-menu">
-            <form id="form-login" [formGroup]="loginForm" (ngSubmit)="loginFromForm()">
-                <input *ngIf="!logged" formControlName="username" class="input-login" type="text" placeholder="Username.." />
-                <input *ngIf="!logged" formControlName="password" class="input-login" type="password" placeholder="Password.."/>
-                <button *ngIf="!logged" class="btn btn-primary" type="submit">Login</button>
-            </form>
-            <div *ngIf="logged" class="btn btn-link">Impostazioni</div><br>
-            <div *ngIf="logged" (click)="logoutFromForm()" class="btn btn-link" type="submit" name="submit" value="login">Logout</div>
-        </div>
-    </li>
-    <li>
-        <div *ngIf="!logged" (click)="signup()" class="btn btn-primary">Iscriviti</div>
-    </li>
-  </ul>
-</nav>
-<div style="height: 58px; display: block;">
-   
+<div class="row top-navbar">
+    <div class="col-sm-4 col-4">
+        <img (click)="homepage()" src="assets/img/carsea-logo.png" height="40" >
+    </div>
+    <div class="col-sm-8 col-8">
+        <div class="row">
+            <div class="col-4 offset-sm-8 col-sm-2 float-right">
+                <span class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                    <span class="icon-user"></span>
+                    <span *ngIf="!logged"> Login</span>
+                    <span *ngIf="logged"> Il profilo di {{ user.Name }}</span>  
+                </span>
+                <div class="dropdown-menu">
+                    <form id="form-login" [formGroup]="loginForm" (ngSubmit)="loginFromForm()">
+                        <input *ngIf="!logged" formControlName="username" class="input-login" type="text" placeholder="Username.." />
+                        <input *ngIf="!logged" formControlName="password" class="input-login" type="password" placeholder="Password.."/>
+                        <button *ngIf="!logged" class="btn btn-primary" type="submit">Login</button>
+                    </form>
+                    <div *ngIf="logged" class="btn btn-link">Impostazioni</div><br>
+                    <div *ngIf="logged" (click)="logoutFromForm()" class="btn btn-link" type="submit" name="submit" value="login">Logout</div>
+                </div>
+            </div>
+            <div *ngIf="!logged" class="col-4 col-sm-2">
+                <div (click)="signup()" class="btn btn-primary">Iscriviti</div>
+            </div>
+        </div>               
+    </div>
 </div>
-<!-- <div style="height: 58px; display: block;">
-    Il profilo di {{ user.Name }}
-</div> -->

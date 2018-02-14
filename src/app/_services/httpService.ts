@@ -16,9 +16,9 @@ export class HttpService {
      * Effettuare il subscribe sul valore di return per utilizzare i dati */
     post = (serviceUrl, data: object): Observable<any[]> => {
         const options = new RequestOptions({
-          headers: new Headers({
-            'Content-Type': 'application/x-www-form-urlencoded'
-          })
+            headers: new Headers({
+                'Content-Type': 'application/x-www-form-urlencoded'
+            })
         });
         const querystringData = this.toQueryString(data);
         return this.http.post(serviceUrl, querystringData, options).map(r =>  r.json());
@@ -31,7 +31,7 @@ export class HttpService {
             headers: new Headers({
                 'Access-Control-Allow-Origin': 'http://www.progettostw.com'
             })
-        })
+        });
         return this.http.get(url, options).map((res: Response) => {
             return res.json();
         });

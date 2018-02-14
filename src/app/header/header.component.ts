@@ -59,10 +59,8 @@ export class HeaderComponent implements OnInit, DoCheck {
   }
 
   // Callback per pulire il form di login una volta che questo è stato effettuato
-  callbackClearForm(res) {
-    console.log(res);
-    const parsedRes = JSON.parse(res);
-    if (parsedRes === -1) {
+  callbackClearForm() {
+    if (!this.app.shared.userLogged) {
       this.buildForm(this.loginForm.get('username').value, '');
     } else {
       this.buildForm();
