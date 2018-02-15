@@ -2,9 +2,12 @@
 include 'PHPConst.php';
 include 'DBConnection.php';
 include 'models\Models.php';
+use Logger;
 use Models;
 
-class Authentication {
+$GLOBALS["CorrelationID"] = uniqid("corrId_", true);
+
+class AuthenticationService {
     private $name;
     private $surname;
     private $username;
@@ -37,8 +40,7 @@ class Authentication {
     // -1 se non è stato trovato l'account associato
     // L'oggetto $user (UserModel) se l'account è stato trovato
     private function Login(){
-        // $encodedPassword = password_hash($password, PASSWORD_DEFAULT);
-
+        Logger::Write("Processing user $this->username login request.", $GLOBALS["CorrelationID"]);
         $query = "SELECT *
             FROM users 
             WHERE Username = '$this->username'";
@@ -53,6 +55,7 @@ class Authentication {
         if(password_verify($this->password, $fetchedPassword)){
             $user = new Models\UserModel($validRow["Username"], $validRow["Id"], $validRow["Nome"]);
             echo json_encode($user);
+            Logger::Write("User $this->username succesfully logged in.", $GLOBALS["CorrelationID"]);
         }
         else{
             echo json_encode(-1);
@@ -65,7 +68,8 @@ class Authentication {
     // -3 se l'email esiste già nel DB
     // -4 per errori incontrati durante l'inserimento
     // 0 se l'iscrizione è andata a buon fine
-    private function SignUp(){      
+    private function SignUp(){  
+        Logger::Write("Signup process started.", $GLOBALS["CorrelationID"]);    
         $responseCode = self::CheckIfUserAlreadyExists();
 
         if($responseCode != 0) {
@@ -107,6 +111,7 @@ class Authentication {
     }
 
     private function InsertNewUser() {
+        Logger::Write("Registering new user: $this->name $this->surname with email: $this->email", $GLOBALS["CorrelationID"]);  
         $encodedPassword = password_hash($this->password, PASSWORD_DEFAULT);
 
         $query = 
@@ -131,9 +136,9 @@ class Authentication {
         }
     }
 }
-
+Logger::Write("Reached AuthenticationService API", $GLOBALS["CorrelationID"]);    
 // Inizializza la classe per restituire i risultati e richiama il metodo d'ingresso
-$Auth = new Authentication();
+$Auth = new AuthenticationService();
 $Auth->Init();
 
 ?>

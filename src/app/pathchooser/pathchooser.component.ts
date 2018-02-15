@@ -39,7 +39,7 @@ export class PathchooserComponent implements OnInit {
   /** Effettua una query sul DB utilizzando la chiave di ricerca inserita nelle textbox
    * origine e destinazione. Ritorna il valore esatto come primo risultato, poi gli altri. */
   searchCities = (keyword: any): Observable<any[]> => {
-    const serviceUrl = 'php/CitiesServices.php';
+    const serviceUrl = 'php/CitiesService.php';
     const data = {
       action: 'search',
       searchKey: keyword

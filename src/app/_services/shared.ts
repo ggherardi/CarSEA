@@ -27,7 +27,7 @@ export class SharedComponent implements OnInit {
       username: username,
       password: password
     };
-    this.httpService.post('php/Authentication.php', data)
+    this.httpService.post('php/AuthenticationService.php', data)
         .subscribe(this.setAuthCookiesCallBack.bind(this), err => console.log(err), callback);
     }
 

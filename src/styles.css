@@ -4,7 +4,7 @@ body {
   margin: 0 auto;
 }
 
-input {
+input[type=number] {
   height: 25px;
 }
 

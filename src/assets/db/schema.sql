@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Creato il: Feb 03, 2018 alle 17:30
+-- Creato il: Feb 15, 2018 alle 01:56
 -- Versione del server: 5.5.45
 -- Versione PHP: 7.0.21
 
@@ -12,11 +12,51 @@ SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
 --
 -- Database: `carsea`
 --
-CREATE DATABASE IF NOT EXISTS `carsea` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-USE `carsea`;
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `cities`
+--
+
+CREATE TABLE `cities` (
+  `id` bigint(20) NOT NULL,
+  `id_regione` int(11) NOT NULL,
+  `id_provincia` int(11) NOT NULL,
+  `nome` varchar(500) DEFAULT NULL,
+  `latitudine` double DEFAULT NULL,
+  `longitudine` double DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `trips`
+--
+
+CREATE TABLE `trips` (
+  `id` bigint(20) NOT NULL,
+  `owner_id` bigint(20) NOT NULL,
+  `departure_city` bigint(20) NOT NULL,
+  `arrival_city` bigint(20) NOT NULL,
+  `stopover_city_1` bigint(20) NOT NULL,
+  `stopover_city_2` bigint(20) NOT NULL,
+  `stopover_city_3` bigint(20) NOT NULL,
+  `stopover_city_4` bigint(20) NOT NULL,
+  `departure_date` datetime NOT NULL,
+  `price` double NOT NULL,
+  `seats` int(11) NOT NULL,
+  `description` varchar(500) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -34,24 +74,21 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Svuota la tabella prima dell'inserimento `users`
---
-
-TRUNCATE TABLE `users`;
---
--- Dump dei dati per la tabella `users`
---
-
-INSERT INTO `users` (`Id`, `Username`, `Email`, `Password`, `Nome`, `Cognome`) VALUES
-(12, 'admin', 'admin@admin.it', '$2y$10$2uUOMcImw01Lx5Z8MhKtrex/KFypOejqV1raZkj3lGfbHctWAGSri', 'admin', 'admin'),
-(1, 'ggherardi', 'giamalfred@yahoo.it', '$2y$10$13shRAAd3DHYISDs6636YO83O9qd.kmtQcbv/bP3SFzn3nAgJZ9/q', 'Gianmattia', 'Gherardi'),
-(13, 'pippopaperino', 'ppi@pii.ti', '$2y$10$KIcNFtVHfNEC6rRgous2guzNQikCnfZVCUwHEZ7rXojVDP7D6WB0O', 'asdafa', 'asdgfasdg'),
-(15, 'poll', 'pollo@pollo.i', '$2y$10$aDIaSOsISrxI/3Usmr9DpuubxRuEovOki3oBwyj80wGa1VnXY9nVm', 'pollo', 'pollo'),
-(14, 'pollo', 'pollo@pollo.it', '$2y$10$Oa0iLk/NsJPJZMovj1eM0.JxLu.7hSakm3HEkvpBG4YBDwfrlRN/e', 'pollo', 'pollo');
-
---
 -- Indici per le tabelle scaricate
 --
+
+--
+-- Indici per le tabelle `cities`
+--
+ALTER TABLE `cities`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `latitudine` (`latitudine`,`longitudine`);
+
+--
+-- Indici per le tabelle `trips`
+--
+ALTER TABLE `trips`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indici per le tabelle `users`
@@ -59,15 +96,31 @@ INSERT INTO `users` (`Id`, `Username`, `Email`, `Password`, `Nome`, `Cognome`) V
 ALTER TABLE `users`
   ADD PRIMARY KEY (`Username`(250)),
   ADD UNIQUE KEY `Id` (`Id`),
-  ADD UNIQUE KEY `Email` (`Email`(100)) USING BTREE;
+  ADD UNIQUE KEY `Email` (`Email`(200)) USING BTREE;
 
 --
 -- AUTO_INCREMENT per le tabelle scaricate
 --
 
 --
+-- AUTO_INCREMENT per la tabella `cities`
+--
+ALTER TABLE `cities`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8621;
+
+--
+-- AUTO_INCREMENT per la tabella `trips`
+--
+ALTER TABLE `trips`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT per la tabella `users`
 --
 ALTER TABLE `users`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

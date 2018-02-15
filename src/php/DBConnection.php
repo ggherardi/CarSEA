@@ -1,4 +1,7 @@
 <?php
+include 'Logger.php';
+use Logger;
+
 class DBConnection {
     private $Connection;
 
@@ -20,6 +23,7 @@ class DBConnection {
     }
 
     private function EstablishConnection(){
+        Logger::Write("Establishing connection to DB", $GLOBALS["CorrelationID"]);
          $this->Connection = mysqli_connect($this->ServerName, $this->UserName, $this->Password, $this->DB);
         if(mysqli_connect_errno()){
             print_r("Error -> " . mysqli_connect_error());
@@ -27,6 +31,7 @@ class DBConnection {
     }
 
     function ExecuteQuery($query = "") {
+        Logger::Write("Executing query", $GLOBALS["CorrelationID"]);
         $msRes = $this->getConnection()->query($query);
         // echo "Rows number -> " . $msRes->num_rows;
         return $msRes;

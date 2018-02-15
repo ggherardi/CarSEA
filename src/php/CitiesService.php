@@ -5,6 +5,8 @@ include 'DBConnection.php';
 include 'models\Models.php';
 use Models;
 
+$GLOBALS["CorrelationID"] = uniqid("corrId_", true);
+
 class CitiesService {
     private $id_regione;
     private $id_provincia;
