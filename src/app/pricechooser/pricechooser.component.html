@@ -1,29 +1,31 @@
 <div class="row">
   <div class="col-sm-6">
-    <div class="row gray-tile">
-      <div class="col-9">
-        <span>Seleziona il prezzo per persona</span>
+    <form [formGroup]="formGroup">
+      <div class="row gray-tile">
+        <div class="col-9">
+          <span>Seleziona il prezzo per persona</span>
+        </div>
+        <div class="col-3 text-right">
+            <span>€ </span><input type="number" step="0.5" formControlName="pricePicker">
+        </div>
       </div>
-      <div class="col-3 text-right">
-          <span>€ </span><input type="number" step="0.5">
+      <div class="row gray-tile margin-top-20">
+        <div class="col-9">
+          <span>Seleziona il numero di posti disponibili</span>
+        </div>
+        <div class="col-3 text-right">
+          <input type="number" step="0.5" formControlName="seatsPicker">
+        </div>
       </div>
-    </div>
-    <div class="row gray-tile margin-top-20">
-      <div class="col-9">
-        <span>Seleziona il numero di posti disponibili</span>
+      <div class="row gray-tile margin-top-20">
+        <div class="col-sm-12">
+          <span>Inserisci una descrizione per il tuo viaggio</span>
+        </div>
+        <div class="col-sm-12">
+          <textarea formControlName="descriptionPicker"></textarea>
+        </div>
       </div>
-      <div class="col-3 text-right">
-        <input type="number" step="0.5">
-      </div>
-    </div>
-    <div class="row gray-tile margin-top-20">
-      <div class="col-sm-12">
-        <span>Inserisci una descrizione per il tuo viaggio</span>
-      </div>
-      <div class="col-sm-12">
-        <textarea></textarea>
-      </div>
-    </div>
+    </form>
   </div>
   <div class="col-sm-6">
   <agm-map        
@@ -45,3 +47,8 @@
     </agm-map>
   </div>
 </div>
+<form [formGroup]="formGroup" (ngSubmit)="saveTrip()">
+  <button type="submit" [disabled]="!formGroup.valid" class="btn btn-primary" style="margin-top:20px">
+    <span class="button-text-left">Prosegui </span><i class="fas fa-arrow-circle-right"></i>
+  </button>
+</form>

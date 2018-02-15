@@ -22,17 +22,16 @@ export class PricechooserComponent implements OnInit {
       this.app.shared.router.navigateByUrl('/newtrip/pathChooser');
     }
     this.allMarkers = this.app.shared.models.allMarkers;
+    this.buildForm();
     this.retrieveRoute();
     console.log(JSON.stringify(this.app.shared.models.newTrip));
   }
 
   private buildForm() {
     this.formGroup = this.formBuilder.group({
-      departureCityPicker: ['', [Validators.required]],
-      arrivalCityPicker: ['', [Validators.required]],
-      wayPoint_0: ['', ],
-      startDatePicker: ['', [Validators.required]],
-      startTimePicker: ['', [Validators.required]]
+      pricePicker: ['', [Validators.required]],
+      seatsPicker: ['', [Validators.required]],
+      descriptionPicker: ['', ]
     });
   }
 
@@ -45,5 +44,11 @@ export class PricechooserComponent implements OnInit {
       this.polyArray = this.app.shared.googleMapsService.getPolylinesArray(res.routes[0].overview_polyline);
       this.bounds = res.routes[0].bounds;
     }
+  }
+
+  saveTrip() {
+    console.log(this.formGroup.get('pricePicker').value);
+    console.log(this.formGroup.get('seatsPicker').value);
+    console.log(this.formGroup.get('descriptionPicker').value);
   }
 }

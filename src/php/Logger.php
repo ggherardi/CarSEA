@@ -23,7 +23,7 @@ class Logger {
         self::initialize();
         $timeStamp = self::GetTimeStamp();
         $logText = "[$timeStamp] - $correlationId - $text ";
-        file_put_contents(self::$LogFileName, "$logText\r\n", FILE_APPEND | LOCK_EX);
+        file_put_contents(self::$LogFileName, "$logText\r\n", FILE_APPEND);
     }
 }
 ?>
