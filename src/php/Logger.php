@@ -25,5 +25,12 @@ class Logger {
         $logText = "[$timeStamp] - $correlationId - $text ";
         file_put_contents(self::$LogFileName, "$logText\r\n", FILE_APPEND);
     }
+
+    function WriteNoCorrelation($text) {
+        self::initialize();
+        $timeStamp = self::GetTimeStamp();
+        $logText = "[$timeStamp] - $text ";
+        file_put_contents(self::$LogFileName, "$logText\r\n", FILE_APPEND);
+    }
 }
 ?>
