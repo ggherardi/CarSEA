@@ -1,6 +1,5 @@
 <?php
-include 'Logger.php';
-use Logger;
+
 // Classe che genera e legge il token per il JWT
 class TokenGenerator{
     private static $Initialized = false;
@@ -22,17 +21,39 @@ class TokenGenerator{
         self::$Initialized = true;
     }
 
-    public function EncryptToken($data) {
+    /* Cripta il token da restituire al client */
+    public static function EncryptToken(string $data) {
         self::initialize();
         $output = openssl_encrypt($data, self::$EncryptMethod, self::$Key, false, self::$Iv);
+        if($output != null) {
+            Logger::Write("Token generated succesfully.", $GLOBALS["CorrelationID"]);
+        } 
         return $output;
     }
 
-    public function DecryptToken($data) {
+    /* Decripta il token da restituire al client */
+    public static function DecryptToken(string $data) {
         self::initialize();
         $output = openssl_decrypt($data, self::$EncryptMethod, self::$Key, false, self::$Iv);
         return $output;
     }
+
+    /* Verifica la validità del token fornito nell'header Authorization della request */
+    public static function ValidateToken() {
+        $authHeader = isset($_SERVER["HTTP_AUTHORIZATION"]) ? $_SERVER["HTTP_AUTHORIZATION"] : null;
+        if($authHeader === null) {
+            http_response_code(401);
+            Logger::Write("Request is missing the Authorization header.", $GLOBALS["CorrelationID"]);
+            exit("Header di autorizzazione non trovato.");
+        }
+        $token = substr($authHeader, 7, strlen($authHeader));
+        $decryptedToken = self::DecryptToken($token);
+        if(strlen($token) == 0 || $decryptedToken == null) {
+            http_response_code(401);
+            Logger::Write("Authentication token missing or invalid.", $GLOBALS["CorrelationID"]);
+            exit("Header di autorizzazione non valido, effettuare l'accesso al sito.");
+        }
+        Logger::Write("Token validated.", $GLOBALS["CorrelationID"]);
+    }
 }
-Logger::Write("Pippo");
 ?>

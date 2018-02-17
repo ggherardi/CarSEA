@@ -3,6 +3,8 @@
 include 'PHPConst.php';
 include 'DBConnection.php';
 include 'models\Models.php';
+include 'TokenGenerator.php';
+use TokenGenerator;
 use Models;
 
 $GLOBALS["CorrelationID"] = uniqid("corrId_", true);
@@ -37,12 +39,13 @@ class CitiesService {
     }
 
     function InsertCities() {
+        TokenGenerator::ValidateToken();
         $query = "INSERT INTO cities (id, id_regione, id_provincia, nome, latitudine, longitudine)
             VALUES (DEFAULT, '$this->id_regione', '$this->id_provincia', '$this->nome', '$this->latitudine', '$this->longitudine')";
         return self::ExecuteQuery($query);
     }
 
-    function SearchCities() {
+    function SearchCities() {        
         $searchKey = isset($_POST["searchKey"]) ? $_POST["searchKey"] : "";
         // $searchKey = mysqli_escape_string($searchKey);
 
@@ -62,23 +65,11 @@ class CitiesService {
         return $allResults;
     }
 
-    function DeleteCities() {
-        json_decode($_POST["searchKey"], $searchKey);
-        return "pippo";
-        $query = "DELETE FROM cities
-            WHERE nome = '$this->nome'";
-
-        return self::ExecuteQuery($query);
-    }
-
     // Switcha l'operazione richiesta lato client
     function Init() {
         switch(isset($_POST["action"]) ? $_POST["action"] : ""){
             case "insertCities":
                 $res = self::InsertCities();
-            break;
-            case "deleteCities":
-                $res = self::DeleteCities();
             break;
             case "search":
                 $res = self::SearchCities();
@@ -91,6 +82,7 @@ class CitiesService {
     }
 }
 
+Logger::Write("Reached Cities API", $GLOBALS["CorrelationID"]);
 // Inizializza la classe per restituire i risultati e richiama il metodo d'ingresso
 $Cities = new CitiesService();
 $Cities->Init();

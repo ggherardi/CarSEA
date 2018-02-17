@@ -44,7 +44,7 @@ export class PathchooserComponent implements OnInit {
       action: 'search',
       searchKey: keyword
     };
-    return this.app.shared.httpService.post(serviceUrl, data);
+    return this.app.shared.post(serviceUrl, data);
   }
 
   constructor(private app: AppComponent, private formBuilder: FormBuilder) { }
@@ -88,7 +88,7 @@ export class PathchooserComponent implements OnInit {
         console.log('(getCurrentLocation) Errore: ' + err);
       }, {timeout: 5000});
     } else {
-      this.app.shared.httpService.get('http://ipinfo.io/json').subscribe((data: any) => {
+      this.app.shared.httpService.getExternal('https://ipinfo.io/json').subscribe((data: any) => {
         if (data !== undefined) {
           const location = data.loc.split(',');
           this.currentPosition.lat = Number(location[0]);

@@ -2,10 +2,13 @@
 include 'PHPConst.php';
 include 'DBConnection.php';
 include 'models\Models.php';
+include 'TokenGenerator.php';
+use TokenGenerator;
 use Logger;
 use Models;
 
 $GLOBALS["CorrelationID"] = uniqid("corrId_", true);
+$correlationId = $GLOBALS["CorrelationID"];
 
 class AuthenticationService {
     private $name;
@@ -39,26 +42,35 @@ class AuthenticationService {
     // Effettua il login al sito con l'username inserito, ritorna:
     // -1 se non è stato trovato l'account associato
     // L'oggetto $user (UserModel) se l'account è stato trovato
-    private function Login(){
-        Logger::Write("Processing user $this->username login request.", $GLOBALS["CorrelationID"]);
-        $query = "SELECT *
-            FROM users 
-            WHERE Username = '$this->username'";
+    private function Login(){             
+        try {
+            Logger::Write("Processing user $this->username login request.", $GLOBALS["CorrelationID"]);
+            $query = "SELECT *
+                FROM users 
+                WHERE Username = '$this->username'";
 
-        $res = self::ExecuteQuery($query);
+            $res = self::ExecuteQuery($query);
 
-        while($row = $res->fetch_assoc()){
-            $fetchedPassword = $row["Password"];
-            $validRow = $row;
-        }
-
-        if(password_verify($this->password, $fetchedPassword)){
-            $user = new Models\UserModel($validRow["Username"], $validRow["Id"], $validRow["Nome"]);
-            echo json_encode($user);
-            Logger::Write("User $this->username succesfully logged in.", $GLOBALS["CorrelationID"]);
-        }
-        else{
-            echo json_encode(-1);
+            while($row = $res->fetch_assoc()){
+                $fetchedPassword = $row["Password"];
+                $validRow = $row;
+            }
+            if(password_verify($this->password, $fetchedPassword)){
+                $user = new Models\UserModel($validRow["Username"], $validRow["Id"], $validRow["Nome"]);
+                Logger::Write("User $this->username validated, generating Token.", $GLOBALS["CorrelationID"]);
+                $token = TokenGenerator::EncryptToken(json_encode($user));
+                $user->Token = $token;
+                echo json_encode($user);
+                Logger::Write("User $this->username succesfully logged in.", $GLOBALS["CorrelationID"]);
+            }
+            else{
+                echo json_encode(-1);
+            }
+        } 
+        catch (Exception $ex) {
+            $exMessage = $ex->getMessage();
+            Logger::Write("Error during the login of user $this->username -> $exMessage", $GLOBALS["CorrelationID"]);
+            echo json_encode($exMessage);
         }
     }
 

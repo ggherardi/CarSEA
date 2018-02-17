@@ -1,4 +1,4 @@
-<?php 
+<?php
 class Logger {
     private static $Initialized = false;
     public static $LogFileName;
@@ -19,14 +19,14 @@ class Logger {
     }
     
     // Scrive sul file di log la stringa, e utilizza il correlation ID per dare continuità all'operazione
-    function Write($text, $correlationId) {
+    function Write(string $text, string $correlationId) {
         self::initialize();
         $timeStamp = self::GetTimeStamp();
         $logText = "[$timeStamp] - $correlationId - $text ";
         file_put_contents(self::$LogFileName, "$logText\r\n", FILE_APPEND);
     }
 
-    function WriteNoCorrelation($text) {
+    function WriteNoCorrelation(string $text) {
         self::initialize();
         $timeStamp = self::GetTimeStamp();
         $logText = "[$timeStamp] - $text ";

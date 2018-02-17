@@ -2,8 +2,10 @@
 include 'PHPConst.php';
 include 'DBConnection.php';
 include 'models\Models.php';
+include 'TokenGenerator.php';
 use Logger;
 use Models;
+use TokenGenerator;
 
 $GLOBALS["CorrelationID"] = uniqid("corrId_", true);
 
@@ -39,28 +41,28 @@ class TripService {
     // Effettua il login al sito con l'username inserito, ritorna:
     // -1 se non è stato trovato l'account associato
     // L'oggetto $user (UserModel) se l'account è stato trovato
-    private function SaveTrip(){
-
+    private function SaveNewTrip(){
+        TokenGenerator::ValidateToken();
         Logger::Write("Processing SaveTrip request for user", $GLOBALS["CorrelationID"]);
-        $query = "INSERT INTO trips
-            FROM users 
-            WHERE Username = '$this->username'";
+        // $query = "INSERT INTO trips
+        //     FROM users 
+        //     WHERE Username = '$this->username'";
 
-        $res = self::ExecuteQuery($query);
+        // $res = self::ExecuteQuery($query);
 
-        while($row = $res->fetch_assoc()){
-            $fetchedPassword = $row["Password"];
-            $validRow = $row;
-        }
+        // while($row = $res->fetch_assoc()){
+        //     $fetchedPassword = $row["Password"];
+        //     $validRow = $row;
+        // }
 
-        if(password_verify($this->password, $fetchedPassword)){
-            $user = new Models\UserModel($validRow["Username"], $validRow["Id"], $validRow["Nome"]);
-            echo json_encode($user);
-            Logger::Write("User $this->username succesfully logged in.", $GLOBALS["CorrelationID"]);
-        }
-        else{
-            echo json_encode(-1);
-        }
+        // if(password_verify($this->password, $fetchedPassword)){
+        //     $user = new Models\UserModel($validRow["Username"], $validRow["Id"], $validRow["Nome"]);
+        //     echo json_encode($user);
+        //     Logger::Write("User $this->username succesfully logged in.", $GLOBALS["CorrelationID"]);
+        // }
+        // else{
+        //     echo json_encode(-1);
+        // }
     }
 
     // Switcha l'operazione richiesta lato client

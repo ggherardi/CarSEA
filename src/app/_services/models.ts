@@ -28,6 +28,7 @@ export class UserModel {
     UserID: string;
     Name: string;
     username: string;
+    Token: string;
 
     constructor() { }
 }

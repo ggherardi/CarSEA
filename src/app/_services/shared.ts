@@ -4,10 +4,11 @@ import { HeaderComponent } from '../header/header.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpService } from './httpService';
-import { Models } from './models';
+import { Models, UserModel } from './models';
 import { Cookies } from './cookies';
 import { GooglemapsService } from './googlemaps.service';
 import { ConstantsService } from './constants.service';
+import { Observable } from 'rxjs/Observable';
 
 @Component({ })
 
@@ -21,13 +22,27 @@ export class SharedComponent implements OnInit {
 
   ngOnInit() { }
 
+  /** Metodo proxy per chiamare la POST nell'HttpService rivolta alle API interne che
+   * necessitano dell'autenticazione tramite il JWT. */
+  post = (serviceUrl, data: object): Observable<any[]> => {
+    this.getToken();
+    return this.httpService.post(serviceUrl, data);
+  }
+
+  /** Metodo proxy per chiamare la GET nell'HttpService rivolta alle API interne che
+  * necessitano dell'autenticazione tramite il JWT. */
+  get = (url: string): Observable<any[]> => {
+    this.getToken();
+    return this.httpService.get(url);
+  }
+
   login(username: string, password: string, callback: any = function(a){}): void {
     const data = {
       action: 'login',
       username: username,
       password: password
     };
-    this.httpService.post('php/AuthenticationService.php', data)
+    this.post('php/AuthenticationService.php', data)
         .subscribe(this.setAuthCookiesCallBack.bind(this), err => console.log(err), callback);
     }
 
@@ -45,6 +60,7 @@ export class SharedComponent implements OnInit {
     this.cookies.disposeCookie(this.cookies.USER_COOKIE_NAME);
     this.userLogged = false;
     this.models.disposeUserModel();
+    this.httpService.JWToken = '';
     this.router.navigateByUrl('/');
   }
 
@@ -53,6 +69,15 @@ export class SharedComponent implements OnInit {
     if (storedUserDetails !== undefined) {
       this.models.userModel = storedUserDetails;
       this.userLogged = true;
+    }
+  }
+
+  getToken() {
+    const userCookie: UserModel = this.cookies.getObjectFromCookie(this.cookies.USER_COOKIE_NAME);
+    if (userCookie !== undefined) {
+      this.httpService.JWToken = userCookie.Token;
+    } else {
+      this.httpService.JWToken = '';
     }
   }
 }

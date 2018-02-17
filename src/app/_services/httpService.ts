@@ -8,16 +8,18 @@ import { Observable } from 'rxjs/Observable';
 export class HttpService {
 
     publicHttp: Http;
+    JWToken: string;
 
-    constructor(private http: Http) {
-    }
+    constructor(private http: Http) { }
 
     /** Ritorna un observable contenente i dati recuperati dal servizio tramite POST.
+     * Il metodo utilizza l'header per le CORS e il JWT per poter utilizzare le API interne.
      * Effettuare il subscribe sul valore di return per utilizzare i dati */
     post = (serviceUrl, data: object): Observable<any[]> => {
         const options = new RequestOptions({
             headers: new Headers({
-                'Content-Type': 'application/x-www-form-urlencoded'
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Authorization': 'bearer ' + this.JWToken
             })
         });
         const querystringData = this.toQueryString(data);
@@ -25,20 +27,26 @@ export class HttpService {
       }
 
     /** Ritorna un observable contenente i dati recuperati dal servizio tramite GET.
+     * Il metodo utilizza l'header per le CORS e il JWT per poter utilizzare le API interne.
      * Effettuare il subscribe sul valore di return per utilizzare i dati */
     get = (url: string): Observable<any[]> => {
         const options = new RequestOptions({
             headers: new Headers({
-                'Access-Control-Allow-Origin': 'http://www.progettostw.com'
+                'Access-Control-Allow-Origin': 'http://www.progettostw.com',
+                'Authorization': this.JWToken
             })
         });
-        return this.http.get(url, options).map((res: Response) => {
-            return res.json();
-        });
+        return this.http.get(url, options).map((res: Response) => res.json());
     }
 
-    /** Effettua una XmlHttpRequest con metodo POST tramite jQuery per ottenere i dati dal servizio PHP specificato nell'url.
-     * le due callback vengono utilizzate per eseguire azioni sul componente che ha chiamato il servizio (se specificate) */
+    /** Ritorna un observable contenente i dati recuperati dal servizio tramite GET.
+     * Il metodo non contiene headers per effettuare richieste verso l'esterno.
+     * Effettuare il subscribe sul valore di return per utilizzare i dati */
+    getExternal = (url: string): Observable<any[]> => {
+        return this.http.get(url).map((res: Response) => res.json());
+    }
+
+    /** [DEPRECATO]: Ora le chiamate vengono fatte unicamente con i metodi di Angular */
     postAjax(url: string, data: any, callback: any = function(){}, componentCallBack: any = function(){}) {
         return jQuery.ajax({
             async: false,
