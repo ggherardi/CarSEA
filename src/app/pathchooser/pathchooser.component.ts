@@ -217,7 +217,7 @@ export class PathchooserComponent implements OnInit {
     const fullDate = formValues['startDatePicker'] + ' ' + formValues['startTimePicker'];
     this.app.shared.models.newTrip.departureDate = new Date(fullDate);
     this.app.shared.models.allMarkers = this.allMarkers.slice();
-    this.app.router.navigateByUrl('/newtrip/priceChooser');
+    this.app.router.navigateByUrl('/newtrip/pricechooser');
   }
 }
 

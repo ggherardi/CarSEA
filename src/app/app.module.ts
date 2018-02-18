@@ -26,6 +26,9 @@ import { AdminpanelComponent } from './adminpanel/adminpanel.component';
 import { GooglemapsService } from './_services/googlemaps.service';
 import { PricechooserComponent } from './pricechooser/pricechooser.component';
 import { ConstantsService } from './_services/constants.service';
+import { NgbModule, NgbDropdown, NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalStack } from '@ng-bootstrap/ng-bootstrap/modal/modal-stack';
+import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
 
 const googleMapsAPIKey = 'AIzaSyCb2-mkLHWGdDBQAchtHhuQcucgbPNuO-M';
 
@@ -38,7 +41,7 @@ const sitemap = [{
   component: SignupComponent
 },
 {
-  path: 'myProfile',
+  path: 'myprofile',
   component: MyprofileComponent,
 },
 {
@@ -46,16 +49,16 @@ const sitemap = [{
   component: AdminpanelComponent,
 },
 {
-  path: 'newtrip/pathChooser',
+  path: 'newtrip/pathchooser',
   component: PathchooserComponent,
 },
 {
-  path: 'newtrip/priceChooser',
+  path: 'newtrip/pricechooser',
   component: PricechooserComponent,
 },
 {
   path: '**',
-  component: HeaderComponent
+  component: PagenotfoundComponent
 }];
 
 // enableProdMode();
@@ -69,7 +72,8 @@ const sitemap = [{
     MyprofileComponent,
     PathchooserComponent,
     AdminpanelComponent,
-    PricechooserComponent
+    PricechooserComponent,
+    PagenotfoundComponent
   ],
   imports: [
     BrowserModule,
@@ -78,6 +82,7 @@ const sitemap = [{
     ReactiveFormsModule,
     BrowserAnimationsModule,
     NguiAutoCompleteModule,
+    NgbModule,
     RouterModule.forRoot(sitemap, { enableTracing: false }),
     AgmCoreModule.forRoot({ apiKey:  googleMapsAPIKey})
   ],
@@ -88,7 +93,9 @@ const sitemap = [{
     Models,
     PolylineManager,
     GooglemapsService,
-    ConstantsService
+    ConstantsService,
+    NgbModalStack,
+    NgbDropdownConfig,
   ],
   bootstrap: [
     AppComponent

@@ -26,7 +26,11 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 
-## Necessary packages for development (per ambienti di sviluppo vergini): 
+## Packages for development (per ambienti di sviluppo puliti): 
+
+Bootstrap:
+    - https://ng-bootstrap.github.io/#/getting-started
+    - $ npm install --save @ng-bootstrap/ng-bootstrap
 
 Autocomplete: 
     - https://github.com/ng2-ui/auto-complete

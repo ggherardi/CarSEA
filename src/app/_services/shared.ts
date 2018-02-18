@@ -9,6 +9,7 @@ import { Cookies } from './cookies';
 import { GooglemapsService } from './googlemaps.service';
 import { ConstantsService } from './constants.service';
 import { Observable } from 'rxjs/Observable';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({ })
 
@@ -18,7 +19,7 @@ export class SharedComponent implements OnInit {
 
   constructor(public router: Router, public httpService: HttpService, public models: Models,
               public cookies: Cookies, public googleMapsService: GooglemapsService,
-              public constantsService: ConstantsService) { }
+              public constantsService: ConstantsService, public modalService: NgbModal) { }
 
   ngOnInit() { }
 
@@ -52,7 +53,7 @@ export class SharedComponent implements OnInit {
     } else {
       this.cookies.setEncodedCookie(this.cookies.USER_COOKIE_NAME, data, 0.5);
       this.loadSession();
-      this.router.navigateByUrl('myProfile');
+      // this.router.navigateByUrl('myprofile');
     }
   }
 

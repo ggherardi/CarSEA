@@ -52,3 +52,19 @@
     <span class="button-text-left">Prosegui </span><i class="fas fa-arrow-circle-right"></i>
   </button>
 </form>
+
+<ng-template #modalContent let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Login necessario</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Per poter pubblicare il passaggio, è necessario effettuare il login o iscriversi.</p>
+    <p>Per effettuare l'iscrizione <span>clicca qui</span></p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Chiudi</button>
+  </div>
+</ng-template>

@@ -18,16 +18,6 @@ class TripService {
     private $dbContext;
 
     function __construct() {
-        self::RetrievePostVariables();
-    }
-
-    // Recupera le variabili POST passate dalla chiamata lato client
-    private function RetrievePostVariables() {
-        $this->name = isset($_POST["name"]) ? $_POST["name"] : "";
-        $this->surname = isset($_POST["surname"]) ? $_POST["surname"] : "";
-        $this->username = isset($_POST["username"]) ? $_POST["username"] : "";
-        $this->email = isset($_POST["email"]) ? $_POST["email"] : "";
-        $this->password = isset($_POST["password"]) ? $_POST["password"] : "";
     }
 
     // Metodo per eseguire le Query. Utilizza la classe ausiliare DBConnection
@@ -38,37 +28,38 @@ class TripService {
         return $this->dbContext->ExecuteQuery($query);
     }
 
-    // Effettua il login al sito con l'username inserito, ritorna:
-    // -1 se non è stato trovato l'account associato
-    // L'oggetto $user (UserModel) se l'account è stato trovato
     private function SaveNewTrip(){
         TokenGenerator::ValidateToken();
-        Logger::Write("Processing SaveTrip request for user", $GLOBALS["CorrelationID"]);
-        // $query = "INSERT INTO trips
-        //     FROM users 
-        //     WHERE Username = '$this->username'";
+        Logger::Write("Processing SaveNewTrip request for user", $GLOBALS["CorrelationID"]);
+        foreach($_POST as $key => $value){
+            Logger::Write("$key => $value", $GLOBALS["CorrelationID"]);
+        }
+        $newTrip = json_decode($_POST["trip"]);
+        $departureCityId = $newTrip->departureCity->id;
+        $arrivalCityId = $newTrip->arrivalCity->id;
+        $stopoverCity1Id = $newTrip->stopoverCity1->id;
+        $stopoverCity2Id = $newTrip->stopoverCity2->id;
+        $stopoverCity3Id = $newTrip->stopoverCity3->id;
+        $stopoverCity4Id = $newTrip->stopoverCity4->id;
+        $description = (strlen($newTrip->description) != 0) ? $newTrip->description : "NULL";
 
-        // $res = self::ExecuteQuery($query);
+        $query = "INSERT INTO `trips` 
+            VALUES (NULL, $newTrip->ownerId, $departureCityId, 
+                    $arrivalCityId, $stopoverCity1Id, 
+                    $stopoverCity2Id, $stopoverCity3Id, 
+                    $stopoverCity4Id, '$newTrip->departureDate', 
+                    $newTrip->price, $newTrip->seats, '$description')";
 
-        // while($row = $res->fetch_assoc()){
-        //     $fetchedPassword = $row["Password"];
-        //     $validRow = $row;
-        // }
+        // exit(json_encode($query));
 
-        // if(password_verify($this->password, $fetchedPassword)){
-        //     $user = new Models\UserModel($validRow["Username"], $validRow["Id"], $validRow["Nome"]);
-        //     echo json_encode($user);
-        //     Logger::Write("User $this->username succesfully logged in.", $GLOBALS["CorrelationID"]);
-        // }
-        // else{
-        //     echo json_encode(-1);
-        // }
+        $res = self::ExecuteQuery($query);
+        exit(json_encode($res));
     }
 
     // Switcha l'operazione richiesta lato client
     function Init(){
         switch($_POST["action"]){
-            case "saveTrip":
+            case "saveNewTrip":
                 self::SaveNewTrip();
             break;
             case "login":
@@ -80,9 +71,8 @@ class TripService {
         }
     }
 }
-Logger::Write("Reached TripService API", $GLOBALS["CorrelationID"]);    
+Logger::Write("Reached TripService API", $GLOBALS["CorrelationID"]);   
 // Inizializza la classe per restituire i risultati e richiama il metodo d'ingresso
-$Auth = new TripService();
-$Auth->Init();
-
+$Trip = new TripService();
+$Trip->Init();
 ?>

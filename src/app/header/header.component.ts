@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AppComponent } from '../app.component';
 import { DoCheck } from '@angular/core/src/metadata/lifecycle_hooks';
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
+import { NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-header',
@@ -20,7 +21,10 @@ export class HeaderComponent implements OnInit, DoCheck {
     this.populateView();
   }
 
-  constructor(private app: AppComponent, private formBuilder: FormBuilder) { }
+  constructor(private app: AppComponent, private formBuilder: FormBuilder,
+    ddlConfig: NgbDropdownConfig) {
+      ddlConfig.autoClose = 'outside';
+    }
 
   ngOnInit() {
     this.app.shared.loadSession();
