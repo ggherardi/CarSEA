@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AppComponent } from '../app.component';
 import { OnChanges, DoCheck } from '@angular/core/src/metadata/lifecycle_hooks';
+import { AppComponent } from '../../../app.component';
 
 @Component({
   selector: 'app-footer',

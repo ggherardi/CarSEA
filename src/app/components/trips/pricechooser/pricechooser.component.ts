@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { AppComponent } from '../app.component';
+import { AppComponent } from '../../../app.component';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { Map, UserModel } from '../_services/models';
+import { Map, UserModel } from '../../../_services/models';
 import { LatLngBounds, LatLng } from '@agm/core/services/google-maps-types';
 import { ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
@@ -51,10 +51,14 @@ export class PricechooserComponent implements OnInit {
   }
 
   saveTrip() {
+    const userObj: UserModel = this.app.shared.cookies.getObjectFromCookie(this.app.shared.cookies.USER_COOKIE_NAME);
+    if (userObj === undefined) {
+      this.openModal(this.modalContent);
+      return;
+    }
     this.app.shared.models.newTrip.price = this.formGroup.get('pricePicker').value;
     this.app.shared.models.newTrip.seats = this.formGroup.get('seatsPicker').value;
     this.app.shared.models.newTrip.description = this.formGroup.get('descriptionPicker').value;
-    const userObj: UserModel = this.app.shared.cookies.getObjectFromCookie(this.app.shared.cookies.USER_COOKIE_NAME);
     this.app.shared.models.newTrip.ownerId = userObj.UserID;
     const stringifiedTrip = JSON.stringify(this.app.shared.models.newTrip);
     const tripData = {

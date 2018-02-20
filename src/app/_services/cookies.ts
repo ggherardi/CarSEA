@@ -46,7 +46,7 @@ export class Cookies {
         const expirationString = date.toUTCString();
         let cookie = cookieName + '=' + cookieValue;
         cookie += '; expires=' + expirationString;
-        cookie += '; path=' + path;
+        cookie += path ? '; path=' + path : '';
         document.cookie = cookie;
     }
 

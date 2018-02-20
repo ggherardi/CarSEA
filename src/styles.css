@@ -4,6 +4,11 @@ body {
   margin: 0 auto;
 }
 
+button:focus {
+  outline: none!important;
+
+}
+
 input[type=number] {
   height: 25px;
 }
@@ -27,6 +32,10 @@ textarea {
   -webkit-font-smoothing: antialiased;
 }
 
+.dropdown-item {
+  cursor: pointer;
+}
+
 .text-right {
   text-align: right;
 }
@@ -43,9 +52,17 @@ textarea {
   margin-top: 20px;
 }
 
+.margin-right-20 {
+  margin-right: 20px;
+}
+
 .margin-bottom-20 {
   margin-bottom: 20px;
 }
+
+.show > * {
+  box-shadow: none!important;
+} 
 
 .page-title {
   margin-bottom: 30px;
@@ -55,7 +72,6 @@ textarea {
 
 .gray-tile {
   background-color: #f1f1f1;
-  border: solid 1px #d2d2d2;
   padding: 15px 15px;
 }
 

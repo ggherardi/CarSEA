@@ -1,9 +1,0 @@
-@charset "UTF-8";
-.float-left {
-    float: left;
-}
-
-[type=reset], [type=submit], 
-button, html [type=button] {
-    -webkit-appearance: none!important;
-}

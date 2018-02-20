@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AppComponent } from '../app.component';
+import { AppComponent } from '../../../app.component';
 import { DoCheck } from '@angular/core/src/metadata/lifecycle_hooks';
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';

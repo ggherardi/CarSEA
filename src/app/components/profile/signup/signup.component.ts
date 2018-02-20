@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AppComponent } from '../app.component';
+import { AppComponent } from '../../../app.component';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 // import { AbstractControl } from '@angular/forms/src/model';
 import { AbstractControl } from '@angular/forms';

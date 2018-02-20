@@ -1,6 +1,5 @@
 import { Component, OnInit, Injectable } from '@angular/core';
 import { AppComponent } from '../app.component';
-import { HeaderComponent } from '../header/header.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpService } from './httpService';

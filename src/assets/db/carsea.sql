@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Creato il: Feb 15, 2018 alle 01:52
+-- Creato il: Feb 20, 2018 alle 01:40
 -- Versione del server: 5.5.45
 -- Versione PHP: 7.0.21
 
@@ -21,6 +21,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `carsea`
 --
+CREATE DATABASE IF NOT EXISTS `carsea` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `carsea`;
 
 -- --------------------------------------------------------
 
@@ -7741,7 +7743,7 @@ CREATE TABLE `trips` (
 --
 
 CREATE TABLE `users` (
-  `Id` int(11) NOT NULL,
+  `Id` bigint(11) NOT NULL,
   `Username` varchar(500) NOT NULL,
   `Email` varchar(500) NOT NULL,
   `Password` varchar(500) NOT NULL,
@@ -7783,7 +7785,14 @@ ALTER TABLE `cities`
 -- Indici per le tabelle `trips`
 --
 ALTER TABLE `trips`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `departure_city` (`departure_city`),
+  ADD KEY `arrival_city` (`arrival_city`),
+  ADD KEY `stopover_city_1` (`stopover_city_1`),
+  ADD KEY `stopover_city_2` (`stopover_city_2`),
+  ADD KEY `stopover_city_3` (`stopover_city_3`),
+  ADD KEY `stopover_city_4` (`stopover_city_4`),
+  ADD KEY `owner_id` (`owner_id`);
 
 --
 -- Indici per le tabelle `users`
@@ -7807,13 +7816,29 @@ ALTER TABLE `cities`
 -- AUTO_INCREMENT per la tabella `trips`
 --
 ALTER TABLE `trips`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT per la tabella `users`
 --
 ALTER TABLE `users`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `Id` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+
+--
+-- Limiti per le tabelle scaricate
+--
+
+--
+-- Limiti per la tabella `trips`
+--
+ALTER TABLE `trips`
+  ADD CONSTRAINT `trips_ibfk_7` FOREIGN KEY (`owner_id`) REFERENCES `users` (`Id`),
+  ADD CONSTRAINT `trips_ibfk_1` FOREIGN KEY (`departure_city`) REFERENCES `cities` (`id`),
+  ADD CONSTRAINT `trips_ibfk_2` FOREIGN KEY (`arrival_city`) REFERENCES `cities` (`id`),
+  ADD CONSTRAINT `trips_ibfk_3` FOREIGN KEY (`stopover_city_1`) REFERENCES `cities` (`id`),
+  ADD CONSTRAINT `trips_ibfk_4` FOREIGN KEY (`stopover_city_2`) REFERENCES `cities` (`id`),
+  ADD CONSTRAINT `trips_ibfk_5` FOREIGN KEY (`stopover_city_3`) REFERENCES `cities` (`id`),
+  ADD CONSTRAINT `trips_ibfk_6` FOREIGN KEY (`stopover_city_4`) REFERENCES `cities` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

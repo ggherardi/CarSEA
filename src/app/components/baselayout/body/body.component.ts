@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { AppComponent } from '../app.component';
+import { AppComponent } from '../../../app.component';
 
 @Component({
   selector: 'app-body',

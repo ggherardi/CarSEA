@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { AppComponent } from '../app.component';
+import { AppComponent } from '../../../app.component';
 import { Observable } from 'rxjs/Observable';
 import { Http, Response } from '@angular/http';
 import { DoCheck } from '@angular/core/src/metadata/lifecycle_hooks';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { MapsAPILoader } from '@agm/core/services/maps-api-loader/maps-api-loader';
-import { Models, City, Map, Trip } from '../_services/models';
+import { Models, City, Map, Trip } from '../../../_services/models';
 import { HttpHeaders } from '@angular/common/http';
 import { RequestOptions } from '@angular/http/';
 import { Headers } from '@angular/http';
