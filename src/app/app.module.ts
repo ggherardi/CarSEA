@@ -11,7 +11,7 @@ import * as $ from 'jquery';
 
 import { AppComponent } from './app.component';
 import { PersonaldetailsComponent } from './components/profile/personaldetails/personaldetails.component';
-import { SidebarComponent } from './components/profile/sidebar/sidebar.component';
+import { SidebarComponent } from './components/baselayout/sidebar/sidebar.component';
 import { BodyComponent } from './components/baselayout/body/body.component';
 import { SignupComponent } from './components/profile/signup/signup.component';
 import { MytripsComponent } from './components/profile/mytrips/mytrips.component';
@@ -32,6 +32,7 @@ import { GooglemapsService } from './_services/googlemaps.service';
 import { ConstantsService } from './_services/constants.service';
 import { NgbModule, NgbDropdown, NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
 import { NgbModalStack } from '@ng-bootstrap/ng-bootstrap/modal/modal-stack';
+import { SlideMenuModule } from 'cuppa-ng2-slidemenu/cuppa-ng2-slidemenu';
 
 
 const googleMapsAPIKey = 'AIzaSyCb2-mkLHWGdDBQAchtHhuQcucgbPNuO-M';
@@ -87,6 +88,7 @@ const sitemap = [{
     BrowserAnimationsModule,
     NguiAutoCompleteModule,
     NgbModule,
+    SlideMenuModule,
     RouterModule.forRoot(sitemap, { enableTracing: false }),
     AgmCoreModule.forRoot({ apiKey:  googleMapsAPIKey})
   ],
