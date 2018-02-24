@@ -4,8 +4,8 @@ import { AppComponent } from '../../../app.component';
 
 @Component({
   selector: 'app-footer',
-  templateUrl: './footer.component.html',
-  styleUrls: ['./footer.component.css']
+  templateUrl: './footer.component.html?ver=${new Date().getTime()}',
+  styleUrls: ['./footer.component.css?ver=${new Date().getTime()}']
 })
 export class FooterComponent implements OnInit, DoCheck {
   user: any;

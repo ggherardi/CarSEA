@@ -6,8 +6,8 @@ import { NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css']
+  templateUrl: './header.component.html?ver=${new Date().getTime()}',
+  styleUrls: ['./header.component.css?ver=${new Date().getTime()}']
 })
 
 export class HeaderComponent implements OnInit, DoCheck {
@@ -17,7 +17,7 @@ export class HeaderComponent implements OnInit, DoCheck {
   loginForm: FormGroup;
 
   ngDoCheck () {
-    this.app.shared.loadSession();
+    // this.app.shared.loadSession();
     this.populateView();
   }
 
@@ -27,7 +27,8 @@ export class HeaderComponent implements OnInit, DoCheck {
     }
 
   ngOnInit() {
-    this.app.shared.loadSession();
+    console.log('test');
+    // this.app.shared.loadSession();
     this.populateView();
     this.buildForm();
   }

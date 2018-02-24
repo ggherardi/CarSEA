@@ -39,3 +39,7 @@ Autocomplete:
 Angular Google Maps
     - https://angular-maps.com/
     - $ npm install -g @angular/cli
+
+CuppaSlider 
+    - https://cuppalabs.github.io/cuppa-ng2-slidemenu/
+    - npm install cuppa-ng2-slidemenu

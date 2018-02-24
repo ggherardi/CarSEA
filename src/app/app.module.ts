@@ -12,7 +12,7 @@ import * as $ from 'jquery';
 import { AppComponent } from './app.component';
 import { PersonaldetailsComponent } from './components/profile/personaldetails/personaldetails.component';
 import { SidebarComponent } from './components/baselayout/sidebar/sidebar.component';
-import { BodyComponent } from './components/baselayout/body/body.component';
+import { BodyComponent } from './components/baselayout/body/body.component';  
 import { SignupComponent } from './components/profile/signup/signup.component';
 import { MytripsComponent } from './components/profile/mytrips/mytrips.component';
 import { AdminpanelComponent } from './components/profile/adminpanel/adminpanel.component';

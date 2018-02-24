@@ -5,6 +5,7 @@ import { Models } from './_services/models';
 import { Cookies } from './_services/cookies';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SharedComponent } from './_services/shared';
+import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
 
 
 @Component({
@@ -16,11 +17,15 @@ import { SharedComponent } from './_services/shared';
   ]
 })
 
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'app';
   testResponse: any;
 
   constructor(public cookies: Cookies, public router: Router, public shared: SharedComponent) {
 
+  }
+
+  ngOnInit() {
+    this.shared.loadSession();
   }
 }
