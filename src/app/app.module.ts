@@ -36,7 +36,8 @@ import { SlideMenuModule } from 'cuppa-ng2-slidemenu/cuppa-ng2-slidemenu';
 import { FindpassageComponent } from './components/trips/findpassage/findpassage.component';
 import { OfferedtripsComponent } from './components/profile/offeredtrips/offeredtrips.component';
 import { CityautocompleteComponent } from './components/shared/cityautocomplete/cityautocomplete.component';
-
+import { NouisliderModule } from 'ng2-nouislider';
+import { NgbCalendarGregorian } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-calendar';
 
 const googleMapsAPIKey = 'AIzaSyCb2-mkLHWGdDBQAchtHhuQcucgbPNuO-M';
 
@@ -101,6 +102,8 @@ const sitemap = [{
     NguiAutoCompleteModule,
     NgbModule,
     SlideMenuModule,
+    NouisliderModule,
+    NgbModule.forRoot(),
     RouterModule.forRoot(sitemap, { enableTracing: false }),
     AgmCoreModule.forRoot({ apiKey:  googleMapsAPIKey})
   ],
@@ -114,6 +117,7 @@ const sitemap = [{
     ConstantsService,
     NgbModalStack,
     NgbDropdownConfig,
+    NgbCalendarGregorian,
   ],
   bootstrap: [
     AppComponent

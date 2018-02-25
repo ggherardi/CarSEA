@@ -26,7 +26,7 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 
-## Packages for development (per ambienti di sviluppo puliti): 
+## Packages for development (necessari per ambienti di sviluppo puliti): 
 
 Bootstrap:
     - https://ng-bootstrap.github.io/#/getting-started
@@ -40,6 +40,10 @@ Angular Google Maps
     - https://angular-maps.com/
     - $ npm install -g @angular/cli
 
-CuppaSlider 
+CuppaSlider (Side menu)
     - https://cuppalabs.github.io/cuppa-ng2-slidemenu/
     - npm install cuppa-ng2-slidemenu
+
+ng2-nouislder (Multi handle range slider)
+    - https://www.npmjs.com/package/ng2-nouislider
+    - npm i --save nouislider ng2-nouislider

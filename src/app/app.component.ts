@@ -7,7 +7,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { SharedComponent } from './_services/shared';
 import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
 
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html?ver=${new Date().getTime()}',

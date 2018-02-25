@@ -9,8 +9,6 @@
       "outDir": "dist",
       "assets": [
         "assets",
-        "styles",
-        "js",
         "php",
         "favicon.ico",
         "web.config"
@@ -23,7 +21,8 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "styles.css"
+        "styles.css",
+        "../node_modules/nouislider/distribute/nouislider.min.css"
       ],
       "scripts": [],
       "environmentSource": "environments/environment.ts",

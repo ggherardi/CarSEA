@@ -1,10 +1,44 @@
 <div class="row">
-  <div class="col-4">
-    Filters
-  </div>
-  <div class="col-8">
+  <div class="col-12 col-sm-3">
+    <p>Filtri</p>
     <div>
-      
+      <form [formGroup]="filtersFormGroup">
+        <app-cityautocomplete formControlName="departureCityPicker" placeholder="Parto da"></app-cityautocomplete>
+        <app-cityautocomplete formControlName="arrivalCityPicker" placeholder="Arrivo a"></app-cityautocomplete>
+        <p>Data:</p>
+        <div class="input-group">
+          <input formControlName="datePicker" class="form-control" placeholder="yyyy-mm-dd"
+            name="datePicker" ngbDatepicker #d="ngbDatepicker">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+              <i class="fas fa-calendar-alt"></i>
+            </button>
+          </div>
+        </div>
+        <p></p>
+        <p>Orario: {{ startTime }}h - {{ endTime }}h</p>
+        <nouislider formControlName="timePicker" (ngModelChange)="timeChange($event)" [config]="timePickerConfig" [min]="0" [max]="24"></nouislider>
+      </form>
+    </div>
+    <button (click)="getTrip()" class="btn btn-info">Cerca viaggi</button>
+  </div>
+  <div class="col-12 col-sm-9">
+    <div class="row trips-order">
+
+    </div>
+    <div class="row">
+        <div class="col-12 trips-repeater-container"></div>
+    </div>
+    <div *ngFor="let trip of allTrips" #repeaterTemplate class="row trips-repeater-row">
+      <div class="col-3 trips-left-col">
+        {{trip.departureCity}}
+      </div>
+      <div class="col-6">
+        {{trip.departureCity}}
+      </div>
+      <div class="col-3">
+        {{trip.departureCity}}
+      </div>
     </div>
   </div>
 </div>
