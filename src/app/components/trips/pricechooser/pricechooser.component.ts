@@ -13,6 +13,7 @@ import { ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 export class PricechooserComponent implements OnInit {
 
   @ViewChild('modalContent') modalContent;
+  @ViewChild('modalContentError') modalContentError;
   formGroup: FormGroup;
   allMarkers: Map[];
   polyArray: LatLng[];
@@ -66,7 +67,17 @@ export class PricechooserComponent implements OnInit {
       trip: stringifiedTrip
     };
     this.app.shared.post('php/TripService.php', tripData)
-        .subscribe(succ => console.log(succ), err => { console.log(err); this.openModal(this.modalContent); } );
+        .subscribe(succ => {
+            console.log(succ);
+            if (succ) {
+              this.app.shared.router.navigateByUrl('myprofile/offeredtrips');
+            } else {
+              this.openModal(this.modalContentError);
+            }
+          }, err => {
+            console.log(err);
+            this.openModal(this.modalContent);
+          });
   }
 
   openModal(content) {

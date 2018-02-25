@@ -10,17 +10,16 @@ import { DoCheck } from '@angular/core/src/metadata/lifecycle_hooks';
 export class SidebarComponent implements OnInit, DoCheck {
   private logged = this.app.shared.userLogged;
   private myProfileMenuItem: any = {
-    title: 'Il mio profilo', link: '#', isVisible: this.app.shared.userLogged,
+    title: 'Il mio profilo', link: '#',
     subItems: [
               {title: 'Il mio profilo', link: 'myprofile/details'},
               {title: 'Viaggi offerti', link: '#'},
               {title: 'Viaggi prenotati', link: '#'}
             ]
   };
-  private menuItemsArray: any[] = [
-    this.myProfileMenuItem,
+  private baseMenuItemsArray: any[] = [
     { title: 'Offri un passaggio', link: 'newtrip/pathchooser' },
-    { title: 'Cerca un passaggio', link: '#' }
+    { title: 'Cerca un passaggio', link: 'findpassage' }
   ];
 
   private config = {
@@ -30,28 +29,28 @@ export class SidebarComponent implements OnInit, DoCheck {
 
   constructor(private app: AppComponent) { }
 
+  private addMenuItems() {
+    if (this.app.shared.userLogged) {
+      this.baseMenuItemsArray.unshift(this.myProfileMenuItem);
+    } else {
+      this.baseMenuItemsArray.shift();
+    }
+    this.logged = this.app.shared.userLogged;
+  }
+
   ngOnInit() {
+    if (this.baseMenuItemsArray.findIndex(p => p.title === 'Il mio profilo') !== -1) {
+      this.addMenuItems();
+    }
   }
 
   ngDoCheck() {
     if (this.app.shared.userLogged !== this.logged) {
-      if (this.app.shared.userLogged) {
-        this.menuItemsArray.unshift(this.myProfileMenuItem);
-      } else {
-        this.menuItemsArray.shift();
-      }
-      this.logged = this.app.shared.userLogged;
+      this.addMenuItems();
     }
-  //   this.menuItemsArray = [
-  //     { title: 'Il mio profilo', link: '#', isVisible: this.app.shared.userLogged,
-  //       subItems: [
-  //                 {title: 'Il mio profilo', link: 'myprofile/details'},
-  //                 {title: 'Viaggi offerti', link: '#'},
-  //                 {title: 'Viaggi prenotati', link: '#'}
-  //               ]},
-  //     { title: 'Offri un passaggio', link: 'newtrip/pathchooser' }
-  // ];
   }
+
+
 
   public onMenuClose() {
     console.log('menu closed');

@@ -35,12 +35,12 @@ class TripService {
             Logger::Write("$key => $value", $GLOBALS["CorrelationID"]);
         }
         $newTrip = json_decode($_POST["trip"]);
-        $departureCityId = $newTrip->departureCity->id;
-        $arrivalCityId = $newTrip->arrivalCity->id;
-        $stopoverCity1Id = $newTrip->stopoverCity1->id;
-        $stopoverCity2Id = $newTrip->stopoverCity2->id;
-        $stopoverCity3Id = $newTrip->stopoverCity3->id;
-        $stopoverCity4Id = $newTrip->stopoverCity4->id;
+        $departureCityId = self::MapCityId($newTrip->departureCity);
+        $arrivalCityId = self::MapCityId($newTrip->arrivalCity);
+        $stopoverCity1Id = self::MapCityId($newTrip->stopoverCity1);
+        $stopoverCity2Id = self::MapCityId($newTrip->stopoverCity2);
+        $stopoverCity3Id = self::MapCityId($newTrip->stopoverCity3);
+        $stopoverCity4Id = self::MapCityId($newTrip->stopoverCity4);
         $description = (strlen($newTrip->description) != 0) ? $newTrip->description : "NULL";
 
         $query = "INSERT INTO `trips` 
@@ -48,12 +48,20 @@ class TripService {
                     $arrivalCityId, $stopoverCity1Id, 
                     $stopoverCity2Id, $stopoverCity3Id, 
                     $stopoverCity4Id, '$newTrip->departureDate', 
-                    $newTrip->price, $newTrip->seats, '$description')";
-
-        // exit(json_encode($query));
+                    $newTrip->price, $newTrip->seats, '$description',
+                    $newTrip->duration, $newTrip->distance)";
 
         $res = self::ExecuteQuery($query);
+        Logger::Write("SaveNewTrip status: $res", $GLOBALS["CorrelationID"]);
         exit(json_encode($res));
+    }
+
+    private function MapCityId($city){
+        return $city != $null ? $city->id : "NULL";
+    }
+
+    private function GetTrips(){
+
     }
 
     // Switcha l'operazione richiesta lato client
@@ -62,7 +70,7 @@ class TripService {
             case "saveNewTrip":
                 self::SaveNewTrip();
             break;
-            case "login":
+            case "getTrips":
                 self::Login();
                 break;
             default: 

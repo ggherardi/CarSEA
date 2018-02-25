@@ -12,7 +12,7 @@ import * as $ from 'jquery';
 import { AppComponent } from './app.component';
 import { PersonaldetailsComponent } from './components/profile/personaldetails/personaldetails.component';
 import { SidebarComponent } from './components/baselayout/sidebar/sidebar.component';
-import { BodyComponent } from './components/baselayout/body/body.component';  
+import { BodyComponent } from './components/baselayout/body/body.component';
 import { SignupComponent } from './components/profile/signup/signup.component';
 import { MytripsComponent } from './components/profile/mytrips/mytrips.component';
 import { AdminpanelComponent } from './components/profile/adminpanel/adminpanel.component';
@@ -33,6 +33,9 @@ import { ConstantsService } from './_services/constants.service';
 import { NgbModule, NgbDropdown, NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
 import { NgbModalStack } from '@ng-bootstrap/ng-bootstrap/modal/modal-stack';
 import { SlideMenuModule } from 'cuppa-ng2-slidemenu/cuppa-ng2-slidemenu';
+import { FindpassageComponent } from './components/trips/findpassage/findpassage.component';
+import { OfferedtripsComponent } from './components/profile/offeredtrips/offeredtrips.component';
+import { CityautocompleteComponent } from './components/shared/cityautocomplete/cityautocomplete.component';
 
 
 const googleMapsAPIKey = 'AIzaSyCb2-mkLHWGdDBQAchtHhuQcucgbPNuO-M';
@@ -50,8 +53,14 @@ const sitemap = [{
   path: 'myprofile/mytrips',
   component: MytripsComponent,
 }, {
+  path: 'myprofile/offeredtrips',
+  component: OfferedtripsComponent,
+}, {
   path: 'adminpanel',
   component: AdminpanelComponent,
+}, {
+  path: 'findpassage',
+  component: FindpassageComponent,
 }, {
   path: 'newtrip/pathchooser',
   component: PathchooserComponent,
@@ -78,7 +87,10 @@ const sitemap = [{
     MytripsComponent,
     PersonaldetailsComponent,
     SidebarComponent,
-    DetailsComponent
+    DetailsComponent,
+    FindpassageComponent,
+    OfferedtripsComponent,
+    CityautocompleteComponent
   ],
   imports: [
     BrowserModule,

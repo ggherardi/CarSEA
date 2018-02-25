@@ -28,8 +28,6 @@ export class PathchooserComponent implements OnInit {
   startingCity: SortableMap;
   arrivalCity: SortableMap;
   cityControls: CityControl[] = [new CityControl(0, 'wayPoint_0')];
-  origineCity: City;
-  destinazioneCity: City;
   polyArray: LatLng[];
   bounds: LatLngBounds;
   mapZoom: Number = 5;
@@ -60,7 +58,9 @@ export class PathchooserComponent implements OnInit {
       arrivalCityPicker: ['', [Validators.required]],
       wayPoint_0: ['', ],
       startDatePicker: ['', [Validators.required]],
-      startTimePicker: ['', [Validators.required]]
+      startTimePicker: ['', [Validators.required]],
+      duration: ['', [Validators.required]],
+      distance: ['', [Validators.required]]
     });
   }
 
@@ -156,7 +156,20 @@ export class PathchooserComponent implements OnInit {
     if (res.routes.length > 0) {
       this.polyArray = this.app.shared.googleMapsService.getPolylinesArray(res.routes[0].overview_polyline);
       this.bounds = res.routes[0].bounds;
+      this.setDistanceAndDuration(res.routes[0].legs);
     }
+  }
+
+  /** Setta negli hidden field duration e distance i valori in secondi e metri di durata e distanza */
+  setDistanceAndDuration(legs: any) {
+    let distance = 0;
+    let duration = 0;
+    legs.forEach(l => {
+      duration += l.duration.value;
+      distance += l.distance.value;
+    });
+    this.formGroup.get('duration').setValue(duration);
+    this.formGroup.get('distance').setValue(distance);
   }
 
   /** Rimuove il waypoint tramite il pulsante cestina */
@@ -207,15 +220,19 @@ export class PathchooserComponent implements OnInit {
     for (const controlName of Object.keys(this.formGroup.controls)) {
       formValues[controlName] = this.formGroup.get(controlName).value;
     }
-    this.app.shared.models.newTrip = new Trip();
-    this.app.shared.models.newTrip.departureCity =  formValues['departureCityPicker'];
-    this.app.shared.models.newTrip.arrivalCity = formValues['arrivalCityPicker'];
-    this.app.shared.models.newTrip.stopoverCity1 = formValues['wayPoint_0'];
-    this.app.shared.models.newTrip.stopoverCity2 = formValues['wayPoint_1'];
-    this.app.shared.models.newTrip.stopoverCity3 = formValues['wayPoint_2'];
-    this.app.shared.models.newTrip.stopoverCity4 = formValues['wayPoint_3'];
     const fullDate = formValues['startDatePicker'] + ' ' + formValues['startTimePicker'];
-    this.app.shared.models.newTrip.departureDate = new Date(fullDate);
+    this.app.shared.models.newTrip =
+      new Trip(
+        formValues['departureCityPicker'],
+        formValues['arrivalCityPicker'],
+        formValues['wayPoint_0'],
+        formValues['wayPoint_1'],
+        formValues['wayPoint_2'],
+        formValues['wayPoint_3'],
+        formValues['duration'],
+        formValues['distance'],
+        fullDate
+      );
     this.app.shared.models.allMarkers = this.allMarkers.slice();
     this.app.router.navigateByUrl('/newtrip/pricechooser');
   }

@@ -68,3 +68,19 @@
     <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Chiudi</button>
   </div>
 </ng-template>
+
+<ng-template #modalContentError let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Si è verificato un errore</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Si è verificato un errore durante l'inserimento del viaggio.</p>
+    <p>Ci scusiamo per il disagio, si prega di riprovare tra poco.</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Chiudi</button>
+  </div>
+</ng-template>
