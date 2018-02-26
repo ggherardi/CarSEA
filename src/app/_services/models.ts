@@ -81,3 +81,20 @@ export class Trip {
         this.departureDate = departureDate;
     }
 }
+
+export class SearchFilters {
+    departureCity: number;
+    arrivalCity: number;
+    price: number;
+    dateStart: string;
+    dateEnd: string;
+
+    constructor(departureCity: number, arrivalCity: number, price: number,
+                dateStart: string, dateEnd: string) {
+        this.departureCity = departureCity;
+        this.arrivalCity = arrivalCity;
+        this.price = price;
+        this.dateStart = dateStart;
+        this.dateEnd = dateEnd;
+    }
+}

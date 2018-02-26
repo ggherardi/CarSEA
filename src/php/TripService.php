@@ -30,7 +30,7 @@ class TripService {
 
     private function SaveNewTrip(){
         TokenGenerator::ValidateToken();
-        Logger::Write("Processing SaveNewTrip request for user", $GLOBALS["CorrelationID"]);
+        Logger::Write("Processing SaveNewTrip request", $GLOBALS["CorrelationID"]);
         foreach($_POST as $key => $value){
             Logger::Write("$key => $value", $GLOBALS["CorrelationID"]);
         }
@@ -61,7 +61,15 @@ class TripService {
     }
 
     private function GetTrips(){
-
+        Logger::Write("Processing GetTrips request", $GLOBALS["CorrelationID"]);
+        $date = getdate();
+        $today = sprintf("%s-%s-%s %s:%s", $date["year"], $date["mon"], $date["mday"], $date["hours"], $date["minutes"]);
+        $filters = json_decode($_POST["filters"]);
+        $query = "SELECT * FROM `trips` as t
+            WHERE t.departure_city = $filters->departureCity
+            AND t.arrival_city = $filters->arrivalCity
+            AND t.price <= $filters->price
+            AND t.departure_date >= $today";
     }
 
     // Switcha l'operazione richiesta lato client

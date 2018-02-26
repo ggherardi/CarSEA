@@ -44,7 +44,7 @@ class AuthenticationService {
     // L'oggetto $user (UserModel) se l'account è stato trovato
     private function Login(){             
         try {
-            Logger::Write("Processing user $this->username login request.", $GLOBALS["CorrelationID"]);
+            Logger::Write("Processing Login request.", $GLOBALS["CorrelationID"]);
             $query = "SELECT *
                 FROM users 
                 WHERE Username = '$this->username'";

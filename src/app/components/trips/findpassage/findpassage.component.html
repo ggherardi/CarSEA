@@ -16,10 +16,17 @@
           </div>
         </div>
         <p></p>
-        <p>Orario: {{ startTime }}h - {{ endTime }}h</p>
-        <nouislider formControlName="timePicker" (ngModelChange)="timeChange($event)" [config]="timePickerConfig" [min]="0" [max]="24"></nouislider>
+        <div>
+          <p>Orario: {{ startTime }}h - {{ endTime }}h</p>
+          <nouislider formControlName="timePicker" (ngModelChange)="timeChange($event)" [config]="timePickerConfig" [min]="0" [max]="24"></nouislider>
+        </div>
+        <div *ngIf="!allTrips.length == 0">
+          <p>Prezzo: max {{ maxPrice }}€</p>
+          <nouislider formControlName="pricePicker" (ngModelChange)="priceChange($event)" [config]="pricePickerConfig" [min]="0" [max]="24"></nouislider>
+        </div>
       </form>
     </div>
+    <p></p>
     <button (click)="getTrip()" class="btn btn-info">Cerca viaggi</button>
   </div>
   <div class="col-12 col-sm-9">

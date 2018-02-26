@@ -53,7 +53,7 @@ class TokenGenerator{
             Logger::Write("Authentication token missing or invalid.", $GLOBALS["CorrelationID"]);
             exit("Header di autorizzazione non valido, effettuare l'accesso al sito.");
         }
-        Logger::Write("Token validated.", $GLOBALS["CorrelationID"]);
+        Logger::Write("Token validated $decryptedToken.", $GLOBALS["CorrelationID"]);
     }
 }
 ?>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AppComponent } from '../../../app.component';
-import { Trip } from '../../../_services/models';
+import { Trip, SearchFilters } from '../../../_services/models';
 import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
@@ -10,13 +10,22 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 })
 export class FindpassageComponent implements OnInit {
   allTrips: Trip[] = [];
+  maxPrice = 0;
+  minPrice = 0;
   startTime = 0;
   endTime = 24;
   filtersFormGroup: FormGroup;
   timePickerConfig = {
     connect: true,
     step: 1,
-    start: [this.startTime, this.endTime]
+    start: [this.startTime, this.endTime],
+    padding: [1, 1]
+  };
+  pricePickerConfig = {
+    connect: true,
+    step: 1,
+    start: [0],
+    padding: [1, 1]
   };
 
   constructor(private app: AppComponent, private formBuilder: FormBuilder) { }
@@ -37,7 +46,8 @@ export class FindpassageComponent implements OnInit {
       departureCityPicker: [''],
       arrivalCityPicker: [''],
       timePicker: [[0, 24]],
-      datePicker: [today]
+      datePicker: [today],
+      pricePicker: [0]
     });
   }
 
@@ -46,12 +56,32 @@ export class FindpassageComponent implements OnInit {
     this.endTime = event[1];
   }
 
+  private priceChange(event) {
+    
+  }
+
   private getTrip() {
     console.log(this.filtersFormGroup.get('departureCityPicker').value);
     console.log(this.filtersFormGroup.get('arrivalCityPicker').value);
-    console.log(this.filtersFormGroup.get('timePicker').value);
-    console.log(this.filtersFormGroup.get('datePicker').value);
-    // this.app.shared.post('php/tripservice.php', null).subscribe();
+    const time = this.filtersFormGroup.get('timePicker').value;
+    const date = this.filtersFormGroup.get('datePicker').value;
+    const formattedStartDate = this.formatDate(date, time[0]);
+    const formattedEndDate =  this.formatDate(date, time[1]);
+    console.log(formattedStartDate);
+    console.log(formattedEndDate);
+    const filters = new SearchFilters(
+      this.filtersFormGroup.get('departureCityPicker').value,
+      this.filtersFormGroup.get('arrivalCityPicker').value,
+      this.filtersFormGroup.get('pricePicker').value,
+      formattedStartDate,
+      formattedEndDate
+    );
+    // this.app.shared.post('php/tripservice.php', filters).subscribe(succ => console.log(succ), err => console.log(err));
+  }
+
+  private formatDate(date: any, time: any): string {
+    time = (`${time}0`).slice(0, 2);
+    return `${date.day}-${date.month}-${date.year} ${time}:00`;
   }
 
   cityChanged(event) {
