@@ -48,7 +48,7 @@ export class FindpassageComponent implements OnInit {
     const date = new Date();
     const today = {
       year: date.getFullYear(),
-      month: date.getMonth(),
+      month: date.getMonth() + 1,
       day: date.getDate()
     };
     this.filtersFormGroup = this.formBuilder.group({
@@ -100,8 +100,9 @@ export class FindpassageComponent implements OnInit {
   }
 
   private formatDate(date: any, time: any): string {
+    const month = date.month < 10 ? `0${date.month}` : date.month;
     time = (`${time}0`).slice(0, 2);
-    return `${date.year}-${date.month}-${date.day} ${time}:00`;
+    return `${date.year}-${month}-${date.day} ${time}:00`;
   }
 
   cityChanged(event) {

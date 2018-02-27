@@ -63,7 +63,7 @@ class TripService {
     private function GetTrips(){
         Logger::Write("Processing GetTrips request", $GLOBALS["CorrelationID"]);
         $date = getdate();
-        $month = substr("0" . $date["mon"], 0, 2);
+        $month = (strlen($date["mon"]) == 2 ? $date["mon"] : ("0" . $date["mon"]));
         $today = sprintf("%s-%s-%s %s:%s", $date["year"], $month, $date["mday"], $date["hours"], $date["minutes"]);
         $filters = json_decode($_POST["filters"]);
 
@@ -77,12 +77,15 @@ class TripService {
             AND t.departure_date >= '$today'
             AND t.departure_date >= '$filters->dateStart' 
             AND t.departure_date <= '$filters->dateEnd'";
-        exit(json_encode($query));
+        // exit(json_encode($query));
         $res = self::ExecuteQuery($query);
-        while($row = $res->fetch_assoc()){
-            exit(json_encode($row));
+        $results = array();
+        if($res){
+            while($row = $res->fetch_assoc()){
+                $results[] = $row;      
+            }            
         }
-        exit(json_encode($res));
+        exit(json_encode($results));
     }
 
     // Switcha l'operazione richiesta lato client
