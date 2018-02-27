@@ -63,13 +63,26 @@ class TripService {
     private function GetTrips(){
         Logger::Write("Processing GetTrips request", $GLOBALS["CorrelationID"]);
         $date = getdate();
-        $today = sprintf("%s-%s-%s %s:%s", $date["year"], $date["mon"], $date["mday"], $date["hours"], $date["minutes"]);
+        $month = substr("0" . $date["mon"], 0, 2);
+        $today = sprintf("%s-%s-%s %s:%s", $date["year"], $month, $date["mday"], $date["hours"], $date["minutes"]);
         $filters = json_decode($_POST["filters"]);
-        $query = "SELECT * FROM `trips` as t
+
+        $query = "SELECT c.nome 
+            FROM trips as t
+            INNER JOIN cities as c
+            ON t.departure_city = c.id
             WHERE t.departure_city = $filters->departureCity
             AND t.arrival_city = $filters->arrivalCity
             AND t.price <= $filters->price
-            AND t.departure_date >= $today";
+            AND t.departure_date >= '$today'
+            AND t.departure_date >= '$filters->dateStart' 
+            AND t.departure_date <= '$filters->dateEnd'";
+        exit(json_encode($query));
+        $res = self::ExecuteQuery($query);
+        while($row = $res->fetch_assoc()){
+            exit(json_encode($row));
+        }
+        exit(json_encode($res));
     }
 
     // Switcha l'operazione richiesta lato client
@@ -79,10 +92,10 @@ class TripService {
                 self::SaveNewTrip();
             break;
             case "getTrips":
-                self::Login();
+                self::GetTrips();
                 break;
             default: 
-                echo json_encode($_POST);
+                exit(json_encode($_POST));
                 break;
         }
     }

@@ -21,8 +21,8 @@
           <nouislider formControlName="timePicker" (ngModelChange)="timeChange($event)" [config]="timePickerConfig" [min]="0" [max]="24"></nouislider>
         </div>
         <div *ngIf="!allTrips.length == 0">
-          <p>Prezzo: max {{ maxPrice }}€</p>
-          <nouislider formControlName="pricePicker" (ngModelChange)="priceChange($event)" [config]="pricePickerConfig" [min]="0" [max]="24"></nouislider>
+          <p>Prezzo: max {{ selectedPrice }}€</p>
+          <nouislider formControlName="pricePicker" (ngModelChange)="priceChange($event)" [config]="pricePickerConfig"></nouislider>
         </div>
       </form>
     </div>
