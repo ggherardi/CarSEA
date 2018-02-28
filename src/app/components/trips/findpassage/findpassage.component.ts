@@ -18,8 +18,7 @@ export class FindpassageComponent implements OnInit {
   timePickerConfig = {
     connect: true,
     step: 1,
-    start: [this.startTime, this.endTime],
-    padding: [1, 1]
+    start: [this.startTime, this.endTime]
   };
   pricePickerConfig = {
     range: {
@@ -28,8 +27,7 @@ export class FindpassageComponent implements OnInit {
     },
     connect: true,
     step: 1,
-    start: [0],
-    padding: [1, 1]
+    start: [0]
   };
 
   constructor(private app: AppComponent, private formBuilder: FormBuilder) { }
@@ -37,7 +35,7 @@ export class FindpassageComponent implements OnInit {
   ngOnInit() {
     this.initControls();
     this.buildForm();
-    this.allTrips.push(new Trip(1, 2, 3, 4, 5, 6, 7, 8, ''));
+    this.allTrips.push(new Trip(1, 2, [1, 2], 7, 8, ''));
   }
 
   private initControls() {

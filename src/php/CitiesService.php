@@ -40,7 +40,7 @@ class CitiesService {
 
     function InsertCities() {
         TokenGenerator::ValidateToken();
-        $query = "INSERT INTO cities (id, id_regione, id_provincia, nome, latitudine, longitudine)
+        $query = "INSERT INTO city (id, id_regione, id_provincia, nome, latitudine, longitudine)
             VALUES (DEFAULT, '$this->id_regione', '$this->id_provincia', '$this->nome', '$this->latitudine', '$this->longitudine')";
         return self::ExecuteQuery($query);
     }
@@ -50,7 +50,7 @@ class CitiesService {
         // $searchKey = mysqli_escape_string($searchKey);
 
         $query = "SELECT *
-            FROM cities
+            FROM city
             WHERE nome LIKE '$searchKey%'
             ORDER BY nome asc
             LIMIT 10";

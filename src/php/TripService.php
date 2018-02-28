@@ -20,7 +20,7 @@ class TripService {
     function __construct() {
     }
 
-    // Metodo per eseguire le Query. Utilizza la classe ausiliare DBConnection
+    /** Metodo per eseguire le Query. Utilizza la classe ausiliare DBConnection */
     private function ExecuteQuery($query = "") {        
         if($this->dbContext == null) {
             $this->dbContext = new DBConnection();
@@ -28,32 +28,44 @@ class TripService {
         return $this->dbContext->ExecuteQuery($query);
     }
 
+    /** Crea nella tabella trip un nuovo viaggio. Se sono presenti uno o più waypoints,
+     * vengono create anche le relative row all'interno della tabella trip_waypoint */
     private function SaveNewTrip(){
         TokenGenerator::ValidateToken();
         Logger::Write("Processing SaveNewTrip request", $GLOBALS["CorrelationID"]);
-        foreach($_POST as $key => $value){
-            Logger::Write("$key => $value", $GLOBALS["CorrelationID"]);
+        try {
+            foreach($_POST as $key => $value){
+                Logger::Write("$key => $value", $GLOBALS["CorrelationID"]);
+            }
+            $newTrip = json_decode($_POST["trip"]);
+            $departureCityId = self::MapCityId($newTrip->departureCity);
+            $arrivalCityId = self::MapCityId($newTrip->arrivalCity);
+            $description = (strlen($newTrip->description) != 0) ? $newTrip->description : "NULL";
+    
+            $query = "INSERT INTO `trip` 
+                VALUES (NULL, $newTrip->ownerId, $departureCityId, 
+                        $arrivalCityId, '$newTrip->departureDate', 
+                        $newTrip->price, $newTrip->seats, '$description',
+                        $newTrip->duration, $newTrip->distance)";
+    
+            $res = self::ExecuteQuery($query);
+            Logger::Write("SaveNewTrip status: $res", $GLOBALS["CorrelationID"]);
+            if($res && $newTrip->waypoints > 0) {
+                $tripId = $this->dbContext->GetLastID();
+                foreach($newTrip->waypoints as $waypoint){
+                    $values .= "(NULL, $tripId, $waypoint->id),";
+                }
+                $values = rtrim($values, ",");
+                $waypointsQuery = "INSERT INTO `trip_waypoint` VALUES" . $values;
+                $resWpQuery = self::ExecuteQuery($waypointsQuery);
+                Logger::Write("Waypoints save status: $resWpQuery", $GLOBALS["CorrelationID"]);
+                $res = $resWpQuery;
+            }
+            exit(json_encode($res));
         }
-        $newTrip = json_decode($_POST["trip"]);
-        $departureCityId = self::MapCityId($newTrip->departureCity);
-        $arrivalCityId = self::MapCityId($newTrip->arrivalCity);
-        $stopoverCity1Id = self::MapCityId($newTrip->stopoverCity1);
-        $stopoverCity2Id = self::MapCityId($newTrip->stopoverCity2);
-        $stopoverCity3Id = self::MapCityId($newTrip->stopoverCity3);
-        $stopoverCity4Id = self::MapCityId($newTrip->stopoverCity4);
-        $description = (strlen($newTrip->description) != 0) ? $newTrip->description : "NULL";
-
-        $query = "INSERT INTO `trips` 
-            VALUES (NULL, $newTrip->ownerId, $departureCityId, 
-                    $arrivalCityId, $stopoverCity1Id, 
-                    $stopoverCity2Id, $stopoverCity3Id, 
-                    $stopoverCity4Id, '$newTrip->departureDate', 
-                    $newTrip->price, $newTrip->seats, '$description',
-                    $newTrip->duration, $newTrip->distance)";
-
-        $res = self::ExecuteQuery($query);
-        Logger::Write("SaveNewTrip status: $res", $GLOBALS["CorrelationID"]);
-        exit(json_encode($res));
+        catch(Throwable $ex) {
+            Logger::Write("Error while saving a new trip: $ex", $GLOBALS["CorrelationID"]);
+        }
     }
 
     private function MapCityId($city){
@@ -67,16 +79,37 @@ class TripService {
         $today = sprintf("%s-%s-%s %s:%s", $date["year"], $month, $date["mday"], $date["hours"], $date["minutes"]);
         $filters = json_decode($_POST["filters"]);
 
-        $query = "SELECT c.nome 
-            FROM trips as t
-            INNER JOIN cities as c
-            ON t.departure_city = c.id
-            WHERE t.departure_city = $filters->departureCity
+        $query = "SELECT  *
+            -- u.Nome as ownerName, 
+            -- t.id as tripId, 
+            -- t.departure_date as departureDate,
+            -- t.price, t.seats, t.duration, t.distance,
+            -- dep.nome as departureCity, 
+            -- arr.nome as arrivalCity
+            FROM trip as t
+            -- INNER JOIN city as dep
+            -- ON t.departure_city = dep.id
+            -- INNER JOIN city as arr
+            -- ON t.arrival_city = arr.id
+            -- INNER JOIN user as u
+            -- ON t.owner_id = u.Id  
+            -- LEFT OUTER JOIN trip_waypoint as tw
+            -- ON t.id = tw.trip_id
+            WHERE 
+            t.departure_city = $filters->departureCity
             AND t.arrival_city = $filters->arrivalCity
-            AND t.price <= $filters->price
-            AND t.departure_date >= '$today'
-            AND t.departure_date >= '$filters->dateStart' 
-            AND t.departure_date <= '$filters->dateEnd'";
+            -- OR tw.city_id = $filters->arrivalCity)
+            -- OR
+            -- (tw.city_id = $filters->departureCity
+            -- AND t.arrival_city = $filters->arrivalCity)
+            -- t.price <= $filters->price
+            -- AND t.departure_date >= '$today'
+            -- AND t.departure_date >= '$filters->dateStart' 
+            -- AND t.departure_date <= '$filters->dateEnd'
+            ";
+
+
+
         // exit(json_encode($query));
         $res = self::ExecuteQuery($query);
         $results = array();

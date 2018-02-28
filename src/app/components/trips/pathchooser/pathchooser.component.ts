@@ -203,7 +203,7 @@ export class PathchooserComponent implements OnInit {
 
   /** Aggiunge dinamicamente i controlli di autocompletamento per gestire le tappe intermedie.
    * Se estiono più di 4 controlli (cioè al massimo numero di tappe sulla table Trips),
-   * il pulsante di aggiunta viene disattivato.   */
+   * il pulsante di aggiunta viene disattivato. */
   addCityControl(nomeTappa: string) {
     const newControlId = this.cityControls.length;
     const newControlName = 'wayPoint_' + newControlId;
@@ -214,21 +214,26 @@ export class PathchooserComponent implements OnInit {
     }
   }
 
+  /** Salva il primo step dell'offerta. Istanzia un nuovo oggetto di tipo Trip, che verrà
+   * poi compilato nei campi mancanti dal secondo step */
   saveFirstStep() {
     console.log('saving');
     const formValues: City[] = [];
+    const waypoints: number[] = [];
     for (const controlName of Object.keys(this.formGroup.controls)) {
       formValues[controlName] = this.formGroup.get(controlName).value;
+    }
+    for (const waypoint of Object.keys(formValues)) {
+      if (waypoint.indexOf('wayPoint') > -1) {
+        waypoints.push(formValues[waypoint]);
+      }
     }
     const fullDate = formValues['startDatePicker'] + ' ' + formValues['startTimePicker'];
     this.app.shared.models.newTrip =
       new Trip(
         formValues['departureCityPicker'],
         formValues['arrivalCityPicker'],
-        formValues['wayPoint_0'],
-        formValues['wayPoint_1'],
-        formValues['wayPoint_2'],
-        formValues['wayPoint_3'],
+        waypoints,
         formValues['duration'],
         formValues['distance'],
         fullDate

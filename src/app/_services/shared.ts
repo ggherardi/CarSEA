@@ -47,6 +47,10 @@ export class SharedComponent implements OnInit {
     }
 
   private setAuthCookiesCallBack(data) {
+    if (data >= 1000) {
+      alert(`Errore durante la connessione al database: ${data}`);
+      return;
+    }
     if (data === -1) {
       alert('Attenzione, le credenziali inserite non sono corrette!');
     } else {

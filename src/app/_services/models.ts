@@ -56,10 +56,7 @@ export class Trip {
     id: number;
     departureCity: number;
     arrivalCity: number;
-    stopoverCity1: number;
-    stopoverCity2: number;
-    stopoverCity3: number;
-    stopoverCity4: number;
+    waypoints: number[];
     departureDate: string;
     price: number;
     seats: number;
@@ -67,19 +64,19 @@ export class Trip {
     duration: number;
     distance: number;
 
-    constructor(departureCity: number, arrivalCity: number, stopoverCity1: number,
-                stopoverCity2: number, stopoverCity3: number, stopoverCity4: number,
+    constructor(departureCity: number, arrivalCity: number, waypoints: number[],
                 duration: number, distance: number, departureDate: string) {
         this.departureCity = departureCity;
         this.arrivalCity = arrivalCity;
-        this.stopoverCity1 = stopoverCity1;
-        this.stopoverCity2 = stopoverCity2;
-        this.stopoverCity3 = stopoverCity3;
-        this.stopoverCity4 = stopoverCity4;
+        this.waypoints = waypoints;
         this.duration = duration;
         this.distance = distance;
         this.departureDate = departureDate;
     }
+}
+
+export class TripModel extends Trip {
+
 }
 
 export class SearchFilters {

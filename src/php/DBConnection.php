@@ -22,17 +22,20 @@ class DBConnection {
         return $this->Connection;
     }
 
-    private function EstablishConnection(){
+    private function EstablishConnection() {
         try {
             Logger::Write("Establishing connection to DB", $GLOBALS["CorrelationID"]);
-            $this->Connection = mysqli_connect($this->ServerName, $this->UserName, $this->Password, $this->DB);
-            if(mysqli_connect_errno()){
-                print_r("Error -> " . mysqli_connect_error());
+            // $this->Connection = mysqli_connect($this->ServerName, $this->UserName, $this->Password, $this->DB);
+            $this->Connection = new mysqli($this->ServerName, $this->UserName, $this->Password, $this->DB);
+            if($this->Connection->connect_errno){
+                Logger::Write(("Error while establishing a connection with the DB -> " . ($this->Connection->connect_error)), $GLOBALS["CorrelationID"]);
+                exit(json_encode($this->Connection->connect_errno));
             }
         }
-        catch (Exception $ex) {
+        catch (Throwable $ex) {
             $exMessage = $ex->getMessage();
             Logger::Write("Error while establishing a connection with the DB -> $exMessage", $GLOBALS["CorrelationID"]);
+            exit(json_encode(5000));
         }
     }
 
@@ -43,10 +46,14 @@ class DBConnection {
             // echo "Rows number -> " . $msRes->num_rows;
             return $msRes;
         } 
-        catch (Exception $ex) {
+        catch (Throwable $ex) {
             $exMessage = $ex->getMessage();
             Logger::Write("Errore while executing query -> $exMessage", $GLOBALS["CorrelationID"]);
         }
+    }
+
+    function GetLastID() {
+        return $this->Connection->insert_id;
     }
 }
 ?>

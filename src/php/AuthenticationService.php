@@ -46,7 +46,7 @@ class AuthenticationService {
         try {
             Logger::Write("Processing Login request.", $GLOBALS["CorrelationID"]);
             $query = "SELECT *
-                FROM users 
+                FROM user 
                 WHERE Username = '$this->username'";
 
             $res = self::ExecuteQuery($query);
@@ -67,7 +67,7 @@ class AuthenticationService {
                 echo json_encode(-1);
             }
         } 
-        catch (Exception $ex) {
+        catch (Throwable $ex) {
             $exMessage = $ex->getMessage();
             Logger::Write("Error during the login of user $this->username -> $exMessage", $GLOBALS["CorrelationID"]);
             echo json_encode($exMessage);
@@ -102,7 +102,7 @@ class AuthenticationService {
 
         $query = 
             "SELECT *
-            FROM users
+            FROM user
             WHERE Username = '$this->username'
             OR Email = '$this->email'";
 
@@ -127,7 +127,7 @@ class AuthenticationService {
         $encodedPassword = password_hash($this->password, PASSWORD_DEFAULT);
 
         $query = 
-            "INSERT INTO users
+            "INSERT INTO user
             VALUES (DEFAULT, '$this->username', '$this->email', '$encodedPassword', '$this->name', '$this->surname')";
 
         return self::ExecuteQuery($query);
