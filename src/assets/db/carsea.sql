@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Creato il: Feb 20, 2018 alle 01:40
+-- Creato il: Feb 28, 2018 alle 08:51
 -- Versione del server: 5.5.45
 -- Versione PHP: 7.0.21
 
@@ -27,23 +27,23 @@ USE `carsea`;
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `cities`
+-- Struttura della tabella `city`
 --
 
-CREATE TABLE `cities` (
+CREATE TABLE `city` (
   `id` bigint(20) NOT NULL,
-  `id_regione` int(11) NOT NULL,
-  `id_provincia` int(11) NOT NULL,
+  `id_regione` int(11) UNSIGNED NOT NULL,
+  `id_provincia` int(11) UNSIGNED NOT NULL,
   `nome` varchar(500) DEFAULT NULL,
   `latitudine` double DEFAULT NULL,
   `longitudine` double DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dump dei dati per la tabella `cities`
+-- Dump dei dati per la tabella `city`
 --
 
-INSERT INTO `cities` (`id`, `id_regione`, `id_provincia`, `nome`, `latitudine`, `longitudine`) VALUES
+INSERT INTO `city` (`id`, `id_regione`, `id_provincia`, `nome`, `latitudine`, `longitudine`) VALUES
 (6, 5, 28, 'Abano Terme', 45.358717, 11.7883),
 (8, 3, 98, 'Abbadia Cerreto', 45.312481, 9.592938),
 (9, 3, 97, 'Abbadia Lariana', 45.894898, 9.336342),
@@ -1095,7 +1095,7 @@ INSERT INTO `cities` (`id`, `id_regione`, `id_provincia`, `nome`, `latitudine`, 
 (1797, 19, 84, 'Caltabellotta', 37.57575, 13.218615),
 (1798, 19, 87, 'Caltagirone', 37.238093, 14.512607),
 (1800, 19, 82, 'Caltavuturo', 37.819657, 13.891029);
-INSERT INTO `cities` (`id`, `id_regione`, `id_provincia`, `nome`, `latitudine`, `longitudine`) VALUES
+INSERT INTO `city` (`id`, `id_regione`, `id_provincia`, `nome`, `latitudine`, `longitudine`) VALUES
 (1801, 1, 3, 'Caltignaga', 45.518355, 8.589981),
 (1802, 5, 29, 'Calto', 44.992453, 11.357789),
 (1803, 5, 24, 'Caltrano', 45.770738, 11.455396),
@@ -2075,7 +2075,7 @@ INSERT INTO `cities` (`id`, `id_regione`, `id_provincia`, `nome`, `latitudine`, 
 (2786, 10, 54, 'Città di Castello', 43.463978, 12.240487),
 (2787, 5, 28, 'Cittadella', 45.648826, 11.783643),
 (2788, 12, 57, 'Cittaducale', 42.388505, 12.951607);
-INSERT INTO `cities` (`id`, `id_regione`, `id_provincia`, `nome`, `latitudine`, `longitudine`) VALUES
+INSERT INTO `city` (`id`, `id_regione`, `id_provincia`, `nome`, `latitudine`, `longitudine`) VALUES
 (2789, 18, 80, 'Cittanova', 38.353727, 16.077214),
 (2790, 12, 57, 'Cittareale', 42.617992, 13.158765),
 (2791, 3, 12, 'Cittiglio', 45.8967, 8.664525),
@@ -3097,7 +3097,7 @@ INSERT INTO `cities` (`id`, `id_regione`, `id_provincia`, `nome`, `latitudine`, 
 (3824, 5, 28, 'Granze', 45.156615, 11.714295),
 (3825, 17, 77, 'Grassano', 40.632733, 16.285722),
 (3826, 3, 16, 'Grassobbio', 45.659971, 9.719794);
-INSERT INTO `cities` (`id`, `id_regione`, `id_provincia`, `nome`, `latitudine`, `longitudine`) VALUES
+INSERT INTO `city` (`id`, `id_regione`, `id_provincia`, `nome`, `latitudine`, `longitudine`) VALUES
 (3827, 19, 82, 'Gratteri', 37.96545, 13.974521),
 (3828, 3, 13, 'Gravedona ed Uniti', 46.148542, 9.308568),
 (3829, 3, 18, 'Gravellona Lomellina', 45.329932, 8.765383),
@@ -4116,7 +4116,7 @@ INSERT INTO `cities` (`id`, `id_regione`, `id_provincia`, `nome`, `latitudine`, 
 (4860, 10, 55, 'Montecastrilli', 42.646012, 12.482361),
 (4861, 9, 50, 'Montecatini Val di Cecina', 43.394888, 10.748467),
 (4862, 9, 47, 'Montecatini-Terme', 43.880847, 10.775436);
-INSERT INTO `cities` (`id`, `id_regione`, `id_provincia`, `nome`, `latitudine`, `longitudine`) VALUES
+INSERT INTO `city` (`id`, `id_regione`, `id_provincia`, `nome`, `latitudine`, `longitudine`) VALUES
 (4863, 5, 23, 'Montecchia di Crosara', 45.479761, 11.252963),
 (4864, 10, 55, 'Montecchio', 42.662525, 12.287121),
 (4865, 8, 35, 'Montecchio Emilia', 44.698402, 10.448505),
@@ -5128,7 +5128,7 @@ INSERT INTO `cities` (`id`, `id_regione`, `id_provincia`, `nome`, `latitudine`, 
 (5886, 5, 28, 'Polverara', 45.310358, 11.957209),
 (5887, 11, 42, 'Polverigi', 43.524852, 13.393872),
 (5888, 9, 50, 'Pomarance', 43.299041, 10.872188);
-INSERT INTO `cities` (`id`, `id_regione`, `id_provincia`, `nome`, `latitudine`, `longitudine`) VALUES
+INSERT INTO `city` (`id`, `id_regione`, `id_provincia`, `nome`, `latitudine`, `longitudine`) VALUES
 (5889, 1, 1, 'Pomaretto', 44.955798, 7.182172),
 (5890, 17, 77, 'Pomarico', 40.514217, 16.548427),
 (5891, 1, 6, 'Pomaro Monferrato', 45.062578, 8.594686),
@@ -6095,7 +6095,7 @@ INSERT INTO `cities` (`id`, `id_regione`, `id_provincia`, `nome`, `latitudine`, 
 (6864, 15, 64, 'San Potito Ultra', 40.928537, 14.871414),
 (6865, 15, 61, 'San Prisco', 41.083364, 14.272386),
 (6866, 18, 80, 'San Procopio', 38.281925, 15.8899);
-INSERT INTO `cities` (`id`, `id_regione`, `id_provincia`, `nome`, `latitudine`, `longitudine`) VALUES
+INSERT INTO `city` (`id`, `id_regione`, `id_provincia`, `nome`, `latitudine`, `longitudine`) VALUES
 (6867, 8, 36, 'San Prospero', 44.788301, 11.018706),
 (6868, 6, 93, 'San Quirino', 46.036736, 12.680074),
 (6869, 1, 1, 'San Raffaele Cimena', 45.155708, 7.863484),
@@ -7097,7 +7097,7 @@ INSERT INTO `cities` (`id`, `id_regione`, `id_provincia`, `nome`, `latitudine`, 
 (7883, 20, 106, 'Ussaramanna', 39.690292, 8.909731),
 (7884, 20, 105, 'Ussassai', 39.809749, 9.394369),
 (7885, 1, 1, 'Usseaux', 45.048947, 7.029794);
-INSERT INTO `cities` (`id`, `id_regione`, `id_provincia`, `nome`, `latitudine`, `longitudine`) VALUES
+INSERT INTO `city` (`id`, `id_regione`, `id_provincia`, `nome`, `latitudine`, `longitudine`) VALUES
 (7886, 1, 1, 'Usseglio', 45.232286, 7.21717),
 (7887, 11, 43, 'Ussita', 42.943305, 13.138218),
 (7888, 19, 82, 'Ustica', 38.703118, 13.168268),
@@ -7718,31 +7718,71 @@ INSERT INTO `cities` (`id`, `id_regione`, `id_provincia`, `nome`, `latitudine`, 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `trips`
+-- Struttura della tabella `trip`
 --
 
-CREATE TABLE `trips` (
+CREATE TABLE `trip` (
   `id` bigint(20) NOT NULL,
   `owner_id` bigint(20) NOT NULL,
   `departure_city` bigint(20) NOT NULL,
   `arrival_city` bigint(20) NOT NULL,
-  `stopover_city_1` bigint(20) NOT NULL,
-  `stopover_city_2` bigint(20) NOT NULL,
-  `stopover_city_3` bigint(20) NOT NULL,
-  `stopover_city_4` bigint(20) NOT NULL,
   `departure_date` datetime NOT NULL,
   `price` double NOT NULL,
   `seats` int(11) NOT NULL,
-  `description` varchar(500) DEFAULT NULL
+  `description` varchar(500) DEFAULT NULL,
+  `duration` int(11) UNSIGNED NOT NULL,
+  `distance` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dump dei dati per la tabella `trip`
+--
+
+INSERT INTO `trip` (`id`, `owner_id`, `departure_city`, `arrival_city`, `departure_date`, `price`, `seats`, `description`, `duration`, `distance`) VALUES
+(7, 3, 8596, 8569, '2018-02-28 22:10:00', 30, 5, 'asdasdf', 21412, 582259),
+(8, 3, 8579, 8551, '2018-03-19 10:20:00', 40, 5, 'Test', 56444, 1414990),
+(9, 3, 8579, 8551, '2018-03-19 09:50:00', 100, 3, 'prova prova', 78723, 2117430),
+(10, 3, 8579, 8551, '2018-03-19 15:10:00', 50, 5, 'aerdsada', 61789, 1559350),
+(11, 3, 8579, 8551, '2018-03-19 08:50:00', 20, 4, 'sdfasdfadsf', 53310, 1389432),
+(12, 3, 8579, 8551, '2018-03-19 10:40:00', 35, 5, 'adfsadf', 62979, 1621573),
+(13, 3, 8579, 8551, '2018-03-19 09:10:00', 25, 1, 'sdfasdf', 53310, 1389432),
+(14, 3, 8579, 8551, '2018-03-19 11:00:00', 35, 2, 'sdfasdfdf', 53310, 1389432),
+(15, 3, 8596, 8551, '2018-03-19 05:59:00', 33, 2, 'sadasd', 19458, 486070),
+(24, 3, 8595, 6181, '2018-03-18 09:00:00', 10, 5, 'asasdfasdf', 10478, 208252),
+(32, 3, 8595, 6181, '2018-03-18 09:00:00', 10, 5, 'asasdfasdf', 10478, 208252);
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `users`
+-- Struttura della tabella `trip_waypoint`
 --
 
-CREATE TABLE `users` (
+CREATE TABLE `trip_waypoint` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `trip_id` bigint(10) NOT NULL,
+  `city_id` bigint(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dump dei dati per la tabella `trip_waypoint`
+--
+
+INSERT INTO `trip_waypoint` (`id`, `trip_id`, `city_id`) VALUES
+(1, 8, 8569),
+(2, 9, 8611),
+(3, 10, 8521),
+(4, 12, 8569),
+(5, 32, 7169),
+(6, 32, 5625),
+(7, 32, 3316);
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `user`
+--
+
+CREATE TABLE `user` (
   `Id` bigint(11) NOT NULL,
   `Username` varchar(500) NOT NULL,
   `Email` varchar(500) NOT NULL,
@@ -7752,10 +7792,10 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dump dei dati per la tabella `users`
+-- Dump dei dati per la tabella `user`
 --
 
-INSERT INTO `users` (`Id`, `Username`, `Email`, `Password`, `Nome`, `Cognome`) VALUES
+INSERT INTO `user` (`Id`, `Username`, `Email`, `Password`, `Nome`, `Cognome`) VALUES
 (7, 'aaaa', 'aaaa@yajoo.it', '$2y$10$GdI1xqfHaLBDzhzwh9ufT.8evaU3XEU./3d00qVtsoym9SJHM0YKG', 'aaaa', 'aaaa'),
 (10, 'asd', 'asd@yajhoo.it', '$2y$10$7GtZUsoq4gbj3o2He/NK3ushYFhdqhnuOmFq9LtvH/ceM9ibBJska', 'asd', 'asd'),
 (4, 'asdf', 'asdf@asf.it', '$2y$10$2CLUq5CJYwH8uxUwd0xwneyECIU/dnKDyWXbH9vsZK6o3.JTtZd5K', 'asdf', 'asdf'),
@@ -7775,29 +7815,33 @@ INSERT INTO `users` (`Id`, `Username`, `Email`, `Password`, `Nome`, `Cognome`) V
 --
 
 --
--- Indici per le tabelle `cities`
+-- Indici per le tabelle `city`
 --
-ALTER TABLE `cities`
+ALTER TABLE `city`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `latitudine` (`latitudine`,`longitudine`);
 
 --
--- Indici per le tabelle `trips`
+-- Indici per le tabelle `trip`
 --
-ALTER TABLE `trips`
+ALTER TABLE `trip`
   ADD PRIMARY KEY (`id`),
   ADD KEY `departure_city` (`departure_city`),
   ADD KEY `arrival_city` (`arrival_city`),
-  ADD KEY `stopover_city_1` (`stopover_city_1`),
-  ADD KEY `stopover_city_2` (`stopover_city_2`),
-  ADD KEY `stopover_city_3` (`stopover_city_3`),
-  ADD KEY `stopover_city_4` (`stopover_city_4`),
   ADD KEY `owner_id` (`owner_id`);
 
 --
--- Indici per le tabelle `users`
+-- Indici per le tabelle `trip_waypoint`
 --
-ALTER TABLE `users`
+ALTER TABLE `trip_waypoint`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `city_id` (`city_id`),
+  ADD KEY `trip_id` (`trip_id`);
+
+--
+-- Indici per le tabelle `user`
+--
+ALTER TABLE `user`
   ADD PRIMARY KEY (`Username`(250)),
   ADD UNIQUE KEY `Id` (`Id`),
   ADD UNIQUE KEY `Email` (`Email`(200)) USING BTREE;
@@ -7807,21 +7851,27 @@ ALTER TABLE `users`
 --
 
 --
--- AUTO_INCREMENT per la tabella `cities`
+-- AUTO_INCREMENT per la tabella `city`
 --
-ALTER TABLE `cities`
+ALTER TABLE `city`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8621;
 
 --
--- AUTO_INCREMENT per la tabella `trips`
+-- AUTO_INCREMENT per la tabella `trip`
 --
-ALTER TABLE `trips`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+ALTER TABLE `trip`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
--- AUTO_INCREMENT per la tabella `users`
+-- AUTO_INCREMENT per la tabella `trip_waypoint`
 --
-ALTER TABLE `users`
+ALTER TABLE `trip_waypoint`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT per la tabella `user`
+--
+ALTER TABLE `user`
   MODIFY `Id` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
@@ -7829,16 +7879,19 @@ ALTER TABLE `users`
 --
 
 --
--- Limiti per la tabella `trips`
+-- Limiti per la tabella `trip`
 --
-ALTER TABLE `trips`
-  ADD CONSTRAINT `trips_ibfk_7` FOREIGN KEY (`owner_id`) REFERENCES `users` (`Id`),
-  ADD CONSTRAINT `trips_ibfk_1` FOREIGN KEY (`departure_city`) REFERENCES `cities` (`id`),
-  ADD CONSTRAINT `trips_ibfk_2` FOREIGN KEY (`arrival_city`) REFERENCES `cities` (`id`),
-  ADD CONSTRAINT `trips_ibfk_3` FOREIGN KEY (`stopover_city_1`) REFERENCES `cities` (`id`),
-  ADD CONSTRAINT `trips_ibfk_4` FOREIGN KEY (`stopover_city_2`) REFERENCES `cities` (`id`),
-  ADD CONSTRAINT `trips_ibfk_5` FOREIGN KEY (`stopover_city_3`) REFERENCES `cities` (`id`),
-  ADD CONSTRAINT `trips_ibfk_6` FOREIGN KEY (`stopover_city_4`) REFERENCES `cities` (`id`);
+ALTER TABLE `trip`
+  ADD CONSTRAINT `trip_ibfk_1` FOREIGN KEY (`departure_city`) REFERENCES `city` (`id`),
+  ADD CONSTRAINT `trip_ibfk_2` FOREIGN KEY (`arrival_city`) REFERENCES `city` (`id`),
+  ADD CONSTRAINT `trip_ibfk_7` FOREIGN KEY (`owner_id`) REFERENCES `user` (`Id`);
+
+--
+-- Limiti per la tabella `trip_waypoint`
+--
+ALTER TABLE `trip_waypoint`
+  ADD CONSTRAINT `trip_waypoint_ibfk_2` FOREIGN KEY (`trip_id`) REFERENCES `trip` (`id`),
+  ADD CONSTRAINT `trip_waypoint_ibfk_1` FOREIGN KEY (`city_id`) REFERENCES `city` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
