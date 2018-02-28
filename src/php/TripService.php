@@ -72,53 +72,71 @@ class TripService {
         return $city != $null ? $city->id : "NULL";
     }
 
-    private function GetTrips(){
-        Logger::Write("Processing GetTrips request", $GLOBALS["CorrelationID"]);
-        $date = getdate();
-        $month = (strlen($date["mon"]) == 2 ? $date["mon"] : ("0" . $date["mon"]));
-        $today = sprintf("%s-%s-%s %s:%s", $date["year"], $month, $date["mday"], $date["hours"], $date["minutes"]);
-        $filters = json_decode($_POST["filters"]);
+    private function GetTrips() {
+        try {
+            Logger::Write("Processing GetTrips request", $GLOBALS["CorrelationID"]);
+            $date = getdate();
+            $month = (strlen($date["mon"]) == 2 ? $date["mon"] : ("0" . $date["mon"]));
+            $today = sprintf("%s-%s-%s %s:%s", $date["year"], $month, $date["mday"], $date["hours"], $date["minutes"]);
+            $filters = json_decode($_POST["filters"]);
 
-        $query = "SELECT  *
-            -- u.Nome as ownerName, 
-            -- t.id as tripId, 
-            -- t.departure_date as departureDate,
-            -- t.price, t.seats, t.duration, t.distance,
-            -- dep.nome as departureCity, 
-            -- arr.nome as arrivalCity
-            FROM trip as t
-            -- INNER JOIN city as dep
-            -- ON t.departure_city = dep.id
-            -- INNER JOIN city as arr
-            -- ON t.arrival_city = arr.id
-            -- INNER JOIN user as u
-            -- ON t.owner_id = u.Id  
-            -- LEFT OUTER JOIN trip_waypoint as tw
-            -- ON t.id = tw.trip_id
-            WHERE 
-            t.departure_city = $filters->departureCity
-            AND t.arrival_city = $filters->arrivalCity
-            -- OR tw.city_id = $filters->arrivalCity)
-            -- OR
-            -- (tw.city_id = $filters->departureCity
-            -- AND t.arrival_city = $filters->arrivalCity)
-            -- t.price <= $filters->price
-            -- AND t.departure_date >= '$today'
-            -- AND t.departure_date >= '$filters->dateStart' 
-            -- AND t.departure_date <= '$filters->dateEnd'
-            ";
-
-
-
-        // exit(json_encode($query));
-        $res = self::ExecuteQuery($query);
-        $results = array();
-        if($res){
-            while($row = $res->fetch_assoc()){
-                $results[] = $row;      
-            }            
+            $query = "SELECT 
+                u.Nome as ownerName, 
+                t.id as tripId, 
+                t.departure_date as departureDate,
+                t.price, t.seats, t.duration, t.distance,
+                depc.nome as departureCity, 
+                arrc.nome as arrivalCity,
+                wayc.id as waypointId,
+                wayc.nome as waypointCity
+                FROM trip as t
+                LEFT JOIN user as u
+                ON u.Id = t.owner_id
+                LEFT JOIN trip_waypoint as tw
+                ON t.id = tw.trip_id
+                LEFT JOIN city as depc
+                ON depc.id = t.departure_city
+                LEFT JOIN city as arrc
+                ON arrc.id = t.arrival_city
+                LEFT JOIN city as wayc
+                ON wayc.id = tw.city_id
+                WHERE 
+                t.departure_city = $filters->departureCity
+                AND t.arrival_city = $filters->arrivalCity
+                AND t.departure_date >= '$today'
+                AND t.departure_date >= '$filters->dateStart' 
+                AND t.departure_date <= '$filters->dateEnd'
+                AND t.price <= $filters->price";
+            
+            // exit(json_encode($query));
+            $res = self::ExecuteQuery($query);
+            $results = array();
+            if($res){
+                while($row = $res->fetch_assoc()){
+                    $results[] = $row;      
+                }            
+            }
+            $responseObject = self::BuildResponseObject($results);
+            exit(json_encode($responseObject));
         }
-        exit(json_encode($results));
+        catch(Throwable $ex) {
+            Logger::Write("Error while querying GetTrips -> $ex", $GLOBALS["CorrelationID"]);
+            exit(json_encode($ex));
+        }
+    }
+
+    function BuildResponseObject($results) {
+        $responseObject = array();
+        foreach($results as $row) {
+            if($responseObject[$row["tripId"]] == null) {
+                $responseObject[$row["tripId"]] = $row;
+            }
+            if($row["waypointId"] != null) {
+
+                $responseObject[$row["tripId"]]["waypoints"][] = $row;
+            }
+        }
+        return $responseObject;
     }
 
     // Switcha l'operazione richiesta lato client
