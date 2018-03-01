@@ -51,6 +51,7 @@ constructor(lat: number, lgn: number) {
     }
 }
 
+/** Modello per i dati da inviare al servizio SaveNewTrip */
 export class Trip {
     ownerId: number;
     id: number;
@@ -75,6 +76,7 @@ export class Trip {
     }
 }
 
+/** Modello per la response del servizio GetTrips */
 export class TripResponse extends Trip {
     departureCityName: string;
     arrivalCityName: string;

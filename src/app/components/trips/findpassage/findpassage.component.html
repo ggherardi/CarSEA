@@ -1,14 +1,13 @@
 <div class="row">
   <div class="col-12 col-sm-3">
-    <p>Filtri</p>
     <div>
       <form [formGroup]="filtersFormGroup">
         <app-cityautocomplete formControlName="departureCityPicker" placeholder="Parto da"></app-cityautocomplete>
         <app-cityautocomplete formControlName="arrivalCityPicker" placeholder="Arrivo a"></app-cityautocomplete>
-        <p>Data:</p>
+        <p>Data di partenza:</p>
         <div class="input-group">
           <input formControlName="datePicker" class="form-control" placeholder="yyyy-mm-dd"
-            name="datePicker" ngbDatepicker #d="ngbDatepicker">
+            name="datePicker" ngbDatepicker #d="ngbDatepicker" (ngModelChange)="dateChange($event)">
           <div class="input-group-append">
             <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
               <i class="fas fa-calendar-alt"></i>
@@ -16,18 +15,21 @@
           </div>
         </div>
         <p></p>
+        <button (click)="getTrips()" class="btn btn-info">Cerca nuovi viaggi</button>
+        <p></p>
+        <p>Filtra i risultati trovati:</p>
+        <p></p>
         <div>
           <p>Orario: {{ startTime }}h - {{ endTime }}h</p>
           <nouislider formControlName="timePicker" (ngModelChange)="timeChange($event)" [config]="timePickerConfig" [min]="0" [max]="24"></nouislider>
         </div>
         <div *ngIf="!allTrips.length == 0">
           <p>Prezzo: max {{ selectedPrice }}€</p>
-          <nouislider formControlName="pricePicker" (ngModelChange)="priceChange($event)" [config]="pricePickerConfig"></nouislider>
+          <nouislider formControlName="pricePicker" (ngModelChange)="priceChange($event)" [config]="pricePickerConfig" [min]="0" [max]="maxPrice"></nouislider>
         </div>
       </form>
     </div>
     <p></p>
-    <button (click)="getTrips()" class="btn btn-info">Cerca viaggi</button>
   </div>
   <div class="col-12 col-sm-9">
     <div class="row trips-order">
@@ -35,16 +37,9 @@
     <div class="row">
         <div class="col-12 trips-repeater-container"></div>
     </div>
-    <div *ngFor="let trip of allTrips" #repeaterTemplate class="row trips-repeater-row">
-      <div class="col-3 trips-left-col">
-        {{trip.departureCityName}}
-      </div>
-      <div class="col-6">
-        {{trip.arrivalCityName}}
-      </div>
-      <div class="col-3">
-        {{trip.price}}
-      </div>
+    <div *ngFor="let trip of allTrips" #repeaterTemplate class="trips-repeater-row">
+      <app-tripabstract [Trip]="trip"></app-tripabstract>
     </div>
   </div>
 </div>
+<!-- <input type="hidden" [(value)]="hiddenAllTrips"> -->

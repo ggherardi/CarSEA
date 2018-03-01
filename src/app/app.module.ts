@@ -38,6 +38,7 @@ import { OfferedtripsComponent } from './components/profile/offeredtrips/offered
 import { CityautocompleteComponent } from './components/shared/cityautocomplete/cityautocomplete.component';
 import { NouisliderModule } from 'ng2-nouislider';
 import { NgbCalendarGregorian } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-calendar';
+import { TripabstractComponent } from './components/shared/tripabstract/tripabstract.component';
 
 const googleMapsAPIKey = 'AIzaSyCb2-mkLHWGdDBQAchtHhuQcucgbPNuO-M';
 
@@ -91,7 +92,8 @@ const sitemap = [{
     DetailsComponent,
     FindpassageComponent,
     OfferedtripsComponent,
-    CityautocompleteComponent
+    CityautocompleteComponent,
+    TripabstractComponent
   ],
   imports: [
     BrowserModule,

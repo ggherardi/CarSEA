@@ -9,6 +9,8 @@ import { FormGroup, FormBuilder } from '@angular/forms';
   styleUrls: ['./findpassage.component.css?ver=${new Date().getTime()}']
 })
 export class FindpassageComponent implements OnInit {
+  hiddenAllTrips = '';
+  storedTrips: TripResponse[] = [];
   allTrips: TripResponse[] = [];
   maxPrice = 500;
   selectedPrice = 0;
@@ -21,10 +23,6 @@ export class FindpassageComponent implements OnInit {
     start: [this.startTime, this.endTime]
   };
   pricePickerConfig = {
-    range: {
-      max: 500,
-      min: 0
-    },
     connect: true,
     step: 1,
     start: [0]
@@ -33,6 +31,8 @@ export class FindpassageComponent implements OnInit {
   constructor(private app: AppComponent, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
+    this.allTrips = JSON.parse('[{"ownerId":"3","ownerName":"pollpo","tripId":"24","departureDate":"2018-03-18 09:00:00","price":"10","seats":"5","duration":"10478","distance":"208252","departureCityName":"Rimini","arrivalCityName":"Recanati","waypointId":null,"waypointCityName":null},{"ownerId":"3","ownerName":"pollpo","tripId":"32","departureDate":"2018-03-18 09:00:00","price":"10","seats":"5","duration":"10478","distance":"208252","departureCityName":"Rimini","arrivalCityName":"Recanati","waypointId":"7169","waypointCityName":"Senigallia","waypoints":[{"ownerId":"3","ownerName":"pollpo","tripId":"32","departureDate":"2018-03-18 09:00:00","price":"10","seats":"5","duration":"10478","distance":"208252","departureCityName":"Rimini","arrivalCityName":"Recanati","waypointId":"7169","waypointCityName":"Senigallia"},{"ownerId":"3","ownerName":"pollpo","tripId":"32","departureDate":"2018-03-18 09:00:00","price":"10","seats":"5","duration":"10478","distance":"208252","departureCityName":"Rimini","arrivalCityName":"Recanati","waypointId":"5625","waypointCityName":"Pesaro"},{"ownerId":"3","ownerName":"pollpo","tripId":"32","departureDate":"2018-03-18 09:00:00","price":"10","seats":"5","duration":"10478","distance":"208252","departureCityName":"Rimini","arrivalCityName":"Recanati","waypointId":"3316","waypointCityName":"Fano"}]},{"ownerId":"3","ownerName":"pollpo","tripId":"34","departureDate":"2018-03-18 15:00:00","price":"30","seats":"3","duration":"16350","distance":"349497","departureCityName":"Rimini","arrivalCityName":"Recanati","waypointId":"7872","waypointCityName":"Urbino","waypoints":[{"ownerId":"3","ownerName":"pollpo","tripId":"34","departureDate":"2018-03-18 15:00:00","price":"30","seats":"3","duration":"16350","distance":"349497","departureCityName":"Rimini","arrivalCityName":"Recanati","waypointId":"7872","waypointCityName":"Urbino"},{"ownerId":"3","ownerName":"pollpo","tripId":"34","departureDate":"2018-03-18 15:00:00","price":"30","seats":"3","duration":"16350","distance":"349497","departureCityName":"Rimini","arrivalCityName":"Recanati","waypointId":"3284","waypointCityName":"Fabriano"}]}]');
+    // this.encodeHiddenTrips();
     this.initControls();
     this.buildForm();
   }
@@ -57,9 +57,16 @@ export class FindpassageComponent implements OnInit {
     });
   }
 
+  private dateChange(event) {
+    this.getTrips();
+  }
+
   private timeChange(event) {
     this.startTime = event[0];
     this.endTime = event[1];
+    const tempAllTrips = this.allTrips.slice();
+
+    // const tempAllTrips = this.decodeHiddenTrips();
   }
 
   private priceChange(event) {
@@ -68,6 +75,10 @@ export class FindpassageComponent implements OnInit {
 
   private getTrips() {
     const stringifiedFilters = this.gatherStringifyFilters();
+    if (!stringifiedFilters) {
+      alert('Selezionare una città di partenza e una di arrivo');
+      return;
+    }
     const data = {
       action: 'getTrips',
       filters: stringifiedFilters
@@ -75,18 +86,13 @@ export class FindpassageComponent implements OnInit {
     this.app.shared.post('php/tripservice.php', data).subscribe(this.setAllTrips.bind(this), err => console.log(err));
   }
 
-  private setAllTrips(data: TripResponse[]) {
-    console.log(data);
-    if (data.length > 0) {
-      this.maxPrice = Math.max.apply(Math, data.map(t => t.price));
-    }
-    this.allTrips = data;
-  }
-
   private gatherStringifyFilters(): string {
     let departureCity = this.filtersFormGroup.get('departureCityPicker').value;
-    departureCity = departureCity.id;
     let arrivalCity = this.filtersFormGroup.get('arrivalCityPicker').value;
+    if (!departureCity && !arrivalCity) {
+      return '';
+    }
+    departureCity = departureCity.id;
     arrivalCity = arrivalCity.id;
     const time = this.filtersFormGroup.get('timePicker').value;
     const date = this.filtersFormGroup.get('datePicker').value;
@@ -100,9 +106,29 @@ export class FindpassageComponent implements OnInit {
       formattedStartDate,
       formattedEndDate
     );
-
     return JSON.stringify(filters);
   }
+
+  private setAllTrips(data: TripResponse[]) {
+    console.log(data);
+    if (data.length > 0) {
+      const resultsMaxPrice = Math.max.apply(Math, data.map(t => t.price));
+      this.maxPrice = resultsMaxPrice > 0 ? resultsMaxPrice : 500;
+      this.selectedPrice = this.maxPrice;
+    }
+    this.storedTrips = data;
+    this.allTrips = this.storedTrips.slice();
+    // this.encodeHiddenTrips();
+  }
+
+  // private encodeHiddenTrips() {
+  //   const stringifiedAllTrip = JSON.stringify(this.allTrips);
+  //   this.hiddenAllTrips = atob(stringifiedAllTrip);
+  // }
+
+  // private decodeHiddenTrips() {
+
+  // }
 
   private formatDate(date: any, time: any): string {
     const month = date.month < 10 ? `0${date.month}` : date.month;

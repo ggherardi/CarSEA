@@ -1,0 +1,11 @@
+.trips-left-col {
+    border-right: 1px solid #ddd;
+}
+
+.trip-abstract {
+    height: 100px;
+}
+
+.trip-abstract:first-child {
+    border-top: 1px solid #ddd;
+}

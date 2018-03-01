@@ -30,20 +30,24 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 Bootstrap:
     - https://ng-bootstrap.github.io/#/getting-started
-    - $ npm install --save @ng-bootstrap/ng-bootstrap
+    - $ npm i --save @ng-bootstrap/ng-bootstrap
 
 Autocomplete: 
     - https://github.com/ng2-ui/auto-complete
-    - $ npm install @ngui/auto-complete --save
+    - $ npm i @ngui/auto-complete --save
 
 Angular Google Maps
     - https://angular-maps.com/
-    - $ npm install -g @angular/cli
+    - $ npm i -g @angular/cli
 
 CuppaSlider (Side menu)
     - https://cuppalabs.github.io/cuppa-ng2-slidemenu/
-    - npm install cuppa-ng2-slidemenu
+    - npm i cuppa-ng2-slidemenu
 
 ng2-nouislder (Multi handle range slider)
     - https://www.npmjs.com/package/ng2-nouislider
     - npm i --save nouislider ng2-nouislider
+
+ng2-paginate (Pagination component)
+    - https://www.npmjs.com/package/ng2-paginate
+    - npm i ng2-pagination --save
