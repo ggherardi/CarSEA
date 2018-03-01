@@ -42,15 +42,15 @@ class TokenGenerator{
     public static function ValidateToken() {
         $authHeader = isset($_SERVER["HTTP_AUTHORIZATION"]) ? $_SERVER["HTTP_AUTHORIZATION"] : null;
         if($authHeader === null) {
-            http_response_code(401);
             Logger::Write("Request is missing the Authorization header.", $GLOBALS["CorrelationID"]);
+            http_response_code(401);
             exit("Header di autorizzazione non trovato.");
         }
         $token = substr($authHeader, 7, strlen($authHeader));
         $decryptedToken = self::DecryptToken($token);
         if(strlen($token) == 0 || $decryptedToken == null) {
-            http_response_code(401);
             Logger::Write("Authentication token missing or invalid.", $GLOBALS["CorrelationID"]);
+            http_response_code(401);
             exit("Header di autorizzazione non valido, effettuare l'accesso al sito.");
         }
         Logger::Write("Token validated $decryptedToken.", $GLOBALS["CorrelationID"]);

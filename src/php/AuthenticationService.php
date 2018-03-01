@@ -68,9 +68,9 @@ class AuthenticationService {
             }
         } 
         catch (Throwable $ex) {
-            $exMessage = $ex->getMessage();
-            Logger::Write("Error during the login of user $this->username -> $exMessage", $GLOBALS["CorrelationID"]);
-            echo json_encode($exMessage);
+            Logger::Write("Error during the login of user $this->username -> $ex", $GLOBALS["CorrelationID"]);
+            http_response_code(500);
+            exit(json_encode($exMessage));
         }
     }
 

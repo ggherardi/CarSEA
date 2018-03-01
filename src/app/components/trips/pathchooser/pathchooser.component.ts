@@ -202,8 +202,7 @@ export class PathchooserComponent implements OnInit {
   }
 
   /** Aggiunge dinamicamente i controlli di autocompletamento per gestire le tappe intermedie.
-   * Se estiono più di 4 controlli (cioè al massimo numero di tappe sulla table Trips),
-   * il pulsante di aggiunta viene disattivato. */
+   * Se esistono più di 4 controlli il pulsante di aggiunta viene disattivato. */
   addCityControl(nomeTappa: string) {
     const newControlId = this.cityControls.length;
     const newControlName = 'wayPoint_' + newControlId;

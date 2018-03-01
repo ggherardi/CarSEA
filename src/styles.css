@@ -68,6 +68,10 @@ textarea {
   box-shadow: none!important;
 } 
 
+.cuppa-menu-overlay {
+  z-index: 4;
+}
+
 .page-title {
   margin-bottom: 30px;
   font-size: 20px;

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AppComponent } from '../../../app.component';
-import { Trip, SearchFilters } from '../../../_services/models';
+import { Trip, SearchFilters, TripResponse } from '../../../_services/models';
 import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
@@ -9,7 +9,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
   styleUrls: ['./findpassage.component.css?ver=${new Date().getTime()}']
 })
 export class FindpassageComponent implements OnInit {
-  allTrips: Trip[] = [];
+  allTrips: TripResponse[] = [];
   maxPrice = 500;
   selectedPrice = 0;
   startTime = 0;
@@ -35,7 +35,6 @@ export class FindpassageComponent implements OnInit {
   ngOnInit() {
     this.initControls();
     this.buildForm();
-    this.allTrips.push(new Trip(1, 2, [1, 2], 7, 8, ''));
   }
 
   private initControls() {
@@ -67,13 +66,21 @@ export class FindpassageComponent implements OnInit {
     this.selectedPrice = event;
   }
 
-  private getTrip() {
+  private getTrips() {
     const stringifiedFilters = this.gatherStringifyFilters();
     const data = {
       action: 'getTrips',
       filters: stringifiedFilters
     };
-    this.app.shared.post('php/tripservice.php', data).subscribe(succ => console.log(succ), err => console.log(err));
+    this.app.shared.post('php/tripservice.php', data).subscribe(this.setAllTrips.bind(this), err => console.log(err));
+  }
+
+  private setAllTrips(data: TripResponse[]) {
+    console.log(data);
+    if (data.length > 0) {
+      this.maxPrice = Math.max.apply(Math, data.map(t => t.price));
+    }
+    this.allTrips = data;
   }
 
   private gatherStringifyFilters(): string {
@@ -99,7 +106,7 @@ export class FindpassageComponent implements OnInit {
 
   private formatDate(date: any, time: any): string {
     const month = date.month < 10 ? `0${date.month}` : date.month;
-    time = (`${time}0`).slice(0, 2);
+    time = time >= 10 ? time : (`0${time}`).slice(0, 2);
     return `${date.year}-${month}-${date.day} ${time}:00`;
   }
 

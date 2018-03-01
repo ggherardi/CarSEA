@@ -35,7 +35,8 @@ class DBConnection {
         catch (Throwable $ex) {
             $exMessage = $ex->getMessage();
             Logger::Write("Error while establishing a connection with the DB -> $exMessage", $GLOBALS["CorrelationID"]);
-            exit(json_encode(5000));
+            http_response_code(500);
+            exit(json_encode($exMessage));
         }
     }
 

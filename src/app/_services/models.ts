@@ -75,8 +75,27 @@ export class Trip {
     }
 }
 
-export class TripModel extends Trip {
+export class TripResponse extends Trip {
+    departureCityName: string;
+    arrivalCityName: string;
+    ownerName: string;
+    tripId: number;
+    allWaypoints: TripResponse[];
+    waypointCityName: string;
+    waypointId: number;
 
+    constructor(duration, distance, departureDate, departureCityName, arrivalCityName,
+                ownerName, tripId, allWaypoints, waypointCityName, waypointId) {
+        super(0, 0, [], duration, distance, departureDate);
+        this.departureCityName = departureCityName;
+        this.arrivalCityName = arrivalCityName;
+        this.ownerName = ownerName;
+        this.ownerId = this.ownerId;
+        this.tripId = tripId;
+        this.allWaypoints = allWaypoints;
+        this.waypointCityName = waypointCityName;
+        this.waypointId = waypointId;
+    }
 }
 
 export class SearchFilters {

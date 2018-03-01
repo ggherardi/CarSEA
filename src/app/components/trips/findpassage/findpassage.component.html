@@ -27,24 +27,23 @@
       </form>
     </div>
     <p></p>
-    <button (click)="getTrip()" class="btn btn-info">Cerca viaggi</button>
+    <button (click)="getTrips()" class="btn btn-info">Cerca viaggi</button>
   </div>
   <div class="col-12 col-sm-9">
     <div class="row trips-order">
-
     </div>
     <div class="row">
         <div class="col-12 trips-repeater-container"></div>
     </div>
     <div *ngFor="let trip of allTrips" #repeaterTemplate class="row trips-repeater-row">
       <div class="col-3 trips-left-col">
-        {{trip.departureCity}}
+        {{trip.departureCityName}}
       </div>
       <div class="col-6">
-        {{trip.departureCity}}
+        {{trip.arrivalCityName}}
       </div>
       <div class="col-3">
-        {{trip.departureCity}}
+        {{trip.price}}
       </div>
     </div>
   </div>

@@ -80,15 +80,16 @@ class TripService {
             $today = sprintf("%s-%s-%s %s:%s", $date["year"], $month, $date["mday"], $date["hours"], $date["minutes"]);
             $filters = json_decode($_POST["filters"]);
 
-            $query = "SELECT 
+            $query = "SELECT
+                u.Id as ownerId,
                 u.Nome as ownerName, 
                 t.id as tripId, 
                 t.departure_date as departureDate,
                 t.price, t.seats, t.duration, t.distance,
-                depc.nome as departureCity, 
-                arrc.nome as arrivalCity,
+                depc.nome as departureCityName, 
+                arrc.nome as arrivalCityName,
                 wayc.id as waypointId,
-                wayc.nome as waypointCity
+                wayc.nome as waypointCityName
                 FROM trip as t
                 LEFT JOIN user as u
                 ON u.Id = t.owner_id
@@ -107,7 +108,6 @@ class TripService {
                 AND t.departure_date >= '$filters->dateStart' 
                 AND t.departure_date <= '$filters->dateEnd'
                 AND t.price <= $filters->price";
-            
             // exit(json_encode($query));
             $res = self::ExecuteQuery($query);
             $results = array();
@@ -121,20 +121,24 @@ class TripService {
         }
         catch(Throwable $ex) {
             Logger::Write("Error while querying GetTrips -> $ex", $GLOBALS["CorrelationID"]);
-            exit(json_encode($ex));
+            http_response_code(500);
+            exit(json_encode($ex->getMessage()));
         }
     }
 
     function BuildResponseObject($results) {
+        $auxResponseObject = array();
         $responseObject = array();
         foreach($results as $row) {
-            if($responseObject[$row["tripId"]] == null) {
-                $responseObject[$row["tripId"]] = $row;
+            if($auxResponseObject[$row["tripId"]] == null) {
+                $auxResponseObject[$row["tripId"]] = $row;
             }
             if($row["waypointId"] != null) {
-
-                $responseObject[$row["tripId"]]["waypoints"][] = $row;
+                $auxResponseObject[$row["tripId"]]["waypoints"][] = $row;
             }
+        }
+        foreach($auxResponseObject as $item) {
+            $responseObject[] = $item;
         }
         return $responseObject;
     }
