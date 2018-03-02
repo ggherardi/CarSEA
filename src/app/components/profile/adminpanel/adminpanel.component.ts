@@ -33,7 +33,7 @@ export class AdminpanelComponent implements OnInit {
         longitudine: el.longitudine
       };
       console.log('[' + i++ +  ']' + action + ': ' + data.nome);
-      this.app.shared.httpService.postAjax('php/CitiesServices.php', data, function(r){ console.log(r); });
+      // this.app.shared.httpService.postAjax('php/CitiesServices.php', data, function(r){ console.log(r); });
     });
     console.log(res);
   }

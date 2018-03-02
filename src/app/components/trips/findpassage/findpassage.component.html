@@ -31,14 +31,19 @@
     </div>
     <p></p>
   </div>
-  <div class="col-12 col-sm-9">
-    <div class="row trips-order">
+  <div class="col-12 col-sm-8 offset-sm-1">
+    <div id="trips-column">
+      <div class="row trips-order">
+      </div>
+      <div class="row">
+          <div class="col-12 trips-repeater-container"></div>
+      </div>
+      <div *ngFor="let trip of allTrips | paginate: { itemsPerPage: 6, currentPage: p }" class="trips-repeater-row">
+        <app-tripabstract [Trip]="trip"></app-tripabstract>
+      </div>
     </div>
-    <div class="row">
-        <div class="col-12 trips-repeater-container"></div>
-    </div>
-    <div *ngFor="let trip of allTrips" #repeaterTemplate class="trips-repeater-row">
-      <app-tripabstract [Trip]="trip"></app-tripabstract>
+    <div class="pagination-row">
+      <pagination-controls (pageChange)="p = $event" autoHide="true"></pagination-controls>
     </div>
   </div>
 </div>

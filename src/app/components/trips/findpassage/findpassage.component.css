@@ -1,8 +1,10 @@
-/* .trips-repeater-container {
-    border-top: solid 1px #ddd;
-} */
+.pagination-row {
+    margin-top: 20px;
+    text-align: center;
+}
 
-/* .trips-repeater-row {
-    border-bottom: solid 1px #ddd;
-    height: 100px;
-} */
+@media screen and (min-width: 767px) {
+    #trips-column {
+        min-height: 617px;
+    }
+}

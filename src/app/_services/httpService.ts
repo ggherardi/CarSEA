@@ -47,21 +47,21 @@ export class HttpService {
     }
 
     /** [DEPRECATO]: Ora le chiamate vengono fatte unicamente con i metodi di Angular */
-    postAjax(url: string, data: any, callback: any = function(){}, componentCallBack: any = function(){}) {
-        return jQuery.ajax({
-            async: false,
-            url: url,
-            data: data,
-            method: 'post',
-            success: function(res) {
-                callback(res);
-                componentCallBack(res);
-            },
-            error: function(err) {
-                console.log('Errore:' + err);
-            }
-        });
-    }
+    // postAjax(url: string, data: any, callback: any = function(){}, componentCallBack: any = function(){}) {
+    //     return jQuery.ajax({
+    //         async: false,
+    //         url: url,
+    //         data: data,
+    //         method: 'post',
+    //         success: function(res) {
+    //             callback(res);
+    //             componentCallBack(res);
+    //         },
+    //         error: function(err) {
+    //             console.log('Errore:' + err);
+    //         }
+    //     });
+    // }
 
     /** Formatta l'oggetto in formato querstring (key=value&key2=value2). Non è ricorsivo. */
     toQueryString(obj: any): string {

@@ -9,3 +9,7 @@
 .trip-abstract:first-child {
     border-top: 1px solid #ddd;
 }
+
+.trip-date {
+    font-size: 18px; 
+}

@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { TripResponse } from '../../../_services/models';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-tripabstract',
@@ -13,6 +14,7 @@ export class TripabstractComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    console.log(this.Trip.waypoints);
   }
 
 }

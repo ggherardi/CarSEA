@@ -1,11 +1,16 @@
 <div class="row trip-abstract">
   <div class="col-3 trips-left-col">
-    {{Trip.userName}}
+    {{ Trip.ownerName }}
   </div>
   <div class="col-7">
-    {{Trip.departureCityName}} -> {{Trip.arrivalCityName}}
+    <div class="trip-date"> {{ Trip.departureDate | date:'EEEE d MMMM - HH:mm':'':'it' }} </div>
+    {{ Trip.departureCityName }} 
+    <span *ngFor="let w of Trip.allWaypoints"> 
+      <i class="fas fa-long-arrow-alt-right"></i> {{ w.waypointCityName }}
+    </span> 
+    <i class="fas fa-long-arrow-alt-right"></i> {{ Trip.arrivalCityName }}
   </div>
   <div class="col-2">
-    {{Trip.price}}
+    {{ Trip.price }}
   </div>
 </div>

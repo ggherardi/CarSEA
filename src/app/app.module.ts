@@ -6,9 +6,7 @@ import { RouterModule } from '@angular/router';
 import { HttpService } from './_services/httpService';
 import { Cookies } from './_services/cookies';
 import { AgmCoreModule } from '@agm/core';
-
-import * as $ from 'jquery';
-
+import { Ng2PaginationModule, PaginationService } from 'ng2-pagination';
 import { AppComponent } from './app.component';
 import { PersonaldetailsComponent } from './components/profile/personaldetails/personaldetails.component';
 import { SidebarComponent } from './components/baselayout/sidebar/sidebar.component';
@@ -39,7 +37,10 @@ import { CityautocompleteComponent } from './components/shared/cityautocomplete/
 import { NouisliderModule } from 'ng2-nouislider';
 import { NgbCalendarGregorian } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-calendar';
 import { TripabstractComponent } from './components/shared/tripabstract/tripabstract.component';
+import { registerLocaleData } from '@angular/common';
+import it from '@angular/common/locales/it';
 
+registerLocaleData(it);
 const googleMapsAPIKey = 'AIzaSyCb2-mkLHWGdDBQAchtHhuQcucgbPNuO-M';
 
 const sitemap = [{
@@ -105,6 +106,7 @@ const sitemap = [{
     NgbModule,
     SlideMenuModule,
     NouisliderModule,
+    Ng2PaginationModule,
     NgbModule.forRoot(),
     RouterModule.forRoot(sitemap, { enableTracing: false }),
     AgmCoreModule.forRoot({ apiKey:  googleMapsAPIKey})
@@ -120,6 +122,7 @@ const sitemap = [{
     NgbModalStack,
     NgbDropdownConfig,
     NgbCalendarGregorian,
+    PaginationService
   ],
   bootstrap: [
     AppComponent

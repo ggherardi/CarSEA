@@ -134,7 +134,7 @@ class TripService {
                 $auxResponseObject[$row["tripId"]] = $row;
             }
             if($row["waypointId"] != null) {
-                $auxResponseObject[$row["tripId"]]["waypoints"][] = $row;
+                $auxResponseObject[$row["tripId"]]["allWaypoints"][] = $row;
             }
         }
         foreach($auxResponseObject as $item) {
