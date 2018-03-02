@@ -104,6 +104,10 @@ textarea {
   text-align: right;
 }
 
+.ng2-pagination li {
+  cursor: pointer!important;
+}
+
 @media only screen and (max-width: 768px) {
   body {
     width: 100%;

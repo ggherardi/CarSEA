@@ -1,10 +1,10 @@
 .pagination-row {
-    margin-top: 20px;
+    margin-top: 10px;
     text-align: center;
 }
 
 @media screen and (min-width: 767px) {
     #trips-column {
-        min-height: 617px;
+        min-height: 516px;
     }
 }
