@@ -23,7 +23,7 @@
           <p>Orario: {{ startTime }}h - {{ endTime }}h</p>
           <nouislider formControlName="timePicker" (ngModelChange)="timeChange($event)" [config]="timePickerConfig" [min]="0" [max]="24"></nouislider>
         </div>
-        <div *ngIf="!allTrips.length == 0">
+        <div *ngIf="!storedTrips.length == 0">
           <p>Prezzo: max {{ selectedPrice }}€</p>
           <nouislider formControlName="pricePicker" (ngModelChange)="priceChange($event)" [config]="pricePickerConfig" [min]="0" [max]="maxPrice"></nouislider>
         </div>

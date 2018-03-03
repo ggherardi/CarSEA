@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AppComponent } from '../../../app.component';
-import { Trip, SearchFilters, TripResponse } from '../../../_services/models';
+import { Trip, SearchFilters, TripResponse, List } from '../../../_services/models';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { PaginatePipe, PaginationControlsComponent } from 'ng2-pagination';
 
@@ -10,9 +10,8 @@ import { PaginatePipe, PaginationControlsComponent } from 'ng2-pagination';
   styleUrls: ['./findpassage.component.css?ver=${new Date().getTime()}']
 })
 export class FindpassageComponent implements OnInit {
-  hiddenAllTrips = '';
-  storedTrips: TripResponse[] = [];
-  allTrips: TripResponse[] = [];
+  storedTrips: List<TripResponse> = List.create<TripResponse>();
+  allTrips: List<TripResponse> = List.create<TripResponse>();
   maxPrice = 500;
   selectedPrice = 0;
   startTime = 0;
@@ -32,25 +31,13 @@ export class FindpassageComponent implements OnInit {
   constructor(private app: AppComponent, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
-    this.allTrips = JSON.parse(`[{"ownerId":"3","ownerName":"pollpo","tripId":"24","departureDate":"2018-03-18 09:00:00","price":"10","seats":"5","duration":"10478","distance":"208252","departureCityName":"Rimini","arrivalCityName":"Recanati","waypointId":null,"waypointCityName":null},
-    {"ownerId":"3","ownerName":"pollpo","tripId":"24","departureDate":"2018-03-18 09:00:00","price":"10","seats":"5","duration":"10478","distance":"208252","departureCityName":"Rimini","arrivalCityName":"Recanati","waypointId":null,"waypointCityName":null},
-    {"ownerId":"3","ownerName":"pollpo","tripId":"24","departureDate":"2018-03-18 09:00:00","price":"10","seats":"5","duration":"10478","distance":"208252","departureCityName":"Rimini","arrivalCityName":"Recanati","waypointId":null,"waypointCityName":null},
-    {"ownerId":"3","ownerName":"pollpo","tripId":"24","departureDate":"2018-03-18 09:00:00","price":"10","seats":"5","duration":"10478","distance":"208252","departureCityName":"Rimini","arrivalCityName":"Recanati","waypointId":null,"waypointCityName":null},
-    {"ownerId":"3","ownerName":"pollpo","tripId":"24","departureDate":"2018-03-18 09:00:00","price":"10","seats":"5","duration":"10478","distance":"208252","departureCityName":"Rimini","arrivalCityName":"Recanati","waypointId":null,"waypointCityName":null},
-    {"ownerId":"3","ownerName":"pollpo","tripId":"24","departureDate":"2018-03-18 09:00:00","price":"10","seats":"5","duration":"10478","distance":"208252","departureCityName":"Rimini","arrivalCityName":"Recanati","waypointId":null,"waypointCityName":null},
-    {"ownerId":"3","ownerName":"pollpo","tripId":"24","departureDate":"2018-03-18 09:00:00","price":"10","seats":"5","duration":"10478","distance":"208252","departureCityName":"Rimini","arrivalCityName":"Recanati","waypointId":null,"waypointCityName":null},
-    {"ownerId":"3","ownerName":"pollpo","tripId":"24","departureDate":"2018-03-18 09:00:00","price":"10","seats":"5","duration":"10478","distance":"208252","departureCityName":"Rimini","arrivalCityName":"Recanati","waypointId":null,"waypointCityName":null},
-    {"ownerId":"3","ownerName":"pollpo","tripId":"24","departureDate":"2018-03-18 09:00:00","price":"10","seats":"5","duration":"10478","distance":"208252","departureCityName":"Rimini","arrivalCityName":"Recanati","waypointId":null,"waypointCityName":null},
-    {"ownerId":"3","ownerName":"pollpo","tripId":"24","departureDate":"2018-03-18 09:00:00","price":"10","seats":"5","duration":"10478","distance":"208252","departureCityName":"Rimini","arrivalCityName":"Recanati","waypointId":null,"waypointCityName":null},
-    {"ownerId":"3","ownerName":"pollpo","tripId":"24","departureDate":"2018-03-18 09:00:00","price":"10","seats":"5","duration":"10478","distance":"208252","departureCityName":"Rimini","arrivalCityName":"Recanati","waypointId":null,"waypointCityName":null},
-    {"ownerId":"3","ownerName":"pollpo","tripId":"24","departureDate":"2018-03-18 09:00:00","price":"10","seats":"5","duration":"10478","distance":"208252","departureCityName":"Rimini","arrivalCityName":"Recanati","waypointId":null,"waypointCityName":null},
-    {"ownerId":"3","ownerName":"pollpo","tripId":"24","departureDate":"2018-03-18 09:00:00","price":"10","seats":"5","duration":"10478","distance":"208252","departureCityName":"Rimini","arrivalCityName":"Recanati","waypointId":null,"waypointCityName":null},
-    {"ownerId":"3","ownerName":"pollpo","tripId":"24","departureDate":"2018-03-18 09:00:00","price":"10","seats":"5","duration":"10478","distance":"208252","departureCityName":"Rimini","arrivalCityName":"Recanati","waypointId":null,"waypointCityName":null},
-    {"ownerId":"3","ownerName":"pollpo","tripId":"24","departureDate":"2018-03-18 09:00:00","price":"10","seats":"5","duration":"10478","distance":"208252","departureCityName":"Rimini","arrivalCityName":"Recanati","waypointId":null,"waypointCityName":null},
-    {"ownerId":"3","ownerName":"pollpo","tripId":"24","departureDate":"2018-03-18 09:00:00","price":"10","seats":"5","duration":"10478","distance":"208252","departureCityName":"Rimini","arrivalCityName":"Recanati","waypointId":null,"waypointCityName":null},
-    {"ownerId":"3","ownerName":"pollpo","tripId":"24","departureDate":"2018-03-18 09:00:00","price":"10","seats":"5","duration":"10478","distance":"208252","departureCityName":"Rimini","arrivalCityName":"Recanati","waypointId":null,"waypointCityName":null},
-    {"ownerId":"3","ownerName":"pollpo","tripId":"32","departureDate":"2018-03-18 09:00:00","price":"10","seats":"5","duration":"10478","distance":"208252","departureCityName":"Rimini","arrivalCityName":"Recanati","waypointId":"7169","waypointCityName":"Senigallia","allWaypoints":[{"ownerId":"3","ownerName":"pollpo","tripId":"32","departureDate":"2018-03-18 09:00:00","price":"10","seats":"5","duration":"10478","distance":"208252","departureCityName":"Rimini","arrivalCityName":"Recanati","waypointId":"7169","waypointCityName":"Senigallia"},{"ownerId":"3","ownerName":"pollpo","tripId":"32","departureDate":"2018-03-18 09:00:00","price":"10","seats":"5","duration":"10478","distance":"208252","departureCityName":"Rimini","arrivalCityName":"Recanati","waypointId":"5625","waypointCityName":"Pesaro"},{"ownerId":"3","ownerName":"pollpo","tripId":"32","departureDate":"2018-03-18 09:00:00","price":"10","seats":"5","duration":"10478","distance":"208252","departureCityName":"Rimini","arrivalCityName":"Recanati","waypointId":"3316","waypointCityName":"Fano"}, {"ownerId":"3","ownerName":"pollpo","tripId":"32","departureDate":"2018-03-18 09:00:00","price":"10","seats":"5","duration":"10478","distance":"208252","departureCityName":"Rimini","arrivalCityName":"Recanati","waypointId":"7169","waypointCityName":"Senigallia"},{"ownerId":"3","ownerName":"pollpo","tripId":"32","departureDate":"2018-03-18 09:00:00","price":"10","seats":"5","duration":"10478","distance":"208252","departureCityName":"Rimini","arrivalCityName":"Recanati","waypointId":"5625","waypointCityName":"Pesaro"}, {"ownerId":"3","ownerName":"pollpo","tripId":"32","departureDate":"2018-03-18 09:00:00","price":"10","seats":"5","duration":"10478","distance":"208252","departureCityName":"Rimini","arrivalCityName":"Recanati","waypointId":"7169","waypointCityName":"Senigallia"},{"ownerId":"3","ownerName":"pollpo","tripId":"32","departureDate":"2018-03-18 09:00:00","price":"10","seats":"5","duration":"10478","distance":"208252","departureCityName":"Rimini","arrivalCityName":"Recanati","waypointId":"5625","waypointCityName":"Pesaro"}]},
-    {"ownerId":"3","ownerName":"pollpo","tripId":"34","departureDate":"2018-03-18 15:00:00","price":"30","seats":"3","duration":"16350","distance":"349497","departureCityName":"Rimini","arrivalCityName":"Recanati","waypointId":"7872","waypointCityName":"Urbino","allWaypoints":[{"ownerId":"3","ownerName":"pollpo","tripId":"34","departureDate":"2018-03-18 15:00:00","price":"30","seats":"3","duration":"16350","distance":"349497","departureCityName":"Rimini","arrivalCityName":"Recanati","waypointId":"7872","waypointCityName":"Urbino"},{"ownerId":"3","ownerName":"pollpo","tripId":"34","departureDate":"2018-03-18 15:00:00","price":"30","seats":"3","duration":"16350","distance":"349497","departureCityName":"Rimini","arrivalCityName":"Recanati","waypointId":"3284","waypointCityName":"Fabriano"}]}]`);
+    for (let i = 0; i < 100; i++) {
+      this.allTrips.push(JSON.parse(`{"ownerId":"3","ownerName":"pollpo","tripId":"24","departureDate":"2018-03-18 09:00:00","price":"10","seats":"5","duration":"10478","distance":"208252","departureCityName":"Rimini","arrivalCityName":"Recanati","waypointId":null,"waypointCityName":null}`));
+    }
+    for (let i = 0; i < 100; i++) {
+      this.allTrips.push(JSON.parse(`{"ownerId":"3","ownerName":"pollpo","tripId":"32","departureDate":"2018-03-18 09:00:00","price":"50","seats":"5","duration":"10478","distance":"208252","departureCityName":"Rimini","arrivalCityName":"Recanati","waypointId":"7169","waypointCityName":"Senigallia","allWaypoints":[{"ownerId":"3","ownerName":"pollpo","tripId":"32","departureDate":"2018-03-18 09:00:00","price":"10","seats":"5","duration":"10478","distance":"208252","departureCityName":"Rimini","arrivalCityName":"Recanati","waypointId":"7169","waypointCityName":"Senigallia"},{"ownerId":"3","ownerName":"pollpo","tripId":"32","departureDate":"2018-03-18 09:00:00","price":"10","seats":"5","duration":"10478","distance":"208252","departureCityName":"Rimini","arrivalCityName":"Recanati","waypointId":"5625","waypointCityName":"Pesaro"},{"ownerId":"3","ownerName":"pollpo","tripId":"32","departureDate":"2018-03-18 09:00:00","price":"10","seats":"5","duration":"10478","distance":"208252","departureCityName":"Rimini","arrivalCityName":"Recanati","waypointId":"3316","waypointCityName":"Fano"}, {"ownerId":"3","ownerName":"pollpo","tripId":"32","departureDate":"2018-03-18 09:00:00","price":"10","seats":"5","duration":"10478","distance":"208252","departureCityName":"Rimini","arrivalCityName":"Recanati","waypointId":"7169","waypointCityName":"Senigallia"},{"ownerId":"3","ownerName":"pollpo","tripId":"32","departureDate":"2018-03-18 09:00:00","price":"10","seats":"5","duration":"10478","distance":"208252","departureCityName":"Rimini","arrivalCityName":"Recanati","waypointId":"5625","waypointCityName":"Pesaro"}, {"ownerId":"3","ownerName":"pollpo","tripId":"32","departureDate":"2018-03-18 09:00:00","price":"10","seats":"5","duration":"10478","distance":"208252","departureCityName":"Rimini","arrivalCityName":"Recanati","waypointId":"7169","waypointCityName":"Senigallia"},{"ownerId":"3","ownerName":"pollpo","tripId":"32","departureDate":"2018-03-18 09:00:00","price":"10","seats":"5","duration":"10478","distance":"208252","departureCityName":"Rimini","arrivalCityName":"Recanati","waypointId":"5625","waypointCityName":"Pesaro"}]}`));
+    }
+    this.storedTrips = this.allTrips.copy();
     // this.encodeHiddenTrips();
     this.initControls();
     this.buildForm();
@@ -90,6 +77,22 @@ export class FindpassageComponent implements OnInit {
 
   private priceChange(event) {
     this.selectedPrice = event;
+    const tempTrips: List<TripResponse> = this.storedTrips.copy();
+    tempTrips.remove(t => t.price > this.selectedPrice);
+    // for (let i = 0; i < tempTrips.length; i++) {
+    //   if (tempTrips[i].price > this.selectedPrice) {
+    //     tempTrips.splice(i, 1);
+    //   }
+    // }
+    // let i = 0;
+    // while (i < tempTrips.length) {
+    //   if (tempTrips[i].price > this.selectedPrice) {
+    //     tempTrips.splice(i, 1);
+    //   } else {
+    //     i++;
+    //   }
+    // }
+    this.allTrips = tempTrips.copy();
   }
 
   private getTrips() {
@@ -128,7 +131,7 @@ export class FindpassageComponent implements OnInit {
     return JSON.stringify(filters);
   }
 
-  private setAllTrips(data: TripResponse[]) {
+  private setAllTrips(data: List<TripResponse>) {
     console.log(data);
     if (data.length > 0) {
       const resultsMaxPrice = Math.max.apply(Math, data.map(t => t.price));
@@ -136,7 +139,7 @@ export class FindpassageComponent implements OnInit {
       this.selectedPrice = this.maxPrice;
     }
     this.storedTrips = data;
-    this.allTrips = this.storedTrips.slice();
+    this.allTrips = this.storedTrips.copy();
     // this.encodeHiddenTrips();
   }
 

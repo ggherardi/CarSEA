@@ -46,7 +46,7 @@ export class HttpService {
         return this.http.get(url).map((res: Response) => res.json());
     }
 
-    /** [DEPRECATO]: Ora le chiamate vengono fatte unicamente con i metodi di Angular */
+    /** [DEPRECATO]: Ora le chiamate vengono effettuate unicamente con i metodi di Angular */
     // postAjax(url: string, data: any, callback: any = function(){}, componentCallBack: any = function(){}) {
     //     return jQuery.ajax({
     //         async: false,
