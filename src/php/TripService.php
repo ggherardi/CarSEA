@@ -76,8 +76,9 @@ class TripService {
         try {
             Logger::Write("Processing GetTrips request", $GLOBALS["CorrelationID"]);
             $date = getdate();
+            $day = (strlen($date["mday"]) == 2 ? $date["mday"] : ("0" . $date["mday"]));
             $month = (strlen($date["mon"]) == 2 ? $date["mon"] : ("0" . $date["mon"]));
-            $today = sprintf("%s-%s-%s %s:%s", $date["year"], $month, $date["mday"], $date["hours"], $date["minutes"]);
+            $today = sprintf("%s-%s-%s %s:%s", $date["year"], $month, $day, $date["hours"], $date["minutes"]);
             $filters = json_decode($_POST["filters"]);
 
             $query = "SELECT

@@ -1,6 +1,9 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<app-header></app-header>
-<div id="main">
-    <router-outlet></router-outlet>
+<div class="spinner-container">
+    <app-header></app-header>
+    <div id="main">
+        <router-outlet></router-outlet>
+    </div>
+    <app-footer></app-footer>
+    <spinner-component [spinnerShow]="showSpinnerLoader"></spinner-component>
 </div>
-<app-footer></app-footer>

@@ -108,6 +108,19 @@ textarea {
   cursor: pointer!important;
 }
 
+/* Spinner Loader */
+.spinner-container {
+  position: relative;
+}
+
+.sc-background {
+  z-index: 50!important;
+}
+
+.sc-default-spinner {
+  z-index: 51!important;
+}
+
 @media only screen and (max-width: 768px) {
   body {
     width: 100%;

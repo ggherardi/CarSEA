@@ -1,4 +1,5 @@
-<input ngui-auto-complete
+<div class="spinner-container">
+  <input ngui-auto-complete
   [source]="searchCities"
   [list-formatter]="autocompleListFormatter"
   [value-formatter]="autocompleteValueFormatter"
@@ -12,3 +13,5 @@
   select-on-blur="true"
   (valueChanged)="valueChangedEvent($event, valueChangedSender)"
   class="form-control autocomplete-input">
+  <spinner-component [spinnerShow]="showSpinnerLoader"></spinner-component>
+</div>

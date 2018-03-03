@@ -116,32 +116,3 @@ export class SearchFilters {
         this.dateEnd = dateEnd;
     }
 }
-
-export class List<T> extends Array<T> {
-    private constructor (items?: Array<T>) {
-        super(...items);
-    }
-
-    static create<T>(): List<T> {
-        return Object.create(List.prototype);
-    }
-
-    copy (this: List<T>): List<T> {
-        const returnList: List<T> = List.create<T>();
-        for (let i = 0; i < this.length; i++) {
-            returnList.push(this[i]);
-        }
-        return returnList;
-    }
-
-    remove (callbackfn: (value: T) => boolean) {
-        let i = 0;
-        while (i < this.length) {
-            if (callbackfn(this[i])) {
-                this.splice(i, 1);
-            } else {
-                i++;
-            }
-        }
-    }
-}

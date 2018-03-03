@@ -30,6 +30,7 @@
     "cuppa-ng2-slidemenu": "^2.0.0",
     "jquery": "^3.2.1",
     "mydatepicker": "^2.6.2",
+    "ng2-component-spinner": "^0.2.1",
     "ng2-nouislider": "^1.7.7",
     "ng2-pagination": "^2.0.2",
     "nouislider": "^11.0.3",

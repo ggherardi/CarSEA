@@ -39,6 +39,8 @@ import { NgbCalendarGregorian } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-
 import { TripabstractComponent } from './components/shared/tripabstract/tripabstract.component';
 import { registerLocaleData } from '@angular/common';
 import it from '@angular/common/locales/it';
+import { UtilitiesService } from './_services/utilities.service';
+import { SpinnerComponentModule } from 'ng2-component-spinner';
 
 registerLocaleData(it);
 const googleMapsAPIKey = 'AIzaSyCb2-mkLHWGdDBQAchtHhuQcucgbPNuO-M';
@@ -107,6 +109,7 @@ const sitemap = [{
     SlideMenuModule,
     NouisliderModule,
     Ng2PaginationModule,
+    SpinnerComponentModule,
     NgbModule.forRoot(),
     RouterModule.forRoot(sitemap, { enableTracing: false }),
     AgmCoreModule.forRoot({ apiKey:  googleMapsAPIKey})
@@ -122,7 +125,8 @@ const sitemap = [{
     NgbModalStack,
     NgbDropdownConfig,
     NgbCalendarGregorian,
-    PaginationService
+    PaginationService,
+    UtilitiesService
   ],
   bootstrap: [
     AppComponent

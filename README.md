@@ -51,3 +51,7 @@ ng2-nouislder (Multi handle range slider)
 ng2-paginate (Pagination component)
     - https://www.npmjs.com/package/ng2-paginate
     - npm i ng2-pagination --save
+
+ng2-component-spinner (Spinner loader)
+    - https://www.npmjs.com/package/ng2-component-spinner
+    - npm i ng2-component-spinner

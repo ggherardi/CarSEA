@@ -17,8 +17,7 @@ import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
 })
 
 export class AppComponent implements OnInit {
-  title = 'app';
-  testResponse: any;
+  showSpinnerLoader = false;
 
   constructor(public cookies: Cookies, public router: Router, public shared: SharedComponent) {
 

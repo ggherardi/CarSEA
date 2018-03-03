@@ -14,7 +14,6 @@ export class TripabstractComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    console.log(this.Trip.waypoints);
   }
 
 }
