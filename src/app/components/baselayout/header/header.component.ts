@@ -12,6 +12,7 @@ import { NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
 
 export class HeaderComponent implements OnInit, DoCheck {
 
+  showSpinnerLoader = false;
   user: any;
   logged = false;
   loginForm: FormGroup;
@@ -56,6 +57,7 @@ export class HeaderComponent implements OnInit, DoCheck {
   loginFromForm(): void {
     const username = this.loginForm.get('username').value;
     const password = this.loginForm.get('password').value;
+    this.showSpinnerLoader = true;
     this.app.shared.login(username, password, this.callbackClearForm.bind(this));
   }
 
@@ -65,6 +67,7 @@ export class HeaderComponent implements OnInit, DoCheck {
 
   // Callback per pulire il form di login una volta che questo è stato effettuato
   callbackClearForm() {
+    this.showSpinnerLoader = false;
     if (!this.app.shared.userLogged) {
       this.buildForm(this.loginForm.get('username').value, '');
     } else {

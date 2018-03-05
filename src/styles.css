@@ -26,8 +26,20 @@ textarea {
   width: 100%;
 }
 
-.hidden-field {
-  display: none;
+/* CLASSES */
+/* Flex Container */
+.flex-container-row{
+  display: flex;
+  flex-direction: row;
+}
+.flex-container-column {
+  display: flex;
+  flex-direction: column
+}
+
+/* Generics */
+.width-100 {
+  width: 100%;
 }
 
 .btn {
@@ -36,8 +48,8 @@ textarea {
   -webkit-font-smoothing: antialiased;
 }
 
-.dropdown-item {
-  cursor: pointer;
+.inline-block {
+  display: inline-block;
 }
 
 .text-right {
@@ -119,6 +131,12 @@ textarea {
 
 .sc-default-spinner {
   z-index: 51!important;
+}
+/* End Spinner Loader */
+
+/* Bootstrap Dropdown */
+.dropdown-item {
+  cursor: pointer;
 }
 
 @media only screen and (max-width: 768px) {

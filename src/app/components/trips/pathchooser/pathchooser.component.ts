@@ -33,6 +33,8 @@ export class PathchooserComponent implements OnInit {
   mapZoom: Number = 5;
   disableAddControl = false;
   nextStepDisabled: Boolean = true;
+  distance: number;
+  duration: number;
 
   /** Effettua una query sul DB utilizzando la chiave di ricerca inserita nelle textbox
    * origine e destinazione. Ritorna il valore esatto come primo risultato, poi gli altri. */
@@ -58,9 +60,7 @@ export class PathchooserComponent implements OnInit {
       arrivalCityPicker: ['', [Validators.required]],
       wayPoint_0: ['', ],
       startDatePicker: ['', [Validators.required]],
-      startTimePicker: ['', [Validators.required]],
-      duration: ['', [Validators.required]],
-      distance: ['', [Validators.required]]
+      startTimePicker: ['', [Validators.required]]
     });
   }
 
@@ -168,8 +168,8 @@ export class PathchooserComponent implements OnInit {
       duration += l.duration.value;
       distance += l.distance.value;
     });
-    this.formGroup.get('duration').setValue(duration);
-    this.formGroup.get('distance').setValue(distance);
+    this.duration = duration;
+    this.distance = distance;
   }
 
   /** Rimuove il waypoint tramite il pulsante cestina */
@@ -233,8 +233,8 @@ export class PathchooserComponent implements OnInit {
         formValues['departureCityPicker'],
         formValues['arrivalCityPicker'],
         waypoints,
-        formValues['duration'],
-        formValues['distance'],
+        this.duration,
+        this.distance,
         fullDate
       );
     this.app.shared.models.allMarkers = this.allMarkers.slice();

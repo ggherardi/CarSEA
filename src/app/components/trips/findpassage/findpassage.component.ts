@@ -16,6 +16,7 @@ export class FindpassageComponent implements OnInit {
   allTrips: List<TripResponse> = List.create<TripResponse>();
   maxPrice = 500;
   selectedPrice = 0;
+  changeTimeEvent: any[];
   startTime = 0;
   endTime = 24;
   filtersFormGroup: FormGroup;
@@ -89,24 +90,22 @@ export class FindpassageComponent implements OnInit {
   private timeChange(event) {
     this.startTime = event[0];
     this.endTime = event[1];
+    this.changeTimeEvent = event;
     this.applyClientFilters();
-    // this.applyClientFilters(trip => {
-    //   console.log(`${trip.departureDate} < ${this.getFilterDate()[0]} ? ${trip.departureDate < this.getFilterDate()[0]}`);
-    //   console.log(`${trip.departureDate} > ${this.getFilterDate()[1]} ? ${trip.departureDate < this.getFilterDate()[1]}`);
-    //   return trip.departureDate < this.getFilterDate()[0] && trip.departureDate > this.getFilterDate()[1];
-    // });
   }
 
   private priceChange(event) {
     this.selectedPrice = event;
     this.applyClientFilters();
-    // this.applyClientFilters(trip => trip.price > this.selectedPrice);
   }
 
   /** Rimuove dalla lista dei Trip gli item che soddisfano la condizione passata come argomento */
   private applyClientFilters() {
     const tempTrips: List<TripResponse> = this.storedTrips.copy();
-    const dateCondition = trip => trip.departureDate < this.getFilterDate()[0] && trip.departureDate > this.getFilterDate()[1];
+    const dateCondition = trip => {
+      return new Date(trip.departureDate) < new Date(this.getFilterDate()[0])
+      || new Date(trip.departureDate) > new Date(this.getFilterDate()[1]);
+    };
     const priceCondition = trip => trip.price > this.selectedPrice;
     tempTrips.remove(priceCondition);
     tempTrips.remove(dateCondition);
@@ -146,7 +145,7 @@ export class FindpassageComponent implements OnInit {
   }
 
   private getFilterDate(): string[] {
-    const time = this.filtersFormGroup.get('timePicker').value;
+    const time = this.changeTimeEvent !== undefined ? this.changeTimeEvent : this.filtersFormGroup.get('timePicker').value;
     const date = this.filtersFormGroup.get('datePicker').value;
     const formattedStartDate = this.formatDate(date, time[0]);
     const formattedEndDate =  this.formatDate(date, time[1]);

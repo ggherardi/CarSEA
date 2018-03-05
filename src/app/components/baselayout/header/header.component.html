@@ -1,31 +1,32 @@
-<div class="row top-navbar">
-    <div class="col-sm-4 col-4">
+<div class="top-navbar flex-container-row">
+    <div style="flex-grow: 1">
         <app-sidebar></app-sidebar>
-        <img (click)="homepage()" src="assets/img/carsea-logo.png" height="40" >
     </div>
-    <div class="col-sm-8 col-8 top-navbar-rightarea">
-        <div ngbDropdown class="d-inline-block" class="float-right">
-            <span ngbDropdownToggle id="ddlMenu" class="btn btn-outline-primary">
-                <span class="icon-user"></span>
-                <span *ngIf="!logged"> Login</span>
-                <span *ngIf="logged"> Il profilo di {{ user.Name }}</span>                 
-            </span>
-            <div ngbDropdownMenu aria-labelledby="ddlMenu">
-                <form *ngIf="!logged" id="form-login" [formGroup]="loginForm" (ngSubmit)="loginFromForm()">
-                    <input formControlName="username" class="input-login" type="text" placeholder="Username.." />
-                    <input formControlName="password" class="input-login" type="password" placeholder="Password.."/>
+    <div class="logo-container" style="flex-grow: 8">
+        <img (click)="homepage()" src="assets/img/carsea-logo-notext.png" height="45" class="logo">
+    </div>
+    <!-- <div class="flex-container top-navbar-rightarea"> -->
+    <div ngbDropdown class="d-inline-block login-dropdown" style="flex-grow: 1">
+        <button class="btn btn-primary" ngbDropdownToggle>
+            <span *ngIf="logged">Bentornato, {{ user.Name }}!</span>
+            <span *ngIf="!logged">Accedi</span>
+        </button>
+        <div ngbDropdownMenu>
+            <div class="spinner-container">
+                <form *ngIf="!logged" id="form-login" [formGroup]="loginForm" class="form-group flex-container-column" (ngSubmit)="loginFromForm()">
+                    <input formControlName="username" class="form-control" type="text" placeholder="Username.." />
+                    <input formControlName="password" class="form-control" type="password" placeholder="Password.."/>
                     <button class="btn btn-primary" type="submit">Login</button>
                 </form>
-                <div *ngIf="logged">
-                    <!-- <button class="dropdown-item" routerLink="myprofile">Impostazioni</button>
-                    <button class="dropdown-item" routerLink="mytrips">I miei viaggi</button>
-                    <button class="dropdown-item" routerLink="myprofile">Messaggi</button> -->
-                    <button class="dropdown-item" (click)="logoutFromForm()" >Logout</button>
-                </div>
+                <spinner-component [spinnerShow]="showSpinnerLoader"></spinner-component>
+            </div>         
+            <div *ngIf="logged">
+                <button class="dropdown-item" (click)="logoutFromForm()">Logout</button>
+            </div>
+            <div *ngIf="!logged">
+                <div (click)="signup()" class="btn btn-outline-primary width-100">Iscriviti</div>
             </div>
         </div>
-        <div *ngIf="!logged" class="float-right margin-right-20">
-            <div (click)="signup()" class="btn btn-outline-primary">Iscriviti</div>
-        </div>
     </div>
+    <!-- </div> -->
 </div>
