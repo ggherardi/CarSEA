@@ -13,7 +13,7 @@
         </button>
         <div ngbDropdownMenu>
             <div class="spinner-container">
-                <form *ngIf="!logged" id="form-login" [formGroup]="loginForm" class="form-group flex-container-column" (ngSubmit)="loginFromForm()">
+                <form *ngIf="!logged" id="form-login" [formGroup]="loginForm" class="form-group flex-container-column" (ngSubmit)="loginFromForm(loginForm)">
                     <input formControlName="username" class="form-control" type="text" placeholder="Username.." />
                     <input formControlName="password" class="form-control" type="password" placeholder="Password.."/>
                     <button class="btn btn-primary" type="submit">Login</button>

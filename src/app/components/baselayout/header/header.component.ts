@@ -54,9 +54,9 @@ export class HeaderComponent implements OnInit, DoCheck {
     this.app.router.navigateByUrl('signup');
   }
 
-  loginFromForm(): void {
-    const username = this.loginForm.get('username').value;
-    const password = this.loginForm.get('password').value;
+  loginFromForm(form: FormGroup): void {
+    const username = form.get('username').value;
+    const password = form.get('password').value;
     this.showSpinnerLoader = true;
     this.app.shared.login(username, password, this.callbackClearForm.bind(this));
   }
