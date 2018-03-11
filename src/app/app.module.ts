@@ -33,7 +33,7 @@ import { NgbModalStack } from '@ng-bootstrap/ng-bootstrap/modal/modal-stack';
 import { SlideMenuModule } from 'cuppa-ng2-slidemenu/cuppa-ng2-slidemenu';
 import { FindpassageComponent } from './components/trips/findpassage/findpassage.component';
 import { OfferedtripsComponent } from './components/profile/offeredtrips/offeredtrips.component';
-import { CityautocompleteComponent } from './components/shared/cityautocomplete/cityautocomplete.component';
+import { ApiAutocompleteComponent } from './components/shared/apiautocomplete/apiautocomplete.component';
 import { NouisliderModule } from 'ng2-nouislider';
 import { NgbCalendarGregorian } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-calendar';
 import { TripabstractComponent } from './components/shared/tripabstract/tripabstract.component';
@@ -53,7 +53,7 @@ const sitemap = [{
   component: SignupComponent
 }, {
   path: 'myprofile/details',
-  component: DetailsComponent,
+  component: PersonaldetailsComponent,
 }, {
   path: 'myprofile/mytrips',
   component: MytripsComponent,
@@ -95,7 +95,7 @@ const sitemap = [{
     DetailsComponent,
     FindpassageComponent,
     OfferedtripsComponent,
-    CityautocompleteComponent,
+    ApiAutocompleteComponent,
     TripabstractComponent
   ],
   imports: [

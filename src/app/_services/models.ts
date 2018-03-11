@@ -30,6 +30,25 @@ export class UserModel {
     constructor() { }
 }
 
+export class UserDetail {
+    userId: number;
+    name: string;
+    surname: string;
+    email: string;
+    age: string;
+    description: string;
+
+    constructor(userId: number, name: string, surname: string, email: string,
+                age: string, description: string) {
+        this.userId = userId;
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+        this.age = age;
+        this.description = description;
+    }
+}
+
 export class City {
     id: number;
     value: string;
@@ -100,6 +119,7 @@ export class TripResponse extends Trip {
     }
 }
 
+/** Modello per i filtri di ricerca dei Trip */
 export class SearchFilters {
     departureCity: number;
     arrivalCity: number;

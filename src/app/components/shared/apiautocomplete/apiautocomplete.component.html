@@ -1,8 +1,8 @@
 <div class="spinner-container">
   <input ngui-auto-complete
   [source]="searchCities"
-  [list-formatter]="autocompleListFormatter"
-  [value-formatter]="autocompleteValueFormatter"
+  [list-formatter]="config.formattingFunction"
+  [value-formatter]="config.valueFormattingFunction"
   value-property-name="id"
   display-property-name="value"
   [placeholder]="placeholder"

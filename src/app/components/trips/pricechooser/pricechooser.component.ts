@@ -54,7 +54,7 @@ export class PricechooserComponent implements OnInit {
   saveTrip() {
     const userObj: UserModel = this.app.shared.cookies.getObjectFromCookie(this.app.shared.cookies.USER_COOKIE_NAME);
     if (userObj === undefined) {
-      this.openModal(this.modalContent);
+      this.app.shared.openModal(this.modalContent);
       return;
     }
     this.app.shared.models.newTrip.price = this.formGroup.get('pricePicker').value;
@@ -72,29 +72,11 @@ export class PricechooserComponent implements OnInit {
             if (succ) {
               this.app.shared.router.navigateByUrl('myprofile/offeredtrips');
             } else {
-              this.openModal(this.modalContentError);
+              this.app.shared.openModal(this.modalContentError);
             }
           }, err => {
             console.log(err);
-            this.openModal(this.modalContent);
+            this.app.shared.openModal(this.modalContent);
           });
-  }
-
-  openModal(content) {
-    this.app.shared.modalService.open(content).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
-  }
-
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return  `with: ${reason}`;
-    }
   }
 }

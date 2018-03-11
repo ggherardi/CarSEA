@@ -26,9 +26,9 @@ export class SignupComponent implements OnInit {
   // Crea l'oggetto del Form, contenente i singoli controlli
   private createForm() {
     this.signupForm = this.formBuilder.group({
-      name: ['', [Validators.required, Validators.minLength(3)]],
-      surname: ['', [Validators.required, Validators.minLength(3)]],
-      username: ['', [Validators.required, Validators.minLength(3)]],
+      name: ['', [Validators.required, Validators.minLength(3), Validators.pattern(this.app.shared.utilities.specialCharPattern)]],
+      surname: ['', [Validators.required, Validators.minLength(3), Validators.pattern(this.app.shared.utilities.specialCharPattern)]],
+      username: ['', [Validators.required, Validators.minLength(3), Validators.pattern(this.app.shared.utilities.specialCharPattern)]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(4)]],
       passwordConfirm: ['', [Validators.required, Validators.minLength(4)]]
@@ -57,6 +57,7 @@ export class SignupComponent implements OnInit {
     this.signupError = signupResult;
     if (signupResult === 0) {
       this.app.shared.login(this.signupForm.controls.username.value, this.signupForm.controls.password.value);
+      this.app.shared.router.navigateByUrl('myprofile/details');
     }
   }
 }

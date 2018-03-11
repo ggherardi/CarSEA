@@ -1,0 +1,9 @@
+input[type="number"] {
+    height: auto!important;
+    -webkit-appearance: listbox!important;
+    min-width: 60px!important;
+}
+
+.form-control {
+    width: auto!important;
+}

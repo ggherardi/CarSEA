@@ -8,7 +8,7 @@ import { Cookies } from './cookies';
 import { GooglemapsService } from './googlemaps.service';
 import { ConstantsService } from './constants.service';
 import { Observable } from 'rxjs/Observable';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { UtilitiesService } from './utilities.service';
 
 @Component({ })
@@ -81,9 +81,36 @@ export class SharedComponent implements OnInit {
   getToken() {
     const userCookie: UserModel = this.cookies.getObjectFromCookie(this.cookies.USER_COOKIE_NAME);
     if (userCookie !== undefined) {
+      this.cookies.refreshCookie();
       this.httpService.JWToken = userCookie.Token;
     } else {
       this.httpService.JWToken = '';
+    }
+  }
+
+  loadUserDetals(userId: number): Observable<any> {
+    const data = {
+      action: 'retrieveDetails',
+      userId: userId
+    };
+    return this.post('php/PeopleDetailService.php', data);
+  }
+
+  openModal(content) {
+    this.modalService.open(content).result.then((result) => {
+      const closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      const closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return  `with: ${reason}`;
     }
   }
 }

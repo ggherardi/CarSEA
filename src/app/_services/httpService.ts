@@ -33,7 +33,7 @@ export class HttpService {
         const options = new RequestOptions({
             headers: new Headers({
                 'Access-Control-Allow-Origin': 'http://www.progettostw.com',
-                'Authorization': this.JWToken
+                'Authorization': 'bearer ' + this.JWToken
             })
         });
         return this.http.get(url, options).map((res: Response) => res.json());

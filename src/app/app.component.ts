@@ -20,10 +20,10 @@ export class AppComponent implements OnInit {
   showSpinnerLoader = false;
 
   constructor(public cookies: Cookies, public router: Router, public shared: SharedComponent) {
-
   }
 
   ngOnInit() {
     this.shared.loadSession();
+    this.shared.utilities.init();
   }
 }

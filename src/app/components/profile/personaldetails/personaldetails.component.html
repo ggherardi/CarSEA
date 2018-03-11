@@ -1,3 +1,82 @@
-<p>
-  personaldetails works!
-</p>
+<div class="row">
+    <div class="col-12 col-sm-6">
+        <div class="form-group">
+            <form [formGroup]="personalDetailsForm" (ngSubmit)="saveDetails(personalDetailsForm)">
+            <div class="row">
+                <div class="col-6">Nome</div>
+                <input formControlName="name" class="col-6" class="form-control"/>
+            </div>
+            <div class="row">
+                <div class="col-6">Cognome</div>
+                <input formControlName="surname" class="col-6" class="form-control"/>
+            </div>
+            <div class="row">
+                <div class="col-6">Email</div>
+                <input formControlName="email" class="col-6" class="form-control"/>
+            </div>
+            <div class="row">
+                <div class="col-6">Età</div>
+                <input formControlName="age" class="col-6" class="form-control" type="number"/>
+            </div>
+            <div class="row">
+                <div class="col-6">Descrizione</div>
+                <textarea formControlName="description" class="col-6" class="form-control"></textarea>
+            </div>
+            <button type="submit" class="btn btn-outline-primary mt-5">Salva dettagli</button>
+            </form>
+            <div class="row mt-5 ml-1">
+                <div style="background: url('')"></div>
+                <input #fileUpload (change)="profilePictureChange($event)" type="file"/>
+                <button type="submit" class="btn btn-outline-primary mt-5">Carica immagine profilo</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-sm-6">
+        <form [formGroup]="carsForm">
+            <div class="row">
+                <div class="col-12 text-center mb-3">Automobile</div>
+                <app-apiautocomplete 
+                    formControlName="make" 
+                    class="col-6" 
+                    [config]="makeAutocompleteConfig" 
+                    placeholder="Marca"
+                    (valueChanged)="handleMakeChange($event)"></app-apiautocomplete>
+                <app-apiautocomplete 
+                    formControlName="model" 
+                    class="col-6" 
+                    [config]="modelAutocompleteConfig" 
+                    placeholder="Modello"></app-apiautocomplete>
+            </div>
+        </form>
+    </div>
+</div>
+
+<ng-template #successModalContent let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title">Successo</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <p>Salvataggio avvenuto con successo</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Chiudi</button>
+    </div>
+</ng-template>
+
+<ng-template #failureModalContent let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title">Errore</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <p>Si è verificato un errore durante il salvataggio dei dati, si prega di riprovare più tardi</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Chiudi</button>
+    </div>
+</ng-template>

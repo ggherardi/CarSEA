@@ -18,7 +18,7 @@ class DBConnection {
         $this->EstablishConnection();
     }
 
-    private function getConnection() : mysqli {
+    private function getConnection(): mysqli {
         return $this->Connection;
     }
 
@@ -38,6 +38,21 @@ class DBConnection {
             http_response_code(500);
             exit(json_encode($exMessage));
         }
+    }
+
+    function StartTransaction() {
+        Logger::Write("Starting transaction", $GLOBALS["CorrelationID"]);
+        $this->getConnection()->begin_transaction();
+    }
+
+    function RollBack() {
+        Logger::Write("RollBacking current transaction", $GLOBALS["CorrelationID"]);
+        $this->getConnection()->rollback();
+    }
+
+    function CommitTransaction() {
+        Logger::Write("Committing transaction", $GLOBALS["CorrelationID"]);
+        $this->getConnection()->commit();
     }
 
     function ExecuteQuery($query = "") {

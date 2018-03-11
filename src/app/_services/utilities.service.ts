@@ -1,10 +1,18 @@
-import { Injectable } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 
-@Injectable()
 export class UtilitiesService {
+    isMobile: boolean;
+    specialCharPattern: RegExp = /^[a-zA-Z0-9]{4,10}$/;
 
-  constructor() { }
+    constructor() { }
 
+    init() {
+        this.isMobileDevice();
+    }
+
+    private isMobileDevice() {
+        this.isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    }
 }
 
 /** Classe di appoggio per effettuare operazioni più avanzate sugli array. */

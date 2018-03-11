@@ -3,6 +3,14 @@
     text-align: center;
 }
 
+.ngui-auto-complete-wrapper {
+    z-index: 3;
+}
+
+.date-picker {
+    z-index: 0!important;
+}
+
 @media screen and (min-width: 767px) {
     #trips-column {
         min-height: 516px;

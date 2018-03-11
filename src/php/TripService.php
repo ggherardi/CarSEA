@@ -65,6 +65,8 @@ class TripService {
         }
         catch(Throwable $ex) {
             Logger::Write("Error while saving a new trip: $ex", $GLOBALS["CorrelationID"]);
+            http_response_code(500);
+            exit(json_encode($ex->getMessage()));
         }
     }
 
@@ -109,7 +111,7 @@ class TripService {
                 AND t.departure_date >= '$filters->dateStart' 
                 AND t.departure_date <= '$filters->dateEnd'
                 AND t.price <= $filters->price";
-            // exit(json_encode($query));
+
             $res = self::ExecuteQuery($query);
             $results = array();
             if($res){

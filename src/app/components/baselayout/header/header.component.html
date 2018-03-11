@@ -8,8 +8,8 @@
     <!-- <div class="flex-container top-navbar-rightarea"> -->
     <div ngbDropdown class="d-inline-block login-dropdown" style="flex-grow: 1">
         <button class="btn btn-primary" ngbDropdownToggle>
-            <span *ngIf="logged">Bentornato, {{ user.Name }}!</span>
-            <span *ngIf="!logged">Accedi</span>
+            <span *ngIf="!app.shared.utilities.isMobile">{{ logged ? ('Bentornato, ' + user.Name + '!') : 'Accedi' }}</span>
+            <span *ngIf="app.shared.utilities.isMobile"><i class="fas fa-user"></i></span>
         </button>
         <div ngbDropdownMenu>
             <div class="spinner-container">

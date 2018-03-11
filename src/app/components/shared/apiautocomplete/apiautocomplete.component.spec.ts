@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CityautocompleteComponent } from './cityautocomplete.component';
+import { ApiAutocompleteComponent } from './apiautocomplete.component';
 
 describe('CityautocompleteComponent', () => {
-  let component: CityautocompleteComponent;
-  let fixture: ComponentFixture<CityautocompleteComponent>;
+  let component: ApiAutocompleteComponent;
+  let fixture: ComponentFixture<ApiAutocompleteComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CityautocompleteComponent ]
+      declarations: [ ApiAutocompleteComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CityautocompleteComponent);
+    fixture = TestBed.createComponent(ApiAutocompleteComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

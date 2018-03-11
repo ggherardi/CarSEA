@@ -61,6 +61,12 @@ export class Cookies {
         return object;
     }
 
+    // Estende la durata del cookie
+    refreshCookie() {
+        const data = this.getObjectFromCookie(this.USER_COOKIE_NAME);
+        this.setEncodedCookie(this.USER_COOKIE_NAME, data, 0.5);
+    }
+
     // Elimina il cookie dalla lista dei cookies
     disposeCookie(cookieName: string) {
         this.setCookie(cookieName, '', -1);
