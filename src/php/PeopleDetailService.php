@@ -27,7 +27,13 @@ class PeopleDetailService {
         try {
             $userId = $_POST["userId"];
             Logger::Write("Retrieving details for user: $userId", $GLOBALS["CorrelationID"]);
-            $query = "SELECT u.Username, u.Nome, u.Cognome, u.Email, ud.age, ud.description, ud.photo_folder 
+            $query = "SELECT u.Username as username, 
+                        u.Nome as name, 
+                        u.Cognome as surname,
+                        u.Email as email,
+                        ud.age,
+                        ud.description,
+                        ud.photo_folder 
                     FROM user AS u
                     INNER JOIN user_detail AS ud
                     ON u.id = ud.user_id
@@ -35,7 +41,7 @@ class PeopleDetailService {
             $res = self::ExecuteQuery($query);
             if($res) {
                 $row = $res->fetch_assoc();
-                Logger::Write("Retrieved details for user: " . $row["Username"], $GLOBALS["CorrelationID"]);
+                Logger::Write("Retrieved details for user: " . $row["username"], $GLOBALS["CorrelationID"]);
                 return json_encode($row);
             }
             else {

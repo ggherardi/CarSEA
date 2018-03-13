@@ -14,6 +14,7 @@ export class PersonaldetailsComponent implements OnInit {
   @ViewChild('failureModalContent') failureModalContent;
   @ViewChild('successModalContent') successModalContent;
   @ViewChild('fileUpload') fileUpload;
+  userDetails: UserDetail;
   userId: number;
   personalDetailsForm: FormGroup;
   carsForm: FormGroup;
@@ -63,7 +64,10 @@ export class PersonaldetailsComponent implements OnInit {
 
   loadUserDetails() {
     this.app.shared.loadUserDetals(this.userId).subscribe(
-      succ => console.log(succ),
+      succ => {
+        this.userDetails = JSON.parse(succ);
+        console.log(succ);
+      },
       err => console.log(err)
     );
   }
