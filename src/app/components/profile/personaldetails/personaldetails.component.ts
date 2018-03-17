@@ -64,12 +64,20 @@ export class PersonaldetailsComponent implements OnInit {
 
   loadUserDetails() {
     this.app.shared.loadUserDetals(this.userId).subscribe(
-      succ => {
-        this.userDetails = JSON.parse(succ);
-        console.log(succ);
-      },
+      this.populateControls.bind(this),
       err => console.log(err)
     );
+  }
+
+  populateControls(res) {
+    const oUser = JSON.parse(res);
+    const arr = Object.getOwnPropertyNames(this.personalDetailsForm.controls);
+    for (let i = 0; i < arr.length; i++) {
+      const control = this.personalDetailsForm.get(arr[i]);
+      if (control !== null) {
+        control.setValue('test');
+      }
+    }
   }
 
   profilePictureChange(event) {
