@@ -37,15 +37,31 @@ export class UserDetail {
     email: string;
     age: string;
     description: string;
+    car: number;
 
     constructor(userId: number, name: string, surname: string, email: string,
-                age: string, description: string) {
+                age: string, description: string, car: number) {
         this.userId = userId;
         this.name = name;
         this.surname = surname;
         this.email = email;
         this.age = age;
         this.description = description;
+        this.car = car;
+    }
+}
+
+export class CarDetail {
+    id: number;
+    year: string;
+    make: number;
+    model: number;
+
+    constructor(id: number, year: string, make: number, model: number) {
+        this.id = id;
+        this.year = year;
+        this.make = make;
+        this.model = model;
     }
 }
 

@@ -59,6 +59,9 @@ class DBConnection {
         try {
             Logger::Write("Executing query", $GLOBALS["CorrelationID"]);
             $msRes = $this->getConnection()->query($query);
+            if(!$msRes) {
+                Logger::Write("Error while executing query ->" . $this->Connection->error, $GLOBALS["CorrelationID"]);   
+            }
             // echo "Rows number -> " . $msRes->num_rows;
             return $msRes;
         } 

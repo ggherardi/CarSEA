@@ -18,14 +18,11 @@ import { Observable } from 'rxjs/Observable';
 })
 export class ApiAutocompleteComponent implements OnInit, ControlValueAccessor {
   value: any;
-  @Input()
-  config: ApiAutocompleteConfig = {};
-  @Input()
-  placeholder: string;
-  @Input()
-  sourceList: any[];
-  @Output()
-  valueChanged = new EventEmitter();
+  @Input() defaultValue: any;
+  @Input() config: ApiAutocompleteConfig = {};
+  @Input() placeholder: string;
+  @Input() sourceList: any[];
+  @Output() valueChanged = new EventEmitter();
   searchCities = (keyword: any): Observable<any[]> => {
     const serviceUrl = this.config.apiUrl;
     const data = {

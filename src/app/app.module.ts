@@ -21,7 +21,7 @@ import { DetailsComponent } from './components/profile/details/details.component
 import { HeaderComponent } from './components/baselayout/header/header.component';
 import { FooterComponent } from './components/baselayout/footer/footer.component';
 import { SharedComponent } from './_services/shared';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { Models } from './_services/models';
 import { PolylineManager } from '@agm/core/services/managers/polyline-manager';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -102,6 +102,7 @@ const sitemap = [{
     BrowserModule,
     HttpModule,
     HttpClientModule,
+    FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
     NguiAutoCompleteModule,

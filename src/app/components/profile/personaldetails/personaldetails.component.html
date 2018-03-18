@@ -32,22 +32,39 @@
         </div>
     </div>
     <div class="col-12 col-sm-6">
-        <form [formGroup]="carsForm">
+        <div *ngIf="!hasCar">
+            <form [formGroup]="carsForm">
+                <div class="row">
+                    <div class="col-12 text-center mb-3">Automobile</div>
+                    <app-apiautocomplete 
+                        [defaultValue]="makeDefaultValue"
+                        formControlName="make" 
+                        class="col-6" 
+                        [config]="makeAutocompleteConfig" 
+                        placeholder="Marca"
+                        (valueChanged)="handleMakeChange($event)"></app-apiautocomplete>
+                    <app-apiautocomplete 
+                        [defaultValue]="modelDefaultValue"
+                        formControlName="model"
+                        class="col-6" 
+                        [config]="modelAutocompleteConfig" 
+                        placeholder="Modello"></app-apiautocomplete>
+                    <div *ngIf="carDetails.id !== undefined" class="col-12 mt-5">
+                        <button class="btn btn-outline-secondary" (click)="disableChangeCar()">Annulla modifica</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div *ngIf="hasCar">
             <div class="row">
-                <div class="col-12 text-center mb-3">Automobile</div>
-                <app-apiautocomplete 
-                    formControlName="make" 
-                    class="col-6" 
-                    [config]="makeAutocompleteConfig" 
-                    placeholder="Marca"
-                    (valueChanged)="handleMakeChange($event)"></app-apiautocomplete>
-                <app-apiautocomplete 
-                    formControlName="model" 
-                    class="col-6" 
-                    [config]="modelAutocompleteConfig" 
-                    placeholder="Modello"></app-apiautocomplete>
+                <div class="col-12">
+                    Automobile: {{ carDetails.make }} - {{ carDetails.model }} ({{ carDetails.year }})
+                </div>
+                <div class="col-12 mt-5">
+                    <button class="btn btn-outline-secondary" (click)="enableChangeCar()">Cambia automobile</button>
+                </div>            
             </div>
-        </form>
+        </div>
     </div>
 </div>
 

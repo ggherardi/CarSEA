@@ -33,10 +33,18 @@ class PeopleDetailService {
                         u.Email as email,
                         ud.age,
                         ud.description,
-                        ud.photo_folder 
+                        ud.photo_folder,
+                        c.id as car_id,
+                        c.make,
+                        c.model,
+                        c.year
                     FROM user AS u
                     INNER JOIN user_detail AS ud
                     ON u.id = ud.user_id
+                    INNER JOIN car_detail as cd
+                    ON u.id = cd.user_id
+                    INNER JOIN car as c
+                    ON cd.car_id = c.id 
                     WHERE u.id = $userId";
             $res = self::ExecuteQuery($query);
             if($res) {
@@ -65,28 +73,39 @@ class PeopleDetailService {
             $this->dbContext->StartTransaction();
             $query = 
                 "UPDATE user
-                SET Nome = '$details->name', Cognome = '$details->surname'
+                SET Nome = '$details->name', 
+                Cognome = '$details->surname'
                 WHERE Id = $details->userId";
             $res = self::ExecuteQuery($query);
             if(!$res) {
-                throw new Exception("Error while inserting new user");
+                throw new Exception("Error while updating user");
             }
-            $userId = $this->dbContext->GetLastID();
+
             $query = 
                 "UPDATE user_detail
-                SET age = '$details->age', description = '$details->description'
+                SET age = '$details->age',
+                description = '$details->description'
                 WHERE user_id = $details->userId";
             $res = self::ExecuteQuery($query);
-            Logger::Write("$query", $GLOBALS["CorrelationID"]);
             if(!$res) {
-                throw new Exception("Error while inserting new user details");
-            } 
+                throw new Exception("Error while updating user details");
+            }
+            if($details->car != null) {
+                $query = 
+                    "UPDATE car_detail
+                    SET car_id = ".$details->car->id."
+                    WHERE user_id = $details->userId";
+                $res = self::ExecuteQuery($query);
+                if(!$res) {
+                    throw new Exception("Error while updating user car details");
+                } 
+            }
             $transactionRes = $this->dbContext->CommitTransaction();
         }
         catch(Throwable $ex) {
-            $this->dbContext->RollBack();
-            Logger::Write("Error occured in InsertNewUser -> $ex", $GLOBALS["CorrelationID"]);
+            Logger::Write("Error occured in InsertDetails -> $ex", $GLOBALS["CorrelationID"]);
             http_response_code(500);
+            $this->dbContext->RollBack();
             $res = $false;
         }
         return $res;
@@ -109,6 +128,7 @@ class PeopleDetailService {
 
     // Switcha l'operazione richiesta lato client
     function Init() {
+        $this->dbContext = new DBConnection();
         switch(isset($_POST["action"]) ? $_POST["action"] : ""){
             case "insertDetails":
                 $res = self::InsertDetails();

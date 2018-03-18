@@ -34,7 +34,7 @@ class CarService {
 
         $allResults = [];
         while($row = $res->fetch_assoc()) {
-            $allResults[] = $row["make"]; 
+            $allResults[] = $row; 
         }
         return $allResults;
     }

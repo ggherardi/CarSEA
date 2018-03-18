@@ -146,6 +146,14 @@ class AuthenticationService {
             if(!$res) {
                 throw new Exception("Error while inserting new user details");
             } 
+            $query = 
+                "INSERT INTO car_detail
+                VALUES (DEFAULT, $userId, DEFAULT, DEFAULT)";
+            $res = self::ExecuteQuery($query);
+            Logger::Write("$query", $GLOBALS["CorrelationID"]);
+            if(!$res) {
+                throw new Exception("Error while inserting new user details");
+            } 
             $transactionRes = $this->dbContext->CommitTransaction();
         }
         catch(Throwable $ex) {

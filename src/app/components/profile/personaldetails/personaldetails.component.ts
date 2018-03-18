@@ -3,7 +3,7 @@ import { AppComponent } from '../../../app.component';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { ApiAutocompleteConfig } from '../../shared/apiautocomplete/apiautocomplete.component';
 import { Http } from '@angular/http';
-import { UserModel, UserDetail } from '../../../_services/models';
+import { UserModel, UserDetail, CarDetail } from '../../../_services/models';
 
 @Component({
   selector: 'app-personaldetails',
@@ -17,12 +17,14 @@ export class PersonaldetailsComponent implements OnInit {
   userDetails: UserDetail;
   userId: number;
   personalDetailsForm: FormGroup;
+  hasCar = false;
+  carDetails: CarDetail = new CarDetail(0, '', 0, 0);
   carsForm: FormGroup;
   makeAutocompleteConfig: ApiAutocompleteConfig = {
     apiUrl: 'php/CarService.php',
     apiAction: 'searchMake',
-    formattingFunction: (data) => `${data}`,
-    valueFormattingFunction: (data) => `${data.model} (${data.year})`
+    formattingFunction: (data) => `${data.make}`,
+    valueFormattingFunction: (data) => `${data.make}`
   };
   modelAutocompleteConfig: ApiAutocompleteConfig = {
     apiUrl: 'php/CarService.php',
@@ -71,12 +73,16 @@ export class PersonaldetailsComponent implements OnInit {
 
   populateControls(res) {
     const oUser = JSON.parse(res);
+    this.carDetails = new CarDetail(oUser.car_id, oUser.year, oUser.make, oUser.model);
     const arr = Object.getOwnPropertyNames(this.personalDetailsForm.controls);
     for (let i = 0; i < arr.length; i++) {
       const control = this.personalDetailsForm.get(arr[i]);
       if (control !== null) {
-        control.setValue('test');
+        control.setValue(oUser[arr[i]]);
       }
+    }
+    if (this.carDetails.id !== undefined) {
+      this.hasCar = true;
     }
   }
 
@@ -111,6 +117,7 @@ export class PersonaldetailsComponent implements OnInit {
       form.get('email').value,
       form.get('age').value,
       form.get('description').value,
+      this.carsForm.get('model').value
     );
     const data = {
       action: 'insertDetails',
@@ -118,7 +125,19 @@ export class PersonaldetailsComponent implements OnInit {
     };
     this.app.shared.post('php/PeopleDetailService.php', data).subscribe(
       succ => this.app.shared.openModal(this.successModalContent),
-      err => console.log(err)
+      err => this.app.shared.openModal(this.failureModalContent)
     );
+  }
+
+  handleMakeChange(event) {
+    this.modelAutocompleteConfig.apiParam = event;
+  }
+
+  enableChangeCar() {
+    this.hasCar = false;
+  }
+
+  disableChangeCar() {
+    this.hasCar = true;
   }
 }
