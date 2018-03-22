@@ -82,11 +82,13 @@ class TripService {
             $month = (strlen($date["mon"]) == 2 ? $date["mon"] : ("0" . $date["mon"]));
             $today = sprintf("%s-%s-%s %s:%s", $date["year"], $month, $day, $date["hours"], $date["minutes"]);
             $filters = json_decode($_POST["filters"]);
+            $tripID = isset($_POST["tripID"]) ? $_POST["tripID"] : 0;
 
             $query = "SELECT
                 u.Id as ownerId,
                 u.Nome as ownerName, 
-                t.id as tripId, 
+                t.id as tripId,
+                t.description as tripDescription,
                 t.departure_date as departureDate,
                 t.price, t.seats, t.duration, t.distance,
                 depc.nome as departureCityName, 
@@ -104,14 +106,17 @@ class TripService {
                 ON arrc.id = t.arrival_city
                 LEFT JOIN city as wayc
                 ON wayc.id = tw.city_id
-                WHERE 
-                t.departure_city = $filters->departureCity
+                WHERE ";
+            $query .= ($tripID != 0
+                ? "t.id = $tripID" 
+                : "t.departure_city = $filters->departureCity
                 AND t.arrival_city = $filters->arrivalCity
                 AND t.departure_date >= '$today'
                 AND t.departure_date >= '$filters->dateStart' 
                 AND t.departure_date <= '$filters->dateEnd'
-                AND t.price <= $filters->price";
-
+                AND t.price <= $filters->price");
+                Logger::Write($tripID, $GLOBALS["CorrelationID"]);
+                Logger::Write($query, $GLOBALS["CorrelationID"]);
             $res = self::ExecuteQuery($query);
             $results = array();
             if($res){

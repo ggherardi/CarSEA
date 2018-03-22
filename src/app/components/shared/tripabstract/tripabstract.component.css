@@ -4,6 +4,8 @@
 
 .trip-abstract {
     height: 100px;
+    margin-left: 0px!important;
+    margin-right: 0px!important;
 }
 
 .trip-abstract:first-child {

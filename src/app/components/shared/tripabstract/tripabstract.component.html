@@ -1,33 +1,35 @@
-<ng-container *ngIf="!app.shared.utilities.isMobile">
-  <div class="row trip-abstract">
-    <div class="col-3 trips-left-col">
-      {{ Trip.ownerName }}
+<div class="cursor-pointer background-hover-green" (click)="goToTripDetails()">
+  <ng-container *ngIf="!app.shared.utilities.isMobile">
+    <div class="row trip-abstract">
+      <div class="col-3 trips-left-col">
+        {{ Trip.ownerName }}
+      </div>
+      <div class="col-7">
+        <div class="trip-date"> {{ Trip.departureDate | date:'EEEE d MMMM - HH:mm':'':'it' }} </div>
+        {{ Trip.departureCityName }} 
+          <span *ngFor="let w of Trip.allWaypoints"> 
+            <i class="fas fa-long-arrow-alt-right"></i> {{ w.waypointCityName }}
+          </span> 
+        <i class="fas fa-long-arrow-alt-right"></i> {{ Trip.arrivalCityName }}
+      </div>
+      <div class="col-2">
+        {{ Trip.price }}
+      </div>
     </div>
-    <div class="col-7">
-      <div class="trip-date"> {{ Trip.departureDate | date:'EEEE d MMMM - HH:mm':'':'it' }} </div>
-      {{ Trip.departureCityName }} 
-        <span *ngFor="let w of Trip.allWaypoints"> 
-          <i class="fas fa-long-arrow-alt-right"></i> {{ w.waypointCityName }}
-        </span> 
-      <i class="fas fa-long-arrow-alt-right"></i> {{ Trip.arrivalCityName }}
+  </ng-container>
+  <ng-container *ngIf="app.shared.utilities.isMobile">
+    <div class="row trip-abstract">
+      <div class="col-12 trips-left-col">
+        {{ Trip.ownerName }}
+      </div>
+      <div class="col-12">
+        <div class="trip-date"> {{ Trip.departureDate | date:'EEEE d MMMM - HH:mm':'':'it' }} </div>
+        {{ Trip.departureCityName }} 
+        <i class="fas fa-long-arrow-alt-right"></i> {{ Trip.arrivalCityName }}
+      </div>
+      <div class="col-12">
+        {{ Trip.price }}
+      </div>
     </div>
-    <div class="col-2">
-      {{ Trip.price }}
-    </div>
-  </div>
-</ng-container>
-<ng-container *ngIf="app.shared.utilities.isMobile">
-  <div class="row trip-abstract">
-    <div class="col-12 trips-left-col">
-      {{ Trip.ownerName }}
-    </div>
-    <div class="col-12">
-      <div class="trip-date"> {{ Trip.departureDate | date:'EEEE d MMMM - HH:mm':'':'it' }} </div>
-      {{ Trip.departureCityName }} 
-      <i class="fas fa-long-arrow-alt-right"></i> {{ Trip.arrivalCityName }}
-    </div>
-    <div class="col-12">
-      {{ Trip.price }}
-    </div>
-  </div>
-</ng-container>
+  </ng-container>
+</div>

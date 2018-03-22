@@ -17,7 +17,6 @@ import { AdminpanelComponent } from './components/profile/adminpanel/adminpanel.
 import { PathchooserComponent } from './components/trips/pathchooser/pathchooser.component';
 import { PricechooserComponent } from './components/trips/pricechooser/pricechooser.component';
 import { PagenotfoundComponent } from './components/baselayout/pagenotfound/pagenotfound.component';
-import { DetailsComponent } from './components/profile/details/details.component';
 import { HeaderComponent } from './components/baselayout/header/header.component';
 import { FooterComponent } from './components/baselayout/footer/footer.component';
 import { SharedComponent } from './_services/shared';
@@ -41,6 +40,9 @@ import { registerLocaleData } from '@angular/common';
 import it from '@angular/common/locales/it';
 import { UtilitiesService } from './_services/utilities.service';
 import { SpinnerComponentModule } from 'ng2-component-spinner';
+import { DashboardComponent } from './components/profile/dashboard/dashboard.component';
+import { StorageService } from './_services/storage.service';
+import { TripdetailComponent } from './components/trips/tripdetail/tripdetail.component';
 
 registerLocaleData(it);
 const googleMapsAPIKey = 'AIzaSyCb2-mkLHWGdDBQAchtHhuQcucgbPNuO-M';
@@ -61,6 +63,12 @@ const sitemap = [{
   path: 'myprofile/offeredtrips',
   component: OfferedtripsComponent,
 }, {
+  path: 'dashboard',
+  component: DashboardComponent,
+}, {
+  path: 'tripdetail',
+  component: TripdetailComponent,
+},  {
   path: 'adminpanel',
   component: AdminpanelComponent,
 }, {
@@ -92,11 +100,12 @@ const sitemap = [{
     MytripsComponent,
     PersonaldetailsComponent,
     SidebarComponent,
-    DetailsComponent,
     FindpassageComponent,
     OfferedtripsComponent,
     ApiAutocompleteComponent,
-    TripabstractComponent
+    TripabstractComponent,
+    DashboardComponent,
+    TripdetailComponent
   ],
   imports: [
     BrowserModule,
@@ -127,7 +136,8 @@ const sitemap = [{
     NgbDropdownConfig,
     NgbCalendarGregorian,
     PaginationService,
-    UtilitiesService
+    UtilitiesService,
+    StorageService
   ],
   bootstrap: [
     AppComponent

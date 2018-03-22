@@ -59,8 +59,8 @@ class DBConnection {
         try {
             Logger::Write("Executing query", $GLOBALS["CorrelationID"]);
             $msRes = $this->getConnection()->query($query);
-            if(!$msRes) {
-                Logger::Write("Error while executing query ->" . $this->Connection->error, $GLOBALS["CorrelationID"]);   
+            if(!$msRes) {     
+                throw new Exception($this->Connection->error);   
             }
             // echo "Rows number -> " . $msRes->num_rows;
             return $msRes;
@@ -68,6 +68,8 @@ class DBConnection {
         catch (Throwable $ex) {
             $exMessage = $ex->getMessage();
             Logger::Write("Errore while executing query -> $exMessage", $GLOBALS["CorrelationID"]);
+            http_response_code(500);
+            exit(json_encode($exMessage));
         }
     }
 

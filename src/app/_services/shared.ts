@@ -10,6 +10,7 @@ import { ConstantsService } from './constants.service';
 import { Observable } from 'rxjs/Observable';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { UtilitiesService } from './utilities.service';
+import { StorageService } from './storage.service';
 
 @Component({ })
 
@@ -20,7 +21,7 @@ export class SharedComponent implements OnInit {
   constructor(public router: Router, public httpService: HttpService, public models: Models,
               public cookies: Cookies, public googleMapsService: GooglemapsService,
               public constantsService: ConstantsService, public modalService: NgbModal,
-              public utilities: UtilitiesService) { }
+              public utilities: UtilitiesService, public storage: StorageService) { }
 
   ngOnInit() { }
 
@@ -88,7 +89,7 @@ export class SharedComponent implements OnInit {
     }
   }
 
-  loadUserDetals(userId: number): Observable<any> {
+  loadUserDetails(userId: number): Observable<any> {
     const data = {
       action: 'retrieveDetails',
       userId: userId

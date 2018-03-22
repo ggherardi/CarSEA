@@ -3,7 +3,7 @@ import { AppComponent } from '../../../app.component';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { ApiAutocompleteConfig } from '../../shared/apiautocomplete/apiautocomplete.component';
 import { Http } from '@angular/http';
-import { UserModel, UserDetail, CarDetail } from '../../../_services/models';
+import { UserModel, UserDetail, CarDetail, UserDetailResponse } from '../../../_services/models';
 
 @Component({
   selector: 'app-personaldetails',
@@ -18,7 +18,7 @@ export class PersonaldetailsComponent implements OnInit {
   userId: number;
   personalDetailsForm: FormGroup;
   hasCar = false;
-  carDetails: CarDetail = new CarDetail(0, '', 0, 0);
+  carDetails: CarDetail = new CarDetail('', '', '', '');
   carsForm: FormGroup;
   makeAutocompleteConfig: ApiAutocompleteConfig = {
     apiUrl: 'php/CarService.php',
@@ -65,14 +65,14 @@ export class PersonaldetailsComponent implements OnInit {
   }
 
   loadUserDetails() {
-    this.app.shared.loadUserDetals(this.userId).subscribe(
+    this.app.shared.loadUserDetails(this.userId).subscribe(
       this.populateControls.bind(this),
       err => console.log(err)
     );
   }
 
   populateControls(res) {
-    const oUser = JSON.parse(res);
+    const oUser: UserDetailResponse = JSON.parse(res);
     this.carDetails = new CarDetail(oUser.car_id, oUser.year, oUser.make, oUser.model);
     const arr = Object.getOwnPropertyNames(this.personalDetailsForm.controls);
     for (let i = 0; i < arr.length; i++) {
@@ -124,7 +124,10 @@ export class PersonaldetailsComponent implements OnInit {
       userDetails: JSON.stringify(userDetails)
     };
     this.app.shared.post('php/PeopleDetailService.php', data).subscribe(
-      succ => this.app.shared.openModal(this.successModalContent),
+      succ => {
+        this.app.shared.openModal(this.successModalContent);
+        this.loadUserDetails();
+      },
       err => this.app.shared.openModal(this.failureModalContent)
     );
   }

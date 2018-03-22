@@ -51,13 +51,27 @@ export class UserDetail {
     }
 }
 
-export class CarDetail {
-    id: number;
+export class UserDetailResponse {
+    name: string;
+    surname: string;
+    username: string;
+    email: string;
+    age: string;
+    description: string;
+    photo_folder: string;
+    car_id: string;
+    make: string;
+    model: string;
     year: string;
-    make: number;
-    model: number;
+}
 
-    constructor(id: number, year: string, make: number, model: number) {
+export class CarDetail {
+    id: string;
+    year: string;
+    make: string;
+    model: string;
+
+    constructor(id: string, year: string, make: string, model: string) {
         this.id = id;
         this.year = year;
         this.make = make;
@@ -96,12 +110,13 @@ export class Trip {
     departureDate: string;
     price: number;
     seats: number;
-    description: string;
+    tripDescription: string;
     duration: number;
     distance: number;
 
     constructor(departureCity: number, arrivalCity: number, waypoints: number[],
-                duration: number, distance: number, departureDate: string) {
+                duration: number, distance: number, departureDate: string,
+                tripDescription: string) {
         this.departureCity = departureCity;
         this.arrivalCity = arrivalCity;
         this.waypoints = waypoints;
@@ -123,7 +138,7 @@ export class TripResponse extends Trip {
 
     constructor(duration, distance, departureDate, departureCityName, arrivalCityName,
                 ownerName, tripId, allWaypoints, waypointCityName, waypointId) {
-        super(0, 0, [], duration, distance, departureDate);
+        super(0, 0, [], duration, distance, departureDate, '');
         this.departureCityName = departureCityName;
         this.arrivalCityName = arrivalCityName;
         this.ownerName = ownerName;

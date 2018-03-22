@@ -59,7 +59,7 @@ export class PricechooserComponent implements OnInit {
     }
     this.app.shared.models.newTrip.price = this.formGroup.get('pricePicker').value;
     this.app.shared.models.newTrip.seats = this.formGroup.get('seatsPicker').value;
-    this.app.shared.models.newTrip.description = this.formGroup.get('descriptionPicker').value;
+    this.app.shared.models.newTrip.tripDescription = this.formGroup.get('descriptionPicker').value;
     this.app.shared.models.newTrip.ownerId = userObj.UserID;
     const stringifiedTrip = JSON.stringify(this.app.shared.models.newTrip);
     const tripData = {
