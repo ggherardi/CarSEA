@@ -116,7 +116,7 @@ export class Trip {
 
     constructor(departureCity: number, arrivalCity: number, waypoints: number[],
                 duration: number, distance: number, departureDate: string,
-                tripDescription: string) {
+                tripDescription?: string) {
         this.departureCity = departureCity;
         this.arrivalCity = arrivalCity;
         this.waypoints = waypoints;

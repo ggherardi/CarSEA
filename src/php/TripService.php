@@ -115,8 +115,6 @@ class TripService {
                 AND t.departure_date >= '$filters->dateStart' 
                 AND t.departure_date <= '$filters->dateEnd'
                 AND t.price <= $filters->price");
-                Logger::Write($tripID, $GLOBALS["CorrelationID"]);
-                Logger::Write($query, $GLOBALS["CorrelationID"]);
             $res = self::ExecuteQuery($query);
             $results = array();
             if($res){

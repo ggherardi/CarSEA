@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AppComponent } from '../../../app.component';
-import { TripResponse } from '../../../_services/models';
+import { TripResponse, UserDetail } from '../../../_services/models';
 
 @Component({
   selector: 'app-tripdetail',
@@ -10,6 +10,7 @@ import { TripResponse } from '../../../_services/models';
 export class TripdetailComponent implements OnInit {
 
   trip: TripResponse;
+  user: UserDetail;
 
   constructor(private app: AppComponent) { }
 
@@ -19,6 +20,7 @@ export class TripdetailComponent implements OnInit {
 
   private loadTripDetails() {
     const tripID = this.app.shared.storage.browsedTripID;
+    const ownerID = this.app.shared.storage.browsedUserID;
     if (tripID === undefined) {
       this.app.shared.router.navigateByUrl('');
       return;
@@ -27,12 +29,24 @@ export class TripdetailComponent implements OnInit {
       tripID: tripID,
       action: 'getTrips'
     };
+
+    // const data2 = {
+    //   tripID: 33,
+    //   action: 'getTrips'
+    // };
+    // const ownerID2 = 3;
+// RICORDARSI DI RIMUOVERE IL MOCKUP!
     this.app.shared.post('php/tripservice.php', data).subscribe(
       this.setTrip.bind(this),
       err => {
         console.log(err);
         this.app.shared.router.navigateByUrl('');
       });
+
+      this.app.shared.loadUserDetails(ownerID).subscribe(
+        this.setUser.bind(this),
+        err => console.log(err)
+      );
   }
 
   private setTrip(res) {
@@ -40,5 +54,14 @@ export class TripdetailComponent implements OnInit {
     if (res.length === 1) {
       this.trip = res[0];
     }
+  }
+
+  private setUser(res) {
+    console.log(`User: ${res}`);
+    this.user = JSON.parse(res);
+  }
+
+  goToUserDetails() {
+    this.app.shared.router.navigateByUrl('dashboard');
   }
 }

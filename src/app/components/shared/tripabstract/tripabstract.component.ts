@@ -19,6 +19,7 @@ export class TripabstractComponent implements OnInit {
 
   goToTripDetails() {
     this.app.shared.storage.browsedTripID = this.Trip.tripId;
+    this.app.shared.storage.browsedUserID = this.Trip.ownerId;
     this.app.shared.router.navigateByUrl('tripdetail');
   }
 
