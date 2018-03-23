@@ -21,29 +21,29 @@ export class TripdetailComponent implements OnInit {
   private loadTripDetails() {
     const tripID = this.app.shared.storage.browsedTripID;
     const ownerID = this.app.shared.storage.browsedUserID;
-    if (tripID === undefined) {
-      this.app.shared.router.navigateByUrl('');
-      return;
-    }
-    const data = {
-      tripID: tripID,
-      action: 'getTrips'
-    };
-
-    // const data2 = {
-    //   tripID: 33,
+    // if (tripID === undefined) {
+    //   this.app.shared.router.navigateByUrl('');
+    //   return;
+    // }
+    // const data = {
+    //   tripID: tripID,
     //   action: 'getTrips'
     // };
-    // const ownerID2 = 3;
+
+    const data2 = {
+      tripID: 33,
+      action: 'getTrips'
+    };
+    const ownerID2 = 3;
 // RICORDARSI DI RIMUOVERE IL MOCKUP!
-    this.app.shared.post('php/tripservice.php', data).subscribe(
+    this.app.shared.post('php/tripservice.php', data2).subscribe(
       this.setTrip.bind(this),
       err => {
         console.log(err);
         this.app.shared.router.navigateByUrl('');
       });
 
-      this.app.shared.loadUserDetails(ownerID).subscribe(
+      this.app.shared.loadUserDetails(ownerID2).subscribe(
         this.setUser.bind(this),
         err => console.log(err)
       );
