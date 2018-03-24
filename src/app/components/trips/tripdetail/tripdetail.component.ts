@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AppComponent } from '../../../app.component';
-import { TripResponse, UserDetail } from '../../../_services/models';
+import { TripResponse, UserDetail, UserModel } from '../../../_services/models';
 
 @Component({
   selector: 'app-tripdetail',
@@ -63,5 +63,11 @@ export class TripdetailComponent implements OnInit {
 
   goToUserDetails() {
     this.app.shared.router.navigateByUrl('dashboard');
+  }
+
+  goToMessages() {
+    if (!this.app.shared.navigateIfLogged('myprofile/messages')) {
+      console.log('not logged');
+    }
   }
 }

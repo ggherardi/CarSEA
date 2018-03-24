@@ -71,6 +71,17 @@ export class SharedComponent implements OnInit {
     this.router.navigateByUrl('/');
   }
 
+  navigateIfLogged(url: string): boolean {
+    const userObj: UserModel = this.cookies.getObjectFromCookie(this.cookies.USER_COOKIE_NAME);
+    if (userObj !== undefined) {
+      this.storage.currentUserID = userObj.UserID;
+      this.router.navigateByUrl(url);
+    } else {
+      return false;
+    }
+    return true;
+  }
+
   loadSession() {
     const storedUserDetails = this.cookies.getObjectFromCookie(this.cookies.USER_COOKIE_NAME);
     if (storedUserDetails !== undefined) {

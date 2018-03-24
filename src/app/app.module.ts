@@ -43,6 +43,7 @@ import { SpinnerComponentModule } from 'ng2-component-spinner';
 import { DashboardComponent } from './components/profile/dashboard/dashboard.component';
 import { StorageService } from './_services/storage.service';
 import { TripdetailComponent } from './components/trips/tripdetail/tripdetail.component';
+import { MessagesComponent } from './components/profile/messages/messages.component';
 
 registerLocaleData(it);
 const googleMapsAPIKey = 'AIzaSyCb2-mkLHWGdDBQAchtHhuQcucgbPNuO-M';
@@ -62,6 +63,9 @@ const sitemap = [{
 }, {
   path: 'myprofile/offeredtrips',
   component: OfferedtripsComponent,
+}, {
+  path: 'myprofile/messages',
+  component: MessagesComponent,
 }, {
   path: 'dashboard',
   component: DashboardComponent,
@@ -105,7 +109,8 @@ const sitemap = [{
     ApiAutocompleteComponent,
     TripabstractComponent,
     DashboardComponent,
-    TripdetailComponent
+    TripdetailComponent,
+    MessagesComponent
   ],
   imports: [
     BrowserModule,

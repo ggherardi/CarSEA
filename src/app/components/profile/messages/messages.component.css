@@ -1,0 +1,21 @@
+.messages, .conversations {
+    height: 500px;
+    overflow-y: auto;
+}
+
+.messages {
+    height: 452px;
+}
+
+.messages .list-group .list-group-item {
+    border: none;
+}
+
+.input-card {
+    height: 48px;
+}
+
+.input-card .card-body  {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}

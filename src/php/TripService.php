@@ -34,9 +34,6 @@ class TripService {
         TokenGenerator::ValidateToken();
         Logger::Write("Processing SaveNewTrip request", $GLOBALS["CorrelationID"]);
         try {
-            foreach($_POST as $key => $value){
-                Logger::Write("$key => $value", $GLOBALS["CorrelationID"]);
-            }
             $newTrip = json_decode($_POST["trip"]);
             $departureCityId = self::MapCityId($newTrip->departureCity);
             $arrivalCityId = self::MapCityId($newTrip->arrivalCity);
@@ -107,14 +104,14 @@ class TripService {
                 LEFT JOIN city as wayc
                 ON wayc.id = tw.city_id
                 WHERE ";
-            $query .= ($tripID != 0
-                ? "t.id = $tripID" 
-                : "t.departure_city = $filters->departureCity
-                AND t.arrival_city = $filters->arrivalCity
-                AND t.departure_date >= '$today'
-                AND t.departure_date >= '$filters->dateStart' 
-                AND t.departure_date <= '$filters->dateEnd'
-                AND t.price <= $filters->price");
+            $query .= ($tripID != 0 ? "t.id = $tripID" : 
+                    "t.seats > 0
+                    AND t.departure_city = $filters->departureCity
+                    AND t.arrival_city = $filters->arrivalCity
+                    AND t.departure_date >= '$today'
+                    AND t.departure_date >= '$filters->dateStart' 
+                    AND t.departure_date <= '$filters->dateEnd'
+                    AND t.price <= $filters->price");
             $res = self::ExecuteQuery($query);
             $results = array();
             if($res){

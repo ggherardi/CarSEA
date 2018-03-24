@@ -100,7 +100,7 @@ class PeopleDetailService {
                     throw new Exception("Error while updating user car details");
                 } 
             }
-            $transactionRes = $this->dbContext->CommitTransaction();
+            $res = $this->dbContext->CommitTransaction();
         }
         catch(Throwable $ex) {
             Logger::Write("Error occured in InsertDetails -> $ex", $GLOBALS["CorrelationID"]);
