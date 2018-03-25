@@ -44,6 +44,7 @@ import { DashboardComponent } from './components/profile/dashboard/dashboard.com
 import { StorageService } from './_services/storage.service';
 import { TripdetailComponent } from './components/trips/tripdetail/tripdetail.component';
 import { MessagesComponent } from './components/profile/messages/messages.component';
+import { ApiService } from './_services/api.service';
 
 registerLocaleData(it);
 const googleMapsAPIKey = 'AIzaSyCb2-mkLHWGdDBQAchtHhuQcucgbPNuO-M';
@@ -142,7 +143,8 @@ const sitemap = [{
     NgbCalendarGregorian,
     PaginationService,
     UtilitiesService,
-    StorageService
+    StorageService,
+    ApiService
   ],
   bootstrap: [
     AppComponent

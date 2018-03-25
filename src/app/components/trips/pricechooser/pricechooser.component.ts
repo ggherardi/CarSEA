@@ -76,7 +76,7 @@ export class PricechooserComponent implements OnInit {
             }
           }, err => {
             console.log(err);
-            this.app.shared.openModal(this.modalContent);
+            this.app.shared.openModal(this.modalContentError);
           });
   }
 }

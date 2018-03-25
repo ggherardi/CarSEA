@@ -34,20 +34,20 @@ class TripService {
         TokenGenerator::ValidateToken();
         Logger::Write("Processing SaveNewTrip request", $GLOBALS["CorrelationID"]);
         try {
+            $this->dbContext->StartTransaction();
             $newTrip = json_decode($_POST["trip"]);
             $departureCityId = self::MapCityId($newTrip->departureCity);
             $arrivalCityId = self::MapCityId($newTrip->arrivalCity);
-            $description = (strlen($newTrip->description) != 0) ? $newTrip->description : "NULL";
+            $description = (strlen($newTrip->tripDescription) != 0) ? $newTrip->tripDescription : "NULL";
     
             $query = "INSERT INTO `trip` 
                 VALUES (NULL, $newTrip->ownerId, $departureCityId, 
                         $arrivalCityId, '$newTrip->departureDate', 
                         $newTrip->price, $newTrip->seats, '$description',
                         $newTrip->duration, $newTrip->distance)";
-    
             $res = self::ExecuteQuery($query);
             Logger::Write("SaveNewTrip status: $res", $GLOBALS["CorrelationID"]);
-            if($res && $newTrip->waypoints > 0) {
+            if($res && strlen($newTrip->waypoints[0]) == null) {
                 $tripId = $this->dbContext->GetLastID();
                 foreach($newTrip->waypoints as $waypoint){
                     $values .= "(NULL, $tripId, $waypoint->id),";
@@ -58,11 +58,14 @@ class TripService {
                 Logger::Write("Waypoints save status: $resWpQuery", $GLOBALS["CorrelationID"]);
                 $res = $resWpQuery;
             }
+            throw new Exception("");
+            $this->dbContext->CommitTransaction();
             exit(json_encode($res));
         }
         catch(Throwable $ex) {
             Logger::Write("Error while saving a new trip: $ex", $GLOBALS["CorrelationID"]);
             http_response_code(500);
+            $this->dbContext->RollBack();
             exit(json_encode($ex->getMessage()));
         }
     }
@@ -148,6 +151,7 @@ class TripService {
 
     // Switcha l'operazione richiesta lato client
     function Init(){
+        $this->dbContext = new DBConnection();
         switch($_POST["action"]){
             case "saveNewTrip":
                 self::SaveNewTrip();

@@ -11,6 +11,7 @@ import { Observable } from 'rxjs/Observable';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { UtilitiesService } from './utilities.service';
 import { StorageService } from './storage.service';
+import { ApiService } from './api.service';
 
 @Component({ })
 
@@ -21,7 +22,8 @@ export class SharedComponent implements OnInit {
   constructor(public router: Router, public httpService: HttpService, public models: Models,
               public cookies: Cookies, public googleMapsService: GooglemapsService,
               public constantsService: ConstantsService, public modalService: NgbModal,
-              public utilities: UtilitiesService, public storage: StorageService) { }
+              public utilities: UtilitiesService, public storage: StorageService,
+              public api: ApiService) { }
 
   ngOnInit() { }
 
@@ -72,7 +74,7 @@ export class SharedComponent implements OnInit {
   }
 
   navigateIfLogged(url: string): boolean {
-    const userObj: UserModel = this.cookies.getObjectFromCookie(this.cookies.USER_COOKIE_NAME);
+    const userObj: UserModel = this.getCurrentUser();
     if (userObj !== undefined) {
       this.storage.currentUserID = userObj.UserID;
       this.router.navigateByUrl(url);
@@ -80,6 +82,10 @@ export class SharedComponent implements OnInit {
       return false;
     }
     return true;
+  }
+
+  getCurrentUser(): UserModel {
+    return this.cookies.getObjectFromCookie(this.cookies.USER_COOKIE_NAME);
   }
 
   loadSession() {

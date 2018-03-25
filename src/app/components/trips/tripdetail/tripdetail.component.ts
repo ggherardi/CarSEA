@@ -19,8 +19,8 @@ export class TripdetailComponent implements OnInit {
   }
 
   private loadTripDetails() {
-    const tripID = this.app.shared.storage.browsedTripID;
-    const ownerID = this.app.shared.storage.browsedUserID;
+    // const tripID = this.app.shared.storage.browsedTripID;
+    // const ownerID = this.app.shared.storage.browsedUserID;
     // if (tripID === undefined) {
     //   this.app.shared.router.navigateByUrl('');
     //   return;
@@ -31,10 +31,10 @@ export class TripdetailComponent implements OnInit {
     // };
 
     const data2 = {
-      tripID: 33,
+      tripID: 34,
       action: 'getTrips'
     };
-    const ownerID2 = 3;
+    const ownerID2 = 45;
 // RICORDARSI DI RIMUOVERE IL MOCKUP!
     this.app.shared.post('php/tripservice.php', data2).subscribe(
       this.setTrip.bind(this),
@@ -58,7 +58,8 @@ export class TripdetailComponent implements OnInit {
 
   private setUser(res) {
     console.log(`User: ${res}`);
-    this.user = JSON.parse(res);
+    this.app.shared.storage.browsedUser = JSON.parse(res);
+    this.user = this.app.shared.storage.browsedUser;
   }
 
   goToUserDetails() {
@@ -66,6 +67,7 @@ export class TripdetailComponent implements OnInit {
   }
 
   goToMessages() {
+    this.app.shared.storage.newConversation = true;
     if (!this.app.shared.navigateIfLogged('myprofile/messages')) {
       console.log('not logged');
     }

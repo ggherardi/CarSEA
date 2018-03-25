@@ -43,12 +43,12 @@ class PeopleDetailService {
                     ON u.id = ud.user_id
                     INNER JOIN car_detail as cd
                     ON u.id = cd.user_id
-                    INNER JOIN car as c
+                    LEFT JOIN car as c
                     ON cd.car_id = c.id 
                     WHERE u.id = $userId";
             $res = self::ExecuteQuery($query);
-            if($res) {
-                $row = $res->fetch_assoc();
+            $row = $res->fetch_assoc();
+            if($row) {
                 Logger::Write("Retrieved details for user: " . $row["username"], $GLOBALS["CorrelationID"]);
                 return json_encode($row);
             }
@@ -77,28 +77,25 @@ class PeopleDetailService {
                 Cognome = '$details->surname'
                 WHERE Id = $details->userId";
             $res = self::ExecuteQuery($query);
-            if(!$res) {
-                throw new Exception("Error while updating user");
-            }
+            Logger::Write("Update user result -> $res", $GLOBALS["CorrelationID"]);
 
             $query = 
                 "UPDATE user_detail
                 SET age = '$details->age',
-                description = '$details->description'
+                description = '".addslashes($details->description)."'
                 WHERE user_id = $details->userId";
+                            Logger::Write($query, $GLOBALS["CorrelationID"]);
             $res = self::ExecuteQuery($query);
-            if(!$res) {
-                throw new Exception("Error while updating user details");
-            }
+
+            Logger::Write("Update user_detail result -> $res", $GLOBALS["CorrelationID"]);
+
             if($details->car != null) {
                 $query = 
                     "UPDATE car_detail
                     SET car_id = ".$details->car->id."
                     WHERE user_id = $details->userId";
                 $res = self::ExecuteQuery($query);
-                if(!$res) {
-                    throw new Exception("Error while updating user car details");
-                } 
+                Logger::Write("Update car_detail -> $res", $GLOBALS["CorrelationID"]);
             }
             $res = $this->dbContext->CommitTransaction();
         }

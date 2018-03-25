@@ -55,21 +55,25 @@ class DBConnection {
         $this->getConnection()->commit();
     }
 
+    /** Ritorna il risultato della query. Se non sono stati trovati, la chiamata riesce e ritorna un array vuoto */
     function ExecuteQuery($query = "") {
         try {
             Logger::Write("Executing query", $GLOBALS["CorrelationID"]);
+            // Logger::Write($query, $GLOBALS["CorrelationID"]);
             $msRes = $this->getConnection()->query($query);
             if(!$msRes) {     
-                throw new Exception($this->Connection->error);   
+                if($this->Connection->error){
+                    throw new Exception($this->Connection->error);   
+                }
+                Logger::Write("No results found", $GLOBALS["CorrelationID"]);
+                exit(json_encode(array()));
             }
-            // echo "Rows number -> " . $msRes->num_rows;
             return $msRes;
         } 
         catch (Throwable $ex) {
             $exMessage = $ex->getMessage();
-            Logger::Write("Errore while executing query -> $exMessage", $GLOBALS["CorrelationID"]);
-            http_response_code(500);
-            exit(json_encode($exMessage));
+            Logger::Write("Error while executing query -> $exMessage", $GLOBALS["CorrelationID"]);
+            throw new Exception($ex);
         }
     }
 

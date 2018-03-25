@@ -2,9 +2,11 @@
   <div class="col-sm-4">
     <div class="conversations card">
       <ul class="list-group list-group-flush">
-        <li class="list-group-item">Cras justo odio</li>
-        <li class="list-group-item">Dapibus ac facilisis in</li>
-        <li class="list-group-item">Vestibulum at eros</li>
+        <ng-container *ngFor="let conversation of allConversations">
+          <li class="list-group-item cursor-pointer background-hover-green" (click)="selectConversation(conversation)">
+            {{conversation.ConversationTitle}}
+          </li>
+        </ng-container>
       </ul>
       <div class="card-body">
       </div>
@@ -22,13 +24,15 @@
     </div>
     <div class="card input-card">
       <div class="card-body">
-        <form class="form-group" (ngSubmit)="sendMessage()">
+        <form class="form-group" (ngSubmit)="sendMessage(messageControl)">
           <div class="row">
             <div class="col-10">
-              <input [formControl]="message" type="text" class="form-control" validate>
+              <input [formControl]="messageControl" type="text" class="form-control" validate>
             </div>
             <div class="col-2">
-              <button [disabled]="!message.valid" class="btn btn-light" type="submit"><i class="fas fa-paper-plane"></i></button>
+              <button [disabled]="!messageControl.valid" class="btn btn-light" type="submit">
+                <i class="fas fa-paper-plane"></i>
+              </button>
             </div>
           </div>
         </form>

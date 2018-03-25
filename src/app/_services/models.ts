@@ -167,3 +167,15 @@ export class SearchFilters {
         this.dateEnd = dateEnd;
     }
 }
+
+export class Conversation {
+    ConversationID: string;
+    ConversationTitle: string;
+    ConversationParticipantID: string;
+
+    constructor(conversationID: string, conversationTitle: string, conversationParticipantID: string) {
+        this.ConversationID = conversationID;
+        this.ConversationTitle = conversationTitle;
+        this.ConversationParticipantID = conversationParticipantID;
+    }
+}

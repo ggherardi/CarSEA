@@ -46,23 +46,6 @@ export class HttpService {
         return this.http.get(url).map((res: Response) => res.json());
     }
 
-    /** [DEPRECATO]: Ora le chiamate vengono effettuate unicamente con i metodi di Angular */
-    // postAjax(url: string, data: any, callback: any = function(){}, componentCallBack: any = function(){}) {
-    //     return jQuery.ajax({
-    //         async: false,
-    //         url: url,
-    //         data: data,
-    //         method: 'post',
-    //         success: function(res) {
-    //             callback(res);
-    //             componentCallBack(res);
-    //         },
-    //         error: function(err) {
-    //             console.log('Errore:' + err);
-    //         }
-    //     });
-    // }
-
     /** Formatta l'oggetto in formato querstring (key=value&key2=value2). Non è ricorsivo. */
     toQueryString(obj: any): string {
         const str = [];
