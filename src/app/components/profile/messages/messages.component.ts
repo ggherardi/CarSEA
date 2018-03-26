@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { AppComponent } from '../../../app.component';
-import { UserModel, Conversation } from '../../../_services/models';
+import { UserModel, Conversation, ConversationEntity } from '../../../_services/models';
 
 @Component({
   selector: 'app-messages',
@@ -12,7 +12,7 @@ export class MessagesComponent implements OnInit {
   messageControl = new FormControl('', [Validators.required]);
 
   allConversations: Conversation[] = [];
-  conversation: Conversation;
+  selectedConversation: ConversationEntity;
   currentUser: UserModel;
 
   constructor(private app: AppComponent) { }
@@ -39,10 +39,13 @@ export class MessagesComponent implements OnInit {
   }
 
   private prepareMessageForBrowsedUser() {
-    this.allConversations.push(new Conversation('0', this.app.shared.storage.browsedUser.name, '0'));
+    const newConversation = new ConversationEntity('0', this.app.shared.storage.browsedUser.name, '0');
+    this.allConversations.push(newConversation);
+    this.selectConversation(newConversation);
   }
 
-  selectConversation(conversation: Conversation) {
+  selectConversation(conversation: ConversationEntity) {
+    this.selectedConversation = conversation;
     console.log(conversation.ConversationTitle);
   }
 

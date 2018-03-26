@@ -54,8 +54,8 @@ class MessageService {
             self::ExecuteQuery($query);
             $conversationID = $this->dbContext->GetLastID();
 
-            foreach($conversation->participants as $participantID){
-                $values .= "(DEFAULT, $participant, $conversationID),";
+            foreach($conversation->participants as $userID){
+                $values .= "(DEFAULT, $userID, $conversationID),";
             }
             $values = rtrim($values, ",");
             $query =  
@@ -105,11 +105,46 @@ class MessageService {
         }
     }
 
+    private function GetMessages() {
+        TokenGenerator::ValidateToken();
+        try {
+            Logger::Write("Retrieving conversations", $GLOBALS["CorrelationID"]);
+            $userId = $_POST["userId"];
+            if($userId == null ) {
+                throw new Exception("Required parameter userId is missing");
+            }
+
+            $query = 
+                "SELECT c.ConversationID,
+                c.ConversationTitle,
+                c_p.ConversationParticipantID
+                FROM conversation_participant as c_p
+                LEFT JOIN conversation as c
+                ON c.ConversationID = c_p.ConversationID
+                WHERE c_p.UserID = $userId";
+            $res = $this->dbContext->ExecuteQuery();
+
+            $results = array();
+            while($row = $res->fetch_assoc()) {
+                $results[] = $row;
+            }
+            exit(json_encode($results));
+        }
+        catch(Throwable $ex) {
+            Logger::Write("Error while retrieving conversations: $ex", $GLOBALS["CorrelationID"]);
+            http_response_code(500);
+            exit(json_encode($ex->getMessage()));
+        }
+    }
+
     // Switcha l'operazione richiesta lato client
     function Init(){
         $this->dbContext = new DBConnection();
         switch($_POST["action"]){
             case "insertNewMessage":
+                self::InsertNewMessage();
+            break;
+            case "insertNewConversation":
                 self::InsertNewMessage();
             break;
             case "getConversations":

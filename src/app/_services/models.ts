@@ -168,7 +168,8 @@ export class SearchFilters {
     }
 }
 
-export class Conversation {
+/* Modelli entità conversazioni */
+export class ConversationEntity {
     ConversationID: string;
     ConversationTitle: string;
     ConversationParticipantID: string;
@@ -178,4 +179,25 @@ export class Conversation {
         this.ConversationTitle = conversationTitle;
         this.ConversationParticipantID = conversationParticipantID;
     }
+}
+
+export class ConversationMessageEntity {
+    ConversationMessageID: string;
+    ConversationMessage: string;
+    ConversationTimestamp: string;
+    ConversationID: string;
+    ConversationParticipantID: string;
+
+    constructor(conversationMessageID: string, conversationMessage: string, conversationTimestamp: string,
+                conversationID: string, conversationParticipantID: string) {
+        this.ConversationMessageID = conversationMessageID;
+        this.ConversationMessage = conversationMessage;
+        this.ConversationTimestamp = conversationTimestamp;
+        this.ConversationID = conversationID;
+        this.ConversationParticipantID = conversationParticipantID;
+    }
+}
+
+export class Conversation {
+    
 }

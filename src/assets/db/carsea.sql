@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Creato il: Mar 12, 2018 alle 09:05
+-- Creato il: Mar 27, 2018 alle 01:36
 -- Versione del server: 5.5.45
 -- Versione PHP: 7.0.21
 
@@ -19840,10 +19840,17 @@ INSERT INTO `car` (`id`, `year`, `make`, `model`) VALUES
 CREATE TABLE `car_detail` (
   `id` bigint(20) NOT NULL,
   `user_id` bigint(20) NOT NULL,
-  `make` varchar(50) NOT NULL,
-  `model` varchar(50) NOT NULL,
-  `photo_folder` varchar(20) NOT NULL
+  `car_id` bigint(11) DEFAULT NULL,
+  `photo_folder` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dump dei dati per la tabella `car_detail`
+--
+
+INSERT INTO `car_detail` (`id`, `user_id`, `car_id`, `photo_folder`) VALUES
+(1, 3, 1224, NULL),
+(2, 45, 917, NULL);
 
 -- --------------------------------------------------------
 
@@ -27539,6 +27546,44 @@ INSERT INTO `city` (`id`, `id_regione`, `id_provincia`, `nome`, `latitudine`, `l
 -- --------------------------------------------------------
 
 --
+-- Struttura della tabella `conversation`
+--
+
+CREATE TABLE `conversation` (
+  `ConversationID` int(11) NOT NULL,
+  `ConversationTitle` varchar(100) NOT NULL,
+  `ConversationArchived` tinyint(1) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `conversation_message`
+--
+
+CREATE TABLE `conversation_message` (
+  `ConversationMessageID` int(11) NOT NULL,
+  `ConversationID` int(11) NOT NULL,
+  `ConversationParticipantID` int(11) NOT NULL,
+  `ConversationMessage` varchar(2000) NOT NULL,
+  `ConversationTimestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `conversation_participant`
+--
+
+CREATE TABLE `conversation_participant` (
+  `ConversationParticipantID` int(11) NOT NULL,
+  `UserID` bigint(20) NOT NULL,
+  `ConversationID` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Struttura della tabella `trip`
 --
 
@@ -27561,17 +27606,20 @@ CREATE TABLE `trip` (
 
 INSERT INTO `trip` (`id`, `owner_id`, `departure_city`, `arrival_city`, `departure_date`, `price`, `seats`, `description`, `duration`, `distance`) VALUES
 (7, 3, 8596, 8569, '2018-02-28 22:10:00', 30, 5, 'asdasdf', 21412, 582259),
-(8, 3, 8579, 8551, '2018-03-19 10:20:00', 40, 5, 'Test', 56444, 1414990),
-(9, 3, 8579, 8551, '2018-03-19 09:50:00', 100, 3, 'prova prova', 78723, 2117430),
-(10, 3, 8579, 8551, '2018-03-19 15:10:00', 50, 5, 'aerdsada', 61789, 1559350),
-(11, 3, 8579, 8551, '2018-03-19 08:50:00', 20, 4, 'sdfasdfadsf', 53310, 1389432),
-(12, 3, 8579, 8551, '2018-03-19 10:40:00', 35, 5, 'adfsadf', 62979, 1621573),
-(13, 3, 8579, 8551, '2018-03-19 09:10:00', 25, 1, 'sdfasdf', 53310, 1389432),
-(14, 3, 8579, 8551, '2018-03-19 11:00:00', 35, 2, 'sdfasdfdf', 53310, 1389432),
-(15, 3, 8596, 8551, '2018-03-19 05:59:00', 33, 2, 'sadasd', 19458, 486070),
-(24, 3, 8595, 6181, '2018-03-18 12:00:00', 10, 5, 'asasdfasdf', 10478, 208252),
-(32, 3, 8595, 6181, '2018-03-18 09:00:00', 10, 5, 'asasdfasdf', 10478, 208252),
-(33, 3, 8595, 6181, '2018-03-18 15:00:00', 45, 2, 'RiminiRecanatiProva', 13441, 220032);
+(8, 3, 8579, 8551, '2018-05-31 10:20:00', 40, 5, 'Test', 56444, 1414990),
+(9, 3, 8579, 8551, '2018-05-31 09:50:00', 100, 3, 'prova prova', 78723, 2117430),
+(10, 3, 8579, 8551, '2018-05-31 15:10:00', 50, 5, 'aerdsada', 61789, 1559350),
+(11, 3, 8579, 8551, '2018-05-31 08:50:00', 20, 4, 'sdfasdfadsf', 53310, 1389432),
+(12, 3, 8579, 8551, '2018-05-31 10:40:00', 35, 5, 'adfsadf', 62979, 1621573),
+(13, 3, 8579, 8551, '2018-05-31 09:10:00', 25, 1, 'sdfasdf', 53310, 1389432),
+(14, 3, 8579, 8551, '2018-05-31 11:00:00', 35, 2, 'sdfasdfdf', 53310, 1389432),
+(15, 3, 8596, 8551, '2018-05-31 05:59:00', 33, 2, 'sadasd', 19458, 486070),
+(24, 3, 8595, 6181, '2018-05-31 12:00:00', 10, 5, 'asasdfasdf', 10478, 208252),
+(32, 3, 8595, 6181, '2018-05-31 09:00:00', 10, 5, 'asasdfasdf', 10478, 208252),
+(33, 3, 8595, 6181, '2018-05-31 15:00:00', 45, 2, 'RiminiRecanatiProva', 13441, 220032),
+(34, 45, 8569, 8551, '2018-05-31 15:00:00', 45, 3, 'Viaggio di prova', 12873, 213073),
+(50, 3, 8596, 8551, '2019-01-13 10:20:00', 20, 3, 'dsadfhgsadfhsfg', 19447, 486070),
+(51, 3, 8551, 8569, '2018-03-09 10:20:00', 332, 3, 'dfasdfgsadfgsdfg', 36169, 963237);
 
 -- --------------------------------------------------------
 
@@ -27598,7 +27646,9 @@ INSERT INTO `trip_waypoint` (`id`, `trip_id`, `city_id`) VALUES
 (6, 32, 5625),
 (7, 32, 3316),
 (8, 33, 7872),
-(9, 33, 3284);
+(9, 33, 3284),
+(10, 34, 8581),
+(11, 34, 8515);
 
 -- --------------------------------------------------------
 
@@ -27652,7 +27702,8 @@ INSERT INTO `user_detail` (`id`, `user_id`, `age`, `description`, `photo_folder`
 (1, 42, NULL, NULL, NULL),
 (2, 43, NULL, NULL, NULL),
 (3, 44, NULL, NULL, NULL),
-(4, 45, NULL, NULL, NULL);
+(4, 45, 20, 'Ciao sono l\'utente prova', NULL),
+(5, 3, 25, 'test', NULL);
 
 --
 -- Indici per le tabelle scaricate
@@ -27669,7 +27720,8 @@ ALTER TABLE `car`
 --
 ALTER TABLE `car_detail`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`);
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `car_id` (`car_id`);
 
 --
 -- Indici per le tabelle `city`
@@ -27677,6 +27729,27 @@ ALTER TABLE `car_detail`
 ALTER TABLE `city`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `latitudine` (`latitudine`,`longitudine`);
+
+--
+-- Indici per le tabelle `conversation`
+--
+ALTER TABLE `conversation`
+  ADD PRIMARY KEY (`ConversationID`);
+
+--
+-- Indici per le tabelle `conversation_message`
+--
+ALTER TABLE `conversation_message`
+  ADD PRIMARY KEY (`ConversationMessageID`),
+  ADD KEY `ConversationID` (`ConversationID`),
+  ADD KEY `ConversationParticipantID` (`ConversationParticipantID`);
+
+--
+-- Indici per le tabelle `conversation_participant`
+--
+ALTER TABLE `conversation_participant`
+  ADD PRIMARY KEY (`ConversationParticipantID`),
+  ADD KEY `ConversationID` (`ConversationID`);
 
 --
 -- Indici per le tabelle `trip`
@@ -27718,13 +27791,13 @@ ALTER TABLE `user_detail`
 -- AUTO_INCREMENT per la tabella `car`
 --
 ALTER TABLE `car`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20378;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19774;
 
 --
 -- AUTO_INCREMENT per la tabella `car_detail`
 --
 ALTER TABLE `car_detail`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT per la tabella `city`
@@ -27733,16 +27806,34 @@ ALTER TABLE `city`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8621;
 
 --
+-- AUTO_INCREMENT per la tabella `conversation`
+--
+ALTER TABLE `conversation`
+  MODIFY `ConversationID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT per la tabella `conversation_message`
+--
+ALTER TABLE `conversation_message`
+  MODIFY `ConversationMessageID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT per la tabella `conversation_participant`
+--
+ALTER TABLE `conversation_participant`
+  MODIFY `ConversationParticipantID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT per la tabella `trip`
 --
 ALTER TABLE `trip`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
 
 --
 -- AUTO_INCREMENT per la tabella `trip_waypoint`
 --
 ALTER TABLE `trip_waypoint`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT per la tabella `user`
@@ -27754,7 +27845,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT per la tabella `user_detail`
 --
 ALTER TABLE `user_detail`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Limiti per le tabelle scaricate
@@ -27764,7 +27855,21 @@ ALTER TABLE `user_detail`
 -- Limiti per la tabella `car_detail`
 --
 ALTER TABLE `car_detail`
-  ADD CONSTRAINT `car_detail_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`Id`);
+  ADD CONSTRAINT `car_detail_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`Id`),
+  ADD CONSTRAINT `car_detail_ibfk_2` FOREIGN KEY (`car_id`) REFERENCES `car` (`id`);
+
+--
+-- Limiti per la tabella `conversation_message`
+--
+ALTER TABLE `conversation_message`
+  ADD CONSTRAINT `conversation_message_ibfk_2` FOREIGN KEY (`ConversationParticipantID`) REFERENCES `conversation_participant` (`ConversationParticipantID`),
+  ADD CONSTRAINT `conversation_message_ibfk_1` FOREIGN KEY (`ConversationID`) REFERENCES `conversation` (`ConversationID`);
+
+--
+-- Limiti per la tabella `conversation_participant`
+--
+ALTER TABLE `conversation_participant`
+  ADD CONSTRAINT `conversation_participant_ibfk_1` FOREIGN KEY (`ConversationID`) REFERENCES `conversation` (`ConversationID`);
 
 --
 -- Limiti per la tabella `trip`
@@ -27778,8 +27883,8 @@ ALTER TABLE `trip`
 -- Limiti per la tabella `trip_waypoint`
 --
 ALTER TABLE `trip_waypoint`
-  ADD CONSTRAINT `trip_waypoint_ibfk_2` FOREIGN KEY (`trip_id`) REFERENCES `trip` (`id`),
-  ADD CONSTRAINT `trip_waypoint_ibfk_1` FOREIGN KEY (`city_id`) REFERENCES `city` (`id`);
+  ADD CONSTRAINT `trip_waypoint_ibfk_1` FOREIGN KEY (`city_id`) REFERENCES `city` (`id`),
+  ADD CONSTRAINT `trip_waypoint_ibfk_2` FOREIGN KEY (`trip_id`) REFERENCES `trip` (`id`);
 
 --
 -- Limiti per la tabella `user_detail`
