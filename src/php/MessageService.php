@@ -31,8 +31,19 @@ class MessageService {
             $message = json_decode($_POST["message"]);
             $userId = $message->userId;
 
-            $this->dbContext->StartTransaction();
-
+            $query = 
+                "INSERT INTO conversation_message (ConversationMessageID, 
+                            ConversationID, 
+                            ConversationParticipantID, 
+                            ConversationMessage, 
+                            ConversationTimestamp)
+                VALUES(DEFAULT, 
+                        $message->conversationID, 
+                        $message->conversationParticipantID, 
+                        $message->conversationMessage, 
+                        NOW())";
+            $res = $this->ExecuteQuery($query);
+            
         }
         catch(Throwable $ex) {
             Logger::Write("Error while creating new message: $ex", $GLOBALS["CorrelationID"]);
