@@ -46,7 +46,7 @@ class DBConnection {
     }
 
     function RollBack() {
-        Logger::Write("RollBacking current transaction", $GLOBALS["CorrelationID"]);
+        Logger::Write("Rolling back current transaction", $GLOBALS["CorrelationID"]);
         $this->getConnection()->rollback();
     }
 

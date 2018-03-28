@@ -69,7 +69,7 @@ export class TripdetailComponent implements OnInit {
   goToMessages() {
     this.app.shared.storage.newConversation = true;
     if (!this.app.shared.navigateIfLogged('myprofile/messages')) {
-      console.log('not logged');
+      alert('not logged');
     }
   }
 }

@@ -52,6 +52,7 @@ export class UserDetail {
 }
 
 export class UserDetailResponse {
+    userId: string;
     name: string;
     surname: string;
     username: string;
@@ -168,28 +169,28 @@ export class SearchFilters {
     }
 }
 
-/* Modelli entità conversazioni */
-export class ConversationEntity {
-    ConversationID: string;
+/* Modelli componente messages */
+export class ConversationResponse {
+    ConversationID: number;
     ConversationTitle: string;
-    ConversationParticipantID: string;
+    ConversationParticipantID: number;
 
-    constructor(conversationID: string, conversationTitle: string, conversationParticipantID: string) {
+    constructor(conversationID: number, conversationTitle: string, conversationParticipantID: number) {
         this.ConversationID = conversationID;
         this.ConversationTitle = conversationTitle;
         this.ConversationParticipantID = conversationParticipantID;
     }
 }
 
-export class ConversationMessageEntity {
-    ConversationMessageID: string;
+export class ConversationMessageResponse {
+    ConversationMessageID: number;
     ConversationMessage: string;
     ConversationTimestamp: string;
-    ConversationID: string;
-    ConversationParticipantID: string;
+    ConversationID: number;
+    ConversationParticipantID: number;
 
-    constructor(conversationMessageID: string, conversationMessage: string, conversationTimestamp: string,
-                conversationID: string, conversationParticipantID: string) {
+    constructor(conversationMessageID: number, conversationMessage: string, conversationTimestamp: string,
+                conversationID: number, conversationParticipantID: number) {
         this.ConversationMessageID = conversationMessageID;
         this.ConversationMessage = conversationMessage;
         this.ConversationTimestamp = conversationTimestamp;
@@ -198,6 +199,14 @@ export class ConversationMessageEntity {
     }
 }
 
-export class Conversation {
-    
+export class NewConversation {
+    Title: string;
+    Participants: number[];
+    Message: string;
+
+    constructor(title: string, participants: number[], message: string) {
+        this.Title = title;
+        this.Participants = participants;
+        this.Message = message;
+    }
 }

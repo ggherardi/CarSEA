@@ -53,26 +53,46 @@ class MessageService {
         }
     }
   
+    private function NewMessageQuery($conversationID, $conversationParticipantID, $conversationMessage) {
+        $query = 
+            "INSERT INTO conversation_message (ConversationMessageID, 
+                        ConversationID, 
+                        ConversationParticipantID, 
+                        ConversationMessage, 
+                        ConversationTimestamp)
+            VALUES(DEFAULT,
+                    $conversationID,
+                    $conversationParticipantID, 
+                    '$conversationMessage', 
+                    NOW())";
+        $this->ExecuteQuery($query);
+    }
+
     private function InsertNewConversation(){
         try {
             Logger::Write("Creating new conversation", $GLOBALS["CorrelationID"]);
             $this->dbContext->StartTransaction();
-            $conversation = json_decode($_POST["conversation"]);
+            $newConversation = json_decode($_POST["newConversation"]);
 
             $query = 
                 "INSERT INTO conversation (ConversationID, ConversationTitle, ConversationArchived)
-                VALUES (DEFAULT, $conversation->title, DEFAULT)";
-            self::ExecuteQuery($query);
+                VALUES (DEFAULT, '$newConversation->Title', DEFAULT)";
+            $res = self::ExecuteQuery($query);
+            Logger::Write("Insert new conversation result -> $res", $GLOBALS["CorrelationID"]);
             $conversationID = $this->dbContext->GetLastID();
 
-            foreach($conversation->participants as $userID){
+            foreach($newConversation->Participants as $userID){
                 $values .= "(DEFAULT, $userID, $conversationID),";
             }
             $values = rtrim($values, ",");
             $query =  
                 "INSERT INTO conversation_participant (ConversationParticipantID, UserID, ConversationID)
                 VALUES $values";
-            self::ExecuteQuery($query);
+            $res = self::ExecuteQuery($query);
+            Logger::Write("Insert conversation participants result -> $res", $GLOBALS["CorrelationID"]);
+            $messageSenderParticipantID = $this->dbContext->GetLastID();
+            self::NewMessageQuery($conversationID, $messageSenderParticipantID, $newConversation->Message);
+
             $this->dbContext->CommitTransaction();
             exit(json_encode($conversationID));
         }
@@ -102,7 +122,7 @@ class MessageService {
                 ON c.ConversationID = c_p.ConversationID
                 WHERE c_p.UserID = $userId";
             $res = $this->dbContext->ExecuteQuery();
-
+            Logger::Write($query, $GLOBALS["CorrelationID"]);//TO REMOVE
             $results = array();
             while($row = $res->fetch_assoc()) {
                 $results[] = $row;
@@ -119,20 +139,17 @@ class MessageService {
     private function GetMessages() {
         TokenGenerator::ValidateToken();
         try {
-            Logger::Write("Retrieving conversations", $GLOBALS["CorrelationID"]);
-            $userId = $_POST["userId"];
-            if($userId == null ) {
-                throw new Exception("Required parameter userId is missing");
+            Logger::Write("Retrieving messages", $GLOBALS["CorrelationID"]);
+            $conversationID = $_POST["conversationID"];
+            if($conversationID == null ) {
+                throw new Exception("Required parameter conversationID is missing");
             }
 
             $query = 
-                "SELECT c.ConversationID,
-                c.ConversationTitle,
-                c_p.ConversationParticipantID
-                FROM conversation_participant as c_p
-                LEFT JOIN conversation as c
-                ON c.ConversationID = c_p.ConversationID
-                WHERE c_p.UserID = $userId";
+                "SELECT *
+                FROM conversation_message as c_m
+                WHERE c_m.ConversationID = $conversationID
+                ORDER BY c_m.ConversationTimestamp";
             $res = $this->dbContext->ExecuteQuery();
 
             $results = array();
@@ -156,13 +173,13 @@ class MessageService {
                 self::InsertNewMessage();
             break;
             case "insertNewConversation":
-                self::InsertNewMessage();
+                self::InsertNewConversation();
             break;
             case "getConversations":
                 self::GetConversations();
             break;
             case "getMessages":
-                // self::GetTrips();
+                self::GetMessages();
                 break;
             default: 
                 exit(json_encode($_POST));

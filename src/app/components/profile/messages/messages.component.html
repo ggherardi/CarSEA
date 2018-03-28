@@ -15,16 +15,16 @@
   <div class="col-sm-8">
     <div class="messages card">
         <ul class="list-group list-group-flush">
-          <li class="list-group-item">Cras justo odio</li>
-          <li class="list-group-item">Dapibus ac facilisis in</li>
-          <li class="list-group-item">Vestibulum at eros</li>
+          <ng-container *ngFor="let message of allMessages">
+            <li class="list-group-item">{{message.ConversationMessage}}</li>
+          </ng-container>
         </ul>
       <div class="card-body">
       </div>
     </div>
     <div class="card input-card">
       <div class="card-body">
-        <form class="form-group" (ngSubmit)="sendMessage(messageControl)">
+        <form class="form-group" (ngSubmit)="sendMessage(messageControl.value)">
           <div class="row">
             <div class="col-10">
               <input [formControl]="messageControl" type="text" class="form-control" validate>

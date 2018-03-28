@@ -48,6 +48,7 @@ class TokenGenerator{
         }
         $token = substr($authHeader, 7, strlen($authHeader));
         $decryptedToken = self::DecryptToken($token);
+        Logger::Write($authHeader, $GLOBALS["CorrelationID"]);
         if(strlen($token) == 0 || $decryptedToken == null) {
             Logger::Write("Authentication token missing or invalid.", $GLOBALS["CorrelationID"]);
             http_response_code(401);

@@ -27,7 +27,8 @@ class PeopleDetailService {
         try {
             $userId = $_POST["userId"];
             Logger::Write("Retrieving details for user: $userId", $GLOBALS["CorrelationID"]);
-            $query = "SELECT u.Username as username, 
+            $query = "SELECT u.Id as userId,
+                        u.Username as username, 
                         u.Nome as name, 
                         u.Cognome as surname,
                         u.Email as email,
