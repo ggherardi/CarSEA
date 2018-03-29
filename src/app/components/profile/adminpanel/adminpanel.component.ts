@@ -14,11 +14,11 @@ export class AdminpanelComponent implements OnInit {
   }
 
   deleteCities() {
-    this.app.shared.httpService.get('php/cities2.json').subscribe(res => this.insertCitiesCallback(res, 'deleteCities'));
+    this.app.shared.get('php/cities2.json').subscribe(res => this.insertCitiesCallback(res, 'deleteCities'));
   }
 
   insertCities() {
-    this.app.shared.httpService.get('php/cities2.json').subscribe(res => this.insertCitiesCallback(res, 'insertCities'));
+    this.app.shared.get('php/cities2.json').subscribe(res => this.insertCitiesCallback(res, 'insertCities'));
   }
 
   private insertCitiesCallback(res, action) {

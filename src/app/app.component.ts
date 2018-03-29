@@ -6,6 +6,7 @@ import { Cookies } from './_services/cookies';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SharedComponent } from './_services/shared';
 import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
+import { ApiService } from './_services/api.service';
 
 @Component({
   selector: 'app-root',
@@ -19,7 +20,8 @@ import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
 export class AppComponent implements OnInit {
   showSpinnerLoader = false;
 
-  constructor(public cookies: Cookies, public router: Router, public shared: SharedComponent) {
+  constructor(public cookies: Cookies, public router: Router, public shared: SharedComponent, 
+              public api: ApiService) {
   }
 
   ngOnInit() {

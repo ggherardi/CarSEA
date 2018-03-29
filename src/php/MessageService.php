@@ -121,11 +121,12 @@ class MessageService {
                 LEFT JOIN conversation as c
                 ON c.ConversationID = c_p.ConversationID
                 WHERE c_p.UserID = $userId";
-            $res = $this->dbContext->ExecuteQuery();
-            Logger::Write($query, $GLOBALS["CorrelationID"]);//TO REMOVE
+            $res = $this->dbContext->ExecuteQuery($query);
             $results = array();
-            while($row = $res->fetch_assoc()) {
-                $results[] = $row;
+            if($res) {
+                while($row = $res->fetch_assoc()) {
+                    $results[] = $row;
+                }
             }
             exit(json_encode($results));
         }
@@ -150,7 +151,7 @@ class MessageService {
                 FROM conversation_message as c_m
                 WHERE c_m.ConversationID = $conversationID
                 ORDER BY c_m.ConversationTimestamp";
-            $res = $this->dbContext->ExecuteQuery();
+            $res = $this->dbContext->ExecuteQuery($query);
 
             $results = array();
             while($row = $res->fetch_assoc()) {

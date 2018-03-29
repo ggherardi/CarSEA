@@ -47,7 +47,7 @@ export class SignupComponent implements OnInit {
       username: this.signupForm.controls.username.value,
       password: this.signupForm.controls.password.value
     };
-    this.app.shared.httpService.post('php/AuthenticationService.php', data).subscribe(this.signupCallBack.bind(this));
+    this.app.shared.post('php/AuthenticationService.php', data).subscribe(this.signupCallBack.bind(this));
   }
 
   /** Callback del metodo d'iscrizione, gestisce i result code del servizio */

@@ -15,11 +15,11 @@ export class HttpService {
     /** Ritorna un observable contenente i dati recuperati dal servizio tramite POST.
      * Il metodo utilizza l'header per le CORS e il JWT per poter utilizzare le API interne.
      * Effettuare il subscribe sul valore di return per utilizzare i dati */
-    post = (serviceUrl, data: object): Observable<any[]> => {
+    post = (serviceUrl: string, data: object, token: string): Observable<any[]> => {
         const options = new RequestOptions({
             headers: new Headers({
                 'Content-Type': 'application/x-www-form-urlencoded',
-                'Authorization': 'bearer ' + this.JWToken
+                'Authorization': 'bearer ' + token
             })
         });
         const querystringData = this.toQueryString(data);
@@ -29,11 +29,11 @@ export class HttpService {
     /** Ritorna un observable contenente i dati recuperati dal servizio tramite GET.
      * Il metodo utilizza l'header per le CORS e il JWT per poter utilizzare le API interne.
      * Effettuare il subscribe sul valore di return per utilizzare i dati */
-    get = (url: string): Observable<any[]> => {
+    get = (url: string, token: string): Observable<any[]> => {
         const options = new RequestOptions({
             headers: new Headers({
                 'Access-Control-Allow-Origin': 'http://www.progettostw.com',
-                'Authorization': 'bearer ' + this.JWToken
+                'Authorization': 'bearer ' + token
             })
         });
         return this.http.get(url, options).map((res: Response) => res.json());

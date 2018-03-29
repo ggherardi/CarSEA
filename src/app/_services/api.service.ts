@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpService } from './httpService';
 import { Observable } from 'rxjs/Observable';
 import { NewConversation } from './models';
+import { SharedComponent } from './shared';
 
 @Injectable()
 export class ApiService {
 
-  //SPOSTARE CLASSE PER UTILIZZARE METODI HTTP CON HEADER CORRETTI
-  constructor(private http: HttpService) { }
+  // SPOSTARE CLASSE PER UTILIZZARE METODI HTTP CON HEADER CORRETTI
+  constructor(private shared: SharedComponent, private http: HttpService) { }
 
   getConversations(userId: number): Observable<any[]> {
     const serviceUrl = 'php/MessageService.php';
@@ -15,7 +16,7 @@ export class ApiService {
       userId: userId,
       action: 'getConversations'
     };
-    return this.http.post(serviceUrl, data);
+    return this.shared.post(serviceUrl, data);
   }
 
   getMessages(conversationID: number): Observable<any[]> {
@@ -24,7 +25,7 @@ export class ApiService {
       conversationID: conversationID,
       action: 'getMessages'
     };
-    return this.http.post(serviceUrl, data);
+    return this.shared.post(serviceUrl, data);
   }
 
   insertConversation(newConversation: NewConversation): Observable<any[]> {
@@ -34,6 +35,6 @@ export class ApiService {
       newConversation: stringifiedNewConversation,
       action: 'insertNewConversation'
     };
-    return this.http.post(serviceUrl, data);
+    return this.shared.post(serviceUrl, data);
   }
 }

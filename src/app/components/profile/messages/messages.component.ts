@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { AppComponent } from '../../../app.component';
 import { UserModel, NewConversation, ConversationResponse, ConversationMessageResponse } from '../../../_services/models';
+import { ApiService } from '../../../_services/api.service';
 
 @Component({
   selector: 'app-messages',
@@ -33,8 +34,8 @@ export class MessagesComponent implements OnInit {
   }
 
   private retrieveConversations() {
-    this.app.shared.api.getConversations(this.currentUser.UserID).subscribe(
-      succ => console.log(succ),
+    this.app.api.getConversations(this.currentUser.UserID).subscribe(
+      succ => this.allConversations = succ,
       err => console.log(err)
     );
   }
@@ -47,7 +48,7 @@ export class MessagesComponent implements OnInit {
 
   selectConversation(conversation: ConversationResponse) {
     this.selectedConversation = conversation;
-    this.app.shared.api.getMessages(conversation.ConversationID).subscribe(
+    this.app.api.getMessages(conversation.ConversationID).subscribe(
       this.populateControlWithMessages.bind(this),
       err => console.log(err)
     );
@@ -69,7 +70,7 @@ export class MessagesComponent implements OnInit {
   insertNewConversation(message: string) {
     const participants = [this.app.shared.storage.browsedUser.userId, this.currentUser.UserID];
     const newConversation = new NewConversation(this.app.shared.storage.browsedUser.name, participants, message);
-    this.app.shared.api.insertConversation(newConversation).subscribe(
+    this.app.api.insertConversation(newConversation).subscribe(
       succ => {
         console.log(succ);
         this.selectedConversation.ConversationID = succ[0];

@@ -65,8 +65,7 @@ class DBConnection {
                 if($this->Connection->error){
                     throw new Exception($this->Connection->error);   
                 }
-                Logger::Write("No results found", $GLOBALS["CorrelationID"]);
-                exit(json_encode(array()));
+                Logger::Write("No results found", $GLOBALS["CorrelationID"]);                
             }
             return $msRes;
         } 

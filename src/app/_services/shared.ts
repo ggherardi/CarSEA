@@ -22,23 +22,22 @@ export class SharedComponent implements OnInit {
   constructor(public router: Router, public httpService: HttpService, public models: Models,
               public cookies: Cookies, public googleMapsService: GooglemapsService,
               public constantsService: ConstantsService, public modalService: NgbModal,
-              public utilities: UtilitiesService, public storage: StorageService,
-              public api: ApiService) { }
+              public utilities: UtilitiesService, public storage: StorageService) { }
 
   ngOnInit() { }
 
   /** Metodo proxy per chiamare la POST nell'HttpService rivolta alle API interne che
    * necessitano dell'autenticazione tramite il JWT. */
   post = (serviceUrl, data: object): Observable<any[]> => {
-    this.getToken();
-    return this.httpService.post(serviceUrl, data);
+    const token = this.getToken();
+    return this.httpService.post(serviceUrl, data, token);
   }
 
   /** Metodo proxy per chiamare la GET nell'HttpService rivolta alle API interne che
   * necessitano dell'autenticazione tramite il JWT. */
   get = (url: string): Observable<any[]> => {
-    this.getToken();
-    return this.httpService.get(url);
+    const token = this.getToken();
+    return this.httpService.get(url, token);
   }
 
   login(username: string, password: string, callback: any = function(a){}): void {
@@ -96,14 +95,18 @@ export class SharedComponent implements OnInit {
     }
   }
 
-  getToken() {
+  getToken(): string {
+    let token = '';
     const userCookie: UserModel = this.cookies.getObjectFromCookie(this.cookies.USER_COOKIE_NAME);
     if (userCookie !== undefined) {
       this.cookies.refreshCookie();
-      this.httpService.JWToken = userCookie.Token;
-    } else {
-      this.httpService.JWToken = '';
+      token = userCookie.Token;
     }
+      // this.httpService.JWToken = userCookie.Token;
+    // } else {
+    //   this.httpService.JWToken = '';
+    // }
+    return token;
   }
 
   loadUserDetails(userId: number): Observable<any> {
