@@ -210,3 +210,15 @@ export class NewConversation {
         this.Message = message;
     }
 }
+
+export class NewMessage {
+    ConversationID: number;
+    ConversationParticipantID: number;
+    ConversationMessage: string;
+
+    constructor(conversationID: number, conversationParticipantID: number, conversationMessage: string) {
+        this.ConversationID = conversationID;
+        this.ConversationParticipantID = conversationParticipantID;
+        this.ConversationMessage = conversationMessage;
+    }
+}

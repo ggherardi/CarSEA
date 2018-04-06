@@ -13,6 +13,7 @@ export class SidebarComponent implements OnInit, DoCheck {
     title: 'Il mio profilo', link: '#',
     subItems: [
               {title: 'Il mio profilo', link: 'myprofile/details'},
+              {title: 'Messaggi', link: 'myprofile/messages'},
               {title: 'Viaggi offerti', link: '#'},
               {title: 'Viaggi prenotati', link: '#'}
             ]

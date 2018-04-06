@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { AppComponent } from '../../../app.component';
-import { UserModel, NewConversation, ConversationResponse, ConversationMessageResponse } from '../../../_services/models';
+import { UserModel, NewConversation, ConversationResponse, ConversationMessageResponse, NewMessage } from '../../../_services/models';
 import { ApiService } from '../../../_services/api.service';
 
 @Component({
@@ -48,14 +48,18 @@ export class MessagesComponent implements OnInit {
 
   selectConversation(conversation: ConversationResponse) {
     this.selectedConversation = conversation;
+    this.getMessages(conversation);
+    console.log(conversation.ConversationTitle);
+  }
+
+  private getMessages(conversation: ConversationResponse) {
     this.app.api.getMessages(conversation.ConversationID).subscribe(
       this.populateControlWithMessages.bind(this),
       err => console.log(err)
     );
-    console.log(conversation.ConversationTitle);
   }
 
-  populateControlWithMessages(res: any) {
+  private populateControlWithMessages(res: any) {
     const obj: ConversationMessageResponse[] = res;
     this.allMessages = obj.length > 0 ? obj : [];
   }
@@ -64,6 +68,14 @@ export class MessagesComponent implements OnInit {
     console.log(message);
     if (this.allMessages.length === 0) {
       this.insertNewConversation(message);
+    } else {
+      const oMessage = new NewMessage(
+        this.selectedConversation.ConversationID,
+        this.selectedConversation.ConversationParticipantID,
+        message);
+      this.app.api.insertMessage(oMessage).subscribe(
+        this.populateControlWithMessages.bind(this),
+        err => console.log(err));
     }
   }
 

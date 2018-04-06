@@ -30,30 +30,17 @@ class MessageService {
             Logger::Write("Processing InsertNewMessage request", $GLOBALS["CorrelationID"]);
             $message = json_decode($_POST["message"]);
             $userId = $message->userId;
-
-            $query = 
-                "INSERT INTO conversation_message (ConversationMessageID, 
-                            ConversationID, 
-                            ConversationParticipantID, 
-                            ConversationMessage, 
-                            ConversationTimestamp)
-                VALUES(DEFAULT, 
-                        $message->conversationID, 
-                        $message->conversationParticipantID, 
-                        $message->conversationMessage, 
-                        NOW())";
-            $res = $this->ExecuteQuery($query);
-            
+            self::InsertMessage($message->ConversationID, $message->ConversationParticipantID, $message->ConversationMessage);
+            self::GetMessages($message->ConversationID);
         }
         catch(Throwable $ex) {
             Logger::Write("Error while creating new message: $ex", $GLOBALS["CorrelationID"]);
             http_response_code(500);
-            $this->dbContext->RollBack();
             exit(json_encode($ex->getMessage()));
         }
     }
   
-    private function NewMessageQuery($conversationID, $conversationParticipantID, $conversationMessage) {
+    private function InsertMessage($conversationID, $conversationParticipantID, $conversationMessage) {
         $query = 
             "INSERT INTO conversation_message (ConversationMessageID, 
                         ConversationID, 
@@ -65,6 +52,7 @@ class MessageService {
                     $conversationParticipantID, 
                     '$conversationMessage', 
                     NOW())";
+                            // Logger::Write($query, $GLOBALS["CorrelationID"]);
         $this->ExecuteQuery($query);
     }
 
@@ -91,7 +79,7 @@ class MessageService {
             $res = self::ExecuteQuery($query);
             Logger::Write("Insert conversation participants result -> $res", $GLOBALS["CorrelationID"]);
             $messageSenderParticipantID = $this->dbContext->GetLastID();
-            self::NewMessageQuery($conversationID, $messageSenderParticipantID, $newConversation->Message);
+            self::InsertMessage($conversationID, $messageSenderParticipantID, $newConversation->Message);
 
             $this->dbContext->CommitTransaction();
             exit(json_encode($conversationID));
@@ -137,11 +125,11 @@ class MessageService {
         }
     }
 
-    private function GetMessages() {
+    private function GetMessages($conversationID) {
         TokenGenerator::ValidateToken();
         try {
             Logger::Write("Retrieving messages", $GLOBALS["CorrelationID"]);
-            $conversationID = $_POST["conversationID"];
+            $conversationID = isset($_POST["conversationID"]) ? $_POST["conversationID"] : $conversationID;
             if($conversationID == null ) {
                 throw new Exception("Required parameter conversationID is missing");
             }
