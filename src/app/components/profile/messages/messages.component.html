@@ -13,10 +13,25 @@
     </div>
   </div>
   <div class="col-sm-8">
-    <div class="messages card">
+    <div #messagesContainer class="messages card">
         <ul class="list-group list-group-flush">
           <ng-container *ngFor="let message of allMessages">
-            <li class="list-group-item">{{message.ConversationMessage}}</li>
+            <li class="list-group-item">
+              <div class="card chat-box"  
+                [ngClass]="message.ConversationParticipantID === selectedConversation.ConversationParticipantID ? 'own' : 'others'">
+                  <div class="card-body">
+                    {{message.ConversationMessage}}
+                    <blockquote class="blockquote mb-0">        
+                      <footer class="blockquote-footer">
+                        <cite title="Source Title">{{message.ConversationTimestamp | date:'EEEE d MMMM - HH:mm':'':'it' }}</cite>
+                      </footer>
+                    </blockquote>
+                  </div>
+                </div>
+              <!-- <div class="chat-box" [ngStyle]="{'background-color': true ? 'green' : 'red'}">
+
+              </div> -->
+            </li>
           </ng-container>
         </ul>
       <div class="card-body">
@@ -30,7 +45,7 @@
               <input [formControl]="messageControl" type="text" class="form-control" validate>
             </div>
             <div class="col-2">
-              <button [disabled]="!messageControl.valid" class="btn btn-light" type="submit">
+              <button [disabled]="!messageControl.valid" class="btn btn-light btn-send-message" type="submit">
                 <i class="fas fa-paper-plane"></i>
               </button>
             </div>

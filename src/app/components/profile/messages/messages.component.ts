@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { AppComponent } from '../../../app.component';
 import { UserModel, NewConversation, ConversationResponse, ConversationMessageResponse, NewMessage } from '../../../_services/models';
@@ -10,6 +10,7 @@ import { ApiService } from '../../../_services/api.service';
   styleUrls: ['./messages.component.css']
 })
 export class MessagesComponent implements OnInit {
+  @ViewChild('messagesContainer') messagesContainer: ElementRef;
   messageControl = new FormControl('', [Validators.required]);
 
   allMessages: ConversationMessageResponse[] = [];
@@ -62,6 +63,9 @@ export class MessagesComponent implements OnInit {
   private populateControlWithMessages(res: any) {
     const obj: ConversationMessageResponse[] = res;
     this.allMessages = obj.length > 0 ? obj : [];
+    setTimeout(() => {
+      this.messagesContainer.nativeElement.scrollTo(0, this.messagesContainer.nativeElement.scrollHeight);
+    }, 0.1);
   }
 
   sendMessage(message: string) {

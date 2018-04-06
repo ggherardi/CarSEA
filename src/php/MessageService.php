@@ -92,7 +92,7 @@ class MessageService {
         }
     }
 
-    private function GetConversations() {
+    private function GetExistingConversation() {
         TokenGenerator::ValidateToken();
         try {
             Logger::Write("Retrieving conversations", $GLOBALS["CorrelationID"]);
@@ -101,6 +101,40 @@ class MessageService {
                 throw new Exception("Required parameter userId is missing");
             }
 
+            $query = 
+                "SELECT c.ConversationID,
+                c.ConversationTitle,
+                c_p.ConversationParticipantID
+                FROM conversation_participant as c_p
+                LEFT JOIN conversation as c
+                ON c.ConversationID = c_p.ConversationID
+                WHERE c_p.UserID = $userId";
+            $res = $this->dbContext->ExecuteQuery($query);
+            $results = array();
+            if($res) {
+                while($row = $res->fetch_assoc()) {
+                    $results[] = $row;
+                }
+            }
+            exit(json_encode($results));
+        }
+        catch(Throwable $ex) {
+            Logger::Write("Error while retrieving conversations: $ex", $GLOBALS["CorrelationID"]);
+            http_response_code(500);
+            exit(json_encode($ex->getMessage()));
+        }
+    }
+
+    private function GetConversations() {
+        TokenGenerator::ValidateToken();
+        try {
+            Logger::Write("Retrieving conversations", $GLOBALS["CorrelationID"]);
+            $senderId = $_POST["senderId"];
+            $receiverId = $_POST["receiverId"];
+            if($userId == null || $receiverId == null) {
+                throw new Exception("Required parameter userId or receiver is missing");
+            }
+//CAMBIARE LA QUERY PER RECUPERARE CONVERSAZIONE GIA' ESISTENTE NEL CASO SI USI IL PULSANTE INVIA MESSAGGIO
             $query = 
                 "SELECT c.ConversationID,
                 c.ConversationTitle,
@@ -163,6 +197,9 @@ class MessageService {
             break;
             case "insertNewConversation":
                 self::InsertNewConversation();
+            break;
+            case "getExistingConversation":
+                self::GetExistingConversation();
             break;
             case "getConversations":
                 self::GetConversations();

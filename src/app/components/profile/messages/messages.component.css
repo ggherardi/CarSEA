@@ -1,3 +1,17 @@
+.chat-box {
+    max-width: 50%;
+}
+
+.own {
+    float: right;
+    background-color: #deffcc;
+}
+
+.others {
+    float: left;
+    background-color: #e4e4e4;
+}
+
 .messages, .conversations {
     height: 500px;
     overflow-y: auto;
@@ -18,4 +32,14 @@
 .input-card .card-body  {
     padding-top: 5px;
     padding-bottom: 5px;
+}
+
+@media only screen and (max-width: 768px) {
+    .btn-send-message {
+        margin-left: -20px!important;
+    }
+
+    .chat-box {
+        max-width: 90%;
+    }
 }
