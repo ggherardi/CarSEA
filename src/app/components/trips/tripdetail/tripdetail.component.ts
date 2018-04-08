@@ -31,10 +31,10 @@ export class TripdetailComponent implements OnInit {
     // };
 
     const data2 = {
-      tripID: 34,
+      tripID: 73,
       action: 'getTrips'
     };
-    const ownerID2 = 45;
+    const ownerID2 = 44;
 // RICORDARSI DI RIMUOVERE IL MOCKUP!
     this.app.shared.post('php/tripservice.php', data2).subscribe(
       this.setTrip.bind(this),

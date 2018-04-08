@@ -18,6 +18,16 @@ export class ApiService {
     return this.shared.post(serviceUrl, data);
   }
 
+  getExistingConversations(senderId: number, receiverId: number): Observable<any[]> {
+    const serviceUrl = 'php/MessageService.php';
+    const data = {
+      senderId: senderId,
+      receiverId: receiverId,
+      action: 'getExistingConversation'
+    };
+    return this.shared.post(serviceUrl, data);
+  }
+
   getMessages(conversationID: number): Observable<any[]> {
     const serviceUrl = 'php/MessageService.php';
     const data = {

@@ -39,7 +39,7 @@ class TripService {
             $departureCityId = self::MapCityId($newTrip->departureCity);
             $arrivalCityId = self::MapCityId($newTrip->arrivalCity);
             $description = (strlen($newTrip->tripDescription) != 0) ? $newTrip->tripDescription : "NULL";
-    
+            Logger::Write($_POST["trip"], $GLOBALS["CorrelationID"]);
             $query = "INSERT INTO `trip` 
                 VALUES (NULL, $newTrip->ownerId, $departureCityId, 
                         $arrivalCityId, '$newTrip->departureDate', 
@@ -47,18 +47,20 @@ class TripService {
                         $newTrip->duration, $newTrip->distance)";
             $res = self::ExecuteQuery($query);
             Logger::Write("SaveNewTrip status: $res", $GLOBALS["CorrelationID"]);
-            if($res && strlen($newTrip->waypoints[0]) == null) {
+            if($res && count($newTrip->waypoints) > 0) {
                 $tripId = $this->dbContext->GetLastID();
                 foreach($newTrip->waypoints as $waypoint){
-                    $values .= "(NULL, $tripId, $waypoint->id),";
+                    if($waypoint != null)
+                        $values .= "(NULL, $tripId, $waypoint->id),";
                 }
                 $values = rtrim($values, ",");
-                $waypointsQuery = "INSERT INTO `trip_waypoint` VALUES" . $values;
-                $resWpQuery = self::ExecuteQuery($waypointsQuery);
-                Logger::Write("Waypoints save status: $resWpQuery", $GLOBALS["CorrelationID"]);
-                $res = $resWpQuery;
+                if(strlen($values) > 0) {
+                    $waypointsQuery = "INSERT INTO `trip_waypoint` VALUES" . $values;
+                    $resWpQuery = self::ExecuteQuery($waypointsQuery);
+                    Logger::Write("Waypoints save status: $resWpQuery", $GLOBALS["CorrelationID"]);
+                    $res = $resWpQuery;
+                }
             }
-            throw new Exception("");
             $this->dbContext->CommitTransaction();
             exit(json_encode($res));
         }

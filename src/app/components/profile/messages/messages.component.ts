@@ -30,7 +30,10 @@ export class MessagesComponent implements OnInit {
     console.log(this.app.shared.storage.browsedUserID);
     if (this.app.shared.storage.newConversation) {
       this.app.shared.storage.newConversation = false;
-      this.prepareMessageForBrowsedUser();
+      this.app.api.getExistingConversations(this.currentUser.UserID, this.app.shared.storage.browsedUser.userId).subscribe(
+        this.prepareMessageForBrowsedUser.bind(this),
+        err => console.log(err)
+      );
     }
   }
 
@@ -41,9 +44,14 @@ export class MessagesComponent implements OnInit {
     );
   }
 
-  private prepareMessageForBrowsedUser() {
-    const newConversation = new ConversationResponse(0, this.app.shared.storage.browsedUser.name, 0);
-    this.allConversations.push(newConversation);
+  private prepareMessageForBrowsedUser(res: any) {
+    const conversationResponse: ConversationResponse = res[0];
+    let newConversation = conversationResponse;
+    if (conversationResponse === undefined) {
+      this.allConversations.push(newConversation);
+      newConversation = new ConversationResponse(0, this.app.shared.storage.browsedUser.name, 0);
+      newConversation = conversationResponse;
+    }
     this.selectConversation(newConversation);
   }
 
