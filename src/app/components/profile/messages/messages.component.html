@@ -19,18 +19,15 @@
             <li class="list-group-item">
               <div class="card chat-box"  
                 [ngClass]="message.ConversationParticipantID === selectedConversation.ConversationParticipantID ? 'own' : 'others'">
-                  <div class="card-body">
-                    {{message.ConversationMessage}}
-                    <blockquote class="blockquote mb-0">        
-                      <footer class="blockquote-footer">
-                        <cite title="Source Title">{{message.ConversationTimestamp | date:'EEEE d MMMM - HH:mm':'':'it' }}</cite>
-                      </footer>
-                    </blockquote>
-                  </div>
+                <div class="card-body">
+                  {{message.ConversationMessage}}
+                  <blockquote class="blockquote mb-0">        
+                    <footer class="blockquote-footer">
+                      <cite class="chat-time">{{message.ConversationTimestamp | date:'d MMMM - HH:mm':'':'it' }}</cite>
+                    </footer>
+                  </blockquote>
                 </div>
-              <!-- <div class="chat-box" [ngStyle]="{'background-color': true ? 'green' : 'red'}">
-
-              </div> -->
+              </div>
             </li>
           </ng-container>
         </ul>

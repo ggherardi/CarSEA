@@ -87,7 +87,8 @@ export class MessagesComponent implements OnInit {
         message);
       this.app.api.insertMessage(oMessage).subscribe(
         this.populateControlWithMessages.bind(this),
-        err => console.log(err));
+        err => console.log(err),
+        () => this.messageControl.reset());
     }
   }
 

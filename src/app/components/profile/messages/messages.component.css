@@ -2,6 +2,10 @@
     max-width: 50%;
 }
 
+.chat-time {
+    font-size: 10px;
+}
+
 .own {
     float: right;
     background-color: #deffcc;
