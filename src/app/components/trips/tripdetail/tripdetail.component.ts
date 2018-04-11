@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AppComponent } from '../../../app.component';
 import { TripResponse, UserDetail, UserModel } from '../../../_services/models';
 
@@ -8,6 +8,7 @@ import { TripResponse, UserDetail, UserModel } from '../../../_services/models';
   styleUrls: ['./tripdetail.component.css']
 })
 export class TripdetailComponent implements OnInit {
+  @ViewChild('confirmBookingModal') confirmBookingModal;
 
   trip: TripResponse;
   user: UserDetail;
@@ -64,6 +65,10 @@ export class TripdetailComponent implements OnInit {
 
   goToUserDetails() {
     this.app.shared.router.navigateByUrl('dashboard');
+  }
+
+  confirmBooking() {
+    this.app.shared.openModal(this.confirmBookingModal);
   }
 
   goToMessages() {
