@@ -3,6 +3,7 @@ import { FormControl, Validators } from '@angular/forms';
 import { AppComponent } from '../../../app.component';
 import { UserModel, NewConversation, ConversationResponse, ConversationMessageResponse, NewMessage } from '../../../_services/models';
 import { ApiService } from '../../../_services/api.service';
+import { NavigationEnd } from '@angular/router';
 
 @Component({
   selector: 'app-messages',
@@ -13,6 +14,7 @@ export class MessagesComponent implements OnInit {
   @ViewChild('messagesContainer') messagesContainer: ElementRef;
   messageControl = new FormControl('', [Validators.required]);
 
+  getMessagesInterval: any;
   allMessages: ConversationMessageResponse[] = [];
   allConversations: ConversationResponse[] = [];
   selectedConversation: ConversationResponse;
@@ -57,8 +59,17 @@ export class MessagesComponent implements OnInit {
 
   selectConversation(conversation: ConversationResponse) {
     this.selectedConversation = conversation;
+    this.manageActiveChat(conversation);
     this.getMessages(conversation);
     console.log(conversation.ConversationTitle);
+  }
+
+  private manageActiveChat(conversation: ConversationResponse) {
+    clearInterval(this.getMessagesInterval);
+    this.getMessagesInterval = setInterval(() => this.getMessages(conversation), 5000);
+    this.app.shared.router.events.subscribe((e: NavigationEnd) => {
+      clearInterval(this.getMessagesInterval);
+    });
   }
 
   private getMessages(conversation: ConversationResponse) {

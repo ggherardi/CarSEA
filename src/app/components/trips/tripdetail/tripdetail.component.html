@@ -82,6 +82,22 @@
   <div class="btn btn-success" (click)="goToMessages()"><i class="fas fa-envelope mr-2"></i>Manda un messaggio al conducente</div>
 </div>
 
-<ng-template #confirmBookingModal>
-  <span>Sei sicuro di voler prenotare?</span>
+<ng-template #confirmBookingModal let-c="close">
+    <div class="card-body">
+    <blockquote class="blockquote mb-0">
+      <div class="card-deck text-center">
+        <div class="card">
+          <div class="card-header">
+            Conferma prenotazione
+          </div>
+          <div class="card-body">
+            <p>Il conducente si metterà in contatto con te per stabilire i dettagli del viaggio.</p>
+            <p>Una volta prenotato il viaggio potrai disdirlo unicamente in accordo con il conducente.</p>
+            <button class="btn btn-primary" (click)="createBooking()">Conferma prenotazione</button>
+            <button class="btn btn-secondary" (click)="c('Close click')">Annulla</button>
+          </div>
+        </div>
+      </div>
+    </blockquote>
+  </div>
 </ng-template>

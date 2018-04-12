@@ -151,6 +151,16 @@ export class TripResponse extends Trip {
     }
 }
 
+export class NewBooking {
+    userId: number;
+    tripId: number;
+
+    constructor(userId: number, tripId: number) {
+        this.userId = userId;
+        this.tripId = tripId;
+    }
+}
+
 /** Modello per i filtri di ricerca dei Trip */
 export class SearchFilters {
     departureCity: number;

@@ -71,6 +71,10 @@ export class TripdetailComponent implements OnInit {
     this.app.shared.openModal(this.confirmBookingModal);
   }
 
+  createBooking() {
+    this.app.router.navigateByUrl('myprofile/mytrips');
+  }
+
   goToMessages() {
     this.app.shared.storage.newConversation = true;
     if (!this.app.shared.navigateIfLogged('myprofile/messages')) {

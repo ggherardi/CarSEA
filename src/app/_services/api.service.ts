@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from './httpService';
 import { Observable } from 'rxjs/Observable';
-import { NewConversation, NewMessage } from './models';
+import { NewConversation, NewMessage, NewBooking } from './models';
 import { SharedComponent } from './shared';
 
 @Injectable()
@@ -53,6 +53,15 @@ export class ApiService {
     const data = {
       message: stringifiedMessage,
       action: 'insertNewMessage'
+    };
+    return this.shared.post(serviceUrl, data);
+  }
+
+  insertBooking(newBooking: NewBooking): Observable<any[]> {
+    const serviceUrl = 'php/TripService.php';
+    const data = {
+      action: 'insertBooking',
+      newBooking: newBooking
     };
     return this.shared.post(serviceUrl, data);
   }

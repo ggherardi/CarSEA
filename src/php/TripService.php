@@ -151,6 +151,14 @@ class TripService {
         return $responseObject;
     }
 
+    function InsertBooking() {
+
+    }
+
+    function GetBookings() {
+
+    }
+
     // Switcha l'operazione richiesta lato client
     function Init(){
         $this->dbContext = new DBConnection();
@@ -160,6 +168,12 @@ class TripService {
             break;
             case "getTrips":
                 self::GetTrips();
+                break;
+            case "insertBooking":
+                self::InsertBooking();
+                break;
+            case "getBookings":
+                self::GetBookings();
                 break;
             default: 
                 exit(json_encode($_POST));
