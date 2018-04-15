@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AppComponent } from '../../../app.component';
-import { TripResponse, UserDetail, UserModel } from '../../../_services/models';
+import { TripResponse, UserDetail, UserModel, NewBooking, BookingResponse } from '../../../_services/models';
+import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-tripdetail',
@@ -9,14 +10,22 @@ import { TripResponse, UserDetail, UserModel } from '../../../_services/models';
 })
 export class TripdetailComponent implements OnInit {
   @ViewChild('confirmBookingModal') confirmBookingModal;
+  confirmBookingModalRef: NgbModalRef;
 
+  currentUser: UserModel;
   trip: TripResponse;
-  user: UserDetail;
+  browserUser: UserDetail;
+  existsBooking = false;
 
   constructor(private app: AppComponent) { }
 
   ngOnInit() {
+    this.loadCurrentUser();
     this.loadTripDetails();
+  }
+
+  private loadCurrentUser() {
+    this.currentUser = this.app.shared.getCurrentUser();
   }
 
   private loadTripDetails() {
@@ -31,12 +40,6 @@ export class TripdetailComponent implements OnInit {
       action: 'getTrips'
     };
 
-    // const data2 = {
-    //   tripID: 73,
-    //   action: 'getTrips'
-    // };
-    // const ownerID2 = 44;
-// RICORDARSI DI RIMUOVERE IL MOCKUP!
     this.app.shared.post('php/tripservice.php', data).subscribe(
       this.setTrip.bind(this),
       err => {
@@ -51,16 +54,29 @@ export class TripdetailComponent implements OnInit {
   }
 
   private setTrip(res) {
-    console.log(res);
     if (res.length === 1) {
       this.trip = res[0];
+      this.loadExistingBooking();
     }
   }
 
   private setUser(res) {
-    console.log(`User: ${res}`);
     this.app.shared.storage.browsedUser = JSON.parse(res);
-    this.user = this.app.shared.storage.browsedUser;
+    this.browserUser = this.app.shared.storage.browsedUser;
+  }
+
+  loadExistingBooking() {
+    this.app.api.getExistingBooking(new NewBooking(this.currentUser.UserID, this.trip.tripId)).subscribe(
+      this.manageExistingBooking.bind(this),
+      err => console.log(err)
+    );
+  }
+
+  manageExistingBooking(res: BookingResponse) {
+    console.log(res);
+    if (res !== null) {
+      this.existsBooking = true;
+    }
   }
 
   goToUserDetails() {
@@ -68,11 +84,19 @@ export class TripdetailComponent implements OnInit {
   }
 
   confirmBooking() {
-    this.app.shared.openModal(this.confirmBookingModal);
+    this.confirmBookingModalRef = this.app.shared.openModal(this.confirmBookingModal);
   }
 
   createBooking() {
-    this.app.router.navigateByUrl('myprofile/mytrips');
+    this.app.shared.closeModal(this.confirmBookingModalRef);
+    if (this.currentUser !== undefined) {
+      this.app.api.insertBooking(new NewBooking(this.currentUser.UserID, this.trip.tripId)).subscribe(
+        succ => this.app.router.navigateByUrl('myprofile/mytrips'),
+        err => console.log(err)
+      );
+    } else {
+      alert('not logged');
+    }
   }
 
   goToMessages() {

@@ -71,14 +71,15 @@
   <div class="cursor-pointer" (click)="goToUserDetails()">
     <div class="card-body">
         <blockquote class="blockquote mb-0">
-          <p>{{user?.name}}</p>
-          <footer class="blockquote-footer">{{user?.description}}</footer>
+          <p>{{browserUser?.name}}</p>
+          <footer class="blockquote-footer">{{browserUser?.description}}</footer>
         </blockquote>
       </div>
   </div>
 </div>
 <div class="mt-3">
-  <div class="btn btn-primary" (click)="confirmBooking()"><i class="fas fa-car mr-2"></i>Prenota passaggio</div>
+  <div *ngIf="!existsBooking" class="btn btn-primary" (click)="confirmBooking()"><i class="fas fa-car mr-2"></i>Prenota passaggio</div>
+  <button *ngIf="existsBooking" class="btn btn-primary" disabled><i class="fas fa-car mr-2"></i>Hai già effettuato una prenotazione per questo viaggio</button>
   <div class="btn btn-success" (click)="goToMessages()"><i class="fas fa-envelope mr-2"></i>Manda un messaggio al conducente</div>
 </div>
 

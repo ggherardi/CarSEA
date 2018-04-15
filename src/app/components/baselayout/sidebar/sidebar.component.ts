@@ -14,8 +14,8 @@ export class SidebarComponent implements OnInit, DoCheck {
     subItems: [
               {title: 'Il mio profilo', link: 'myprofile/details'},
               {title: 'Messaggi', link: 'myprofile/messages'},
-              {title: 'Viaggi offerti', link: '#'},
-              {title: 'Viaggi prenotati', link: '#'}
+              {title: 'Viaggi offerti', link: 'myprofile/offeredtrips'},
+              {title: 'Viaggi prenotati', link: 'myprofile/mytrips'}
             ]
   };
   private baseMenuItemsArray: any[] = [

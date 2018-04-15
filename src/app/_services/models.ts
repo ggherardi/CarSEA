@@ -24,7 +24,7 @@ export class Models {
 export class UserModel {
     UserID: number;
     Name: string;
-    username: string;
+    Username: string;
     Token: string;
 
     constructor() { }
@@ -151,6 +151,7 @@ export class TripResponse extends Trip {
     }
 }
 
+/** Modelli per la gestione delle prenotazioni */
 export class NewBooking {
     userId: number;
     tripId: number;
@@ -158,6 +159,20 @@ export class NewBooking {
     constructor(userId: number, tripId: number) {
         this.userId = userId;
         this.tripId = tripId;
+    }
+}
+
+export class BookingResponse {
+    bookingId: number;
+    userId: number;
+    tripId: number;
+    bookingStatus: string;
+
+    constructor(bookingId, userId, tripId, bookingStatus) {
+        this.bookingId = bookingId;
+        this.userId = userId;
+        this.tripId = tripId;
+        this.bookingStatus = bookingStatus;
     }
 }
 
@@ -184,6 +199,7 @@ export class ConversationResponse {
     ConversationID: number;
     ConversationTitle: string;
     ConversationParticipantID: number;
+    Active: boolean;
 
     constructor(conversationID: number, conversationTitle: string, conversationParticipantID: number) {
         this.ConversationID = conversationID;

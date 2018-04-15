@@ -18,6 +18,7 @@ export class MessagesComponent implements OnInit {
   allMessages: ConversationMessageResponse[] = [];
   allConversations: ConversationResponse[] = [];
   selectedConversation: ConversationResponse;
+  tempNewConversationID: number;
   currentUser: UserModel;
 
   constructor(private app: AppComponent) { }
@@ -41,7 +42,7 @@ export class MessagesComponent implements OnInit {
 
   private retrieveConversations() {
     this.app.api.getConversations(this.currentUser.UserID).subscribe(
-      succ => this.allConversations = succ,
+      this.manageAllConversationsArray.bind(this),
       err => console.log(err)
     );
   }
@@ -50,17 +51,21 @@ export class MessagesComponent implements OnInit {
     const conversationResponse: ConversationResponse = res[0];
     let newConversation = conversationResponse;
     if (conversationResponse === undefined) {
-      this.allConversations.push(newConversation);
       newConversation = new ConversationResponse(0, this.app.shared.storage.browsedUser.name, 0);
-      newConversation = conversationResponse;
     }
+    this.allConversations.push(newConversation);
     this.selectConversation(newConversation);
   }
 
   selectConversation(conversation: ConversationResponse) {
+    this.allConversations.forEach(c => c.Active = false);
     this.selectedConversation = conversation;
-    this.manageActiveChat(conversation);
-    this.getMessages(conversation);
+    const convIndex = this.allConversations.findIndex(c => c.ConversationID === conversation.ConversationID);
+    this.allConversations[convIndex].Active = true;
+    if (conversation.ConversationID !== 0) {
+      this.manageActiveChat(conversation);
+      this.getMessages(conversation);
+    }
     console.log(conversation.ConversationTitle);
   }
 
@@ -105,13 +110,35 @@ export class MessagesComponent implements OnInit {
 
   insertNewConversation(message: string) {
     const participants = [this.app.shared.storage.browsedUser.userId, this.currentUser.UserID];
-    const newConversation = new NewConversation(this.app.shared.storage.browsedUser.name, participants, message);
+    const conversationTitle = `${this.app.shared.storage.browsedUser.name}${this.currentUser.Name}`;
+    const newConversation = new NewConversation(conversationTitle, participants, message);
     this.app.api.insertConversation(newConversation).subscribe(
-      succ => {
-        console.log(succ);
-        this.selectedConversation.ConversationID = succ[0];
-      },
+      this.manageInsertNewConversation.bind(this),
       err => console.log(err)
     );
+  }
+
+  manageInsertNewConversation(res) {
+    this.tempNewConversationID = res;
+    this.app.api.getConversations(this.currentUser.UserID).subscribe(
+      this.manageAllConversationsArray.bind(this),
+      err => console.log(err),
+    );
+  }
+
+  manageAllConversationsArray(res: ConversationResponse[]) {
+    this.allConversations = res;
+    this.fixConversationTitles();
+    if (this.tempNewConversationID !== undefined) {
+      const newInsertedConversation = this.allConversations.find(c =>
+        c.ConversationID.toString() === this.tempNewConversationID.toString());
+      this.selectConversation(newInsertedConversation);
+    }
+  }
+
+  fixConversationTitles() {
+    this.allConversations.forEach(c => {
+      c.ConversationTitle = c.ConversationTitle.replace(this.currentUser.Name, '');
+    });
   }
 }

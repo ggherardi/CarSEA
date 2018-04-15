@@ -8,7 +8,7 @@ import { Cookies } from './cookies';
 import { GooglemapsService } from './googlemaps.service';
 import { ConstantsService } from './constants.service';
 import { Observable } from 'rxjs/Observable';
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { UtilitiesService } from './utilities.service';
 import { StorageService } from './storage.service';
 import { ApiService } from './api.service';
@@ -117,12 +117,18 @@ export class SharedComponent implements OnInit {
     return this.post('php/PeopleDetailService.php', data);
   }
 
-  openModal(content) {
-    this.modalService.open(content).result.then((result) => {
+  openModal(content): NgbModalRef {
+    const modalRef: NgbModalRef = this.modalService.open(content);
+    modalRef.result.then((result) => {
       const closeResult = `Closed with: ${result}`;
     }, (reason) => {
       const closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
+    return modalRef;
+  }
+
+  closeModal(content: NgbModalRef) {
+    content.close();
   }
 
   private getDismissReason(reason: any): string {

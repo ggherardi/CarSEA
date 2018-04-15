@@ -39,7 +39,6 @@ class TripService {
             $departureCityId = self::MapCityId($newTrip->departureCity);
             $arrivalCityId = self::MapCityId($newTrip->arrivalCity);
             $description = (strlen($newTrip->tripDescription) != 0) ? $newTrip->tripDescription : "NULL";
-            Logger::Write($_POST["trip"], $GLOBALS["CorrelationID"]);
             $query = "INSERT INTO `trip` 
                 VALUES (NULL, $newTrip->ownerId, $departureCityId, 
                         $arrivalCityId, '$newTrip->departureDate', 
@@ -152,11 +151,55 @@ class TripService {
     }
 
     function InsertBooking() {
-
+        TokenGenerator::ValidateToken();
+        Logger::Write("Processing InsertBooking request", $GLOBALS["CorrelationID"]);
+        try {
+            $this->dbContext->StartTransaction();
+            $newBooking = json_decode($_POST["newBooking"]);
+            $query = "INSERT INTO `trip_booking` 
+                VALUES (DEFAULT, $newBooking->userId, $newBooking->tripId, DEFAULT)";
+                Logger::Write("$query", $GLOBALS["CorrelationID"]);
+            $res = self::ExecuteQuery($query);
+            Logger::Write("SaveNewTrip status: $res", $GLOBALS["CorrelationID"]);
+            $this->dbContext->CommitTransaction();
+            exit(json_encode($res));
+        }
+        catch(Throwable $ex) {
+            Logger::Write("Error while inserting a new booking: $ex", $GLOBALS["CorrelationID"]);
+            http_response_code(500);
+            $this->dbContext->RollBack();
+            exit(json_encode($ex->getMessage()));
+        }
     }
 
     function GetBookings() {
 
+    }
+
+    function GetExistingBooking() {
+        TokenGenerator::ValidateToken();
+        Logger::Write("Processing GetExistingBooking request", $GLOBALS["CorrelationID"]);
+        try {
+            $existingBooking = json_decode($_POST["existingBooking"]);
+            $query = "SELECT 
+                tp.id as bookingId,
+                tp.user_id as userId,
+                tp.trip_id as tripId,
+                tps.status as bookingStatus
+                FROM `trip_booking` as tp
+                LEFT JOIN `trip_booking_status` as tps
+                ON tp.trip_booking_status_code = tps.code
+                WHERE user_id = $existingBooking->userId
+                AND trip_id = $existingBooking->tripId";
+            $res = self::ExecuteQuery($query);
+            $row = $res->fetch_assoc();
+            exit(json_encode($row));
+        }
+        catch(Throwable $ex) {
+            Logger::Write("Error while retrieving existing booking: $ex", $GLOBALS["CorrelationID"]);
+            http_response_code(500);
+            exit(json_encode($ex->getMessage()));
+        }
     }
 
     // Switcha l'operazione richiesta lato client
@@ -174,6 +217,9 @@ class TripService {
                 break;
             case "getBookings":
                 self::GetBookings();
+                break;
+            case "getExistingBooking":
+                self::GetExistingBooking();
                 break;
             default: 
                 exit(json_encode($_POST));

@@ -41,6 +41,10 @@ class MessageService {
     }
   
     private function InsertMessage($conversationID, $conversationParticipantID, $conversationMessage) {
+        $slashedMessage = addslashes($message);
+        if(strlen($slashedMessage < 1)) {
+            return;
+        }
         $query = 
             "INSERT INTO conversation_message (ConversationMessageID, 
                         ConversationID, 
@@ -50,9 +54,8 @@ class MessageService {
             VALUES(DEFAULT,
                     $conversationID,
                     $conversationParticipantID, 
-                    '$conversationMessage', 
+                    '$slashedMessage', 
                     NOW())";
-                            // Logger::Write($query, $GLOBALS["CorrelationID"]);
         $this->ExecuteQuery($query);
     }
 
@@ -70,15 +73,16 @@ class MessageService {
             $conversationID = $this->dbContext->GetLastID();
 
             foreach($newConversation->Participants as $userID){
-                $values .= "(DEFAULT, $userID, $conversationID),";
+                $query =  
+                "INSERT INTO conversation_participant (ConversationParticipantID, UserID, ConversationID)
+                VALUES (DEFAULT, $userID, $conversationID)";
+                Logger::Write("$query", $GLOBALS["CorrelationID"]);
+                $res = self::ExecuteQuery($query);
+                Logger::Write("Insert conversation participants result -> $res", $GLOBALS["CorrelationID"]);
             }
             $values = rtrim($values, ",");
-            $query =  
-                "INSERT INTO conversation_participant (ConversationParticipantID, UserID, ConversationID)
-                VALUES $values";
-            $res = self::ExecuteQuery($query);
-            Logger::Write("Insert conversation participants result -> $res", $GLOBALS["CorrelationID"]);
             $messageSenderParticipantID = $this->dbContext->GetLastID();
+            Logger::Write("messageSenderParticipantID -> $messageSenderParticipantID", $GLOBALS["CorrelationID"]);
             self::InsertMessage($conversationID, $messageSenderParticipantID, $newConversation->Message);
 
             $this->dbContext->CommitTransaction();
@@ -109,6 +113,7 @@ class MessageService {
                 LEFT JOIN conversation as c
                 ON c.ConversationID = c_p.ConversationID
                 WHERE c_p.UserID = $userId";
+                Logger::Write("$query", $GLOBALS["CorrelationID"]);
             $res = $this->dbContext->ExecuteQuery($query);
             $results = array();
             if($res) {

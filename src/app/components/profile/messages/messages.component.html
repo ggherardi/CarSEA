@@ -3,7 +3,9 @@
     <div class="conversations card">
       <ul class="list-group list-group-flush">
         <ng-container *ngFor="let conversation of allConversations">
-          <li class="list-group-item cursor-pointer background-hover-green" (click)="selectConversation(conversation)">
+          <li [ngClass]="conversation.Active ? 'active' : 'inactive'"
+            class="list-group-item cursor-pointer background-hover-green" 
+            (click)="selectConversation(conversation)">
             {{conversation.ConversationTitle}}
           </li>
         </ng-container>

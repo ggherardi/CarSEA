@@ -16,6 +16,11 @@
     background-color: #e4e4e4;
 }
 
+.active {
+    background-color: #17a2b8;
+    border-color: #17a2b8;
+}
+
 .messages, .conversations {
     height: 500px;
     overflow-y: auto;

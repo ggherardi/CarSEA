@@ -20,7 +20,7 @@ import { ApiService } from './_services/api.service';
 export class AppComponent implements OnInit {
   showSpinnerLoader = false;
 
-  constructor(public cookies: Cookies, public router: Router, public shared: SharedComponent, 
+  constructor(public cookies: Cookies, public router: Router, public shared: SharedComponent,
               public api: ApiService) {
   }
 

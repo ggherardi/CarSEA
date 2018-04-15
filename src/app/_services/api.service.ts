@@ -18,6 +18,16 @@ export class ApiService {
     return this.shared.post(serviceUrl, data);
   }
 
+  insertConversation(newConversation: NewConversation): Observable<any[]> {
+    const serviceUrl = 'php/MessageService.php';
+    const stringifiedNewConversation = JSON.stringify(newConversation);
+    const data = {
+      newConversation: stringifiedNewConversation,
+      action: 'insertNewConversation'
+    };
+    return this.shared.post(serviceUrl, data);
+  }
+
   getExistingConversations(senderId: number, receiverId: number): Observable<any[]> {
     const serviceUrl = 'php/MessageService.php';
     const data = {
@@ -37,16 +47,6 @@ export class ApiService {
     return this.shared.post(serviceUrl, data);
   }
 
-  insertConversation(newConversation: NewConversation): Observable<any[]> {
-    const serviceUrl = 'php/MessageService.php';
-    const stringifiedNewConversation = JSON.stringify(newConversation);
-    const data = {
-      newConversation: stringifiedNewConversation,
-      action: 'insertNewConversation'
-    };
-    return this.shared.post(serviceUrl, data);
-  }
-
   insertMessage(message: NewMessage): Observable<any[]> {
     const serviceUrl = 'php/MessageService.php';
     const stringifiedMessage = JSON.stringify(message);
@@ -57,11 +57,22 @@ export class ApiService {
     return this.shared.post(serviceUrl, data);
   }
 
+  getExistingBooking(existingBooking: NewBooking): Observable<any[]> {
+    const serviceUrl = 'php/TripService.php';
+    const stringifiedExistingBooking = JSON.stringify(existingBooking);
+    const data = {
+      existingBooking: stringifiedExistingBooking,
+      action: 'getExistingBooking'
+    };
+    return this.shared.post(serviceUrl, data);
+  }
+
   insertBooking(newBooking: NewBooking): Observable<any[]> {
     const serviceUrl = 'php/TripService.php';
+    const stringifiedNewBooking = JSON.stringify(newBooking);
     const data = {
-      action: 'insertBooking',
-      newBooking: newBooking
+      newBooking: stringifiedNewBooking,
+      action: 'insertBooking'
     };
     return this.shared.post(serviceUrl, data);
   }
