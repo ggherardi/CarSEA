@@ -118,7 +118,7 @@ class TripService {
                     AND t.price <= $filters->price");
             $res = self::ExecuteQuery($query);
             $results = array();
-            if($res){
+            if($res) {
                 while($row = $res->fetch_assoc()){
                     $results[] = $row;      
                 }            
@@ -173,7 +173,34 @@ class TripService {
     }
 
     function GetBookings() {
-
+        TokenGenerator::ValidateToken();
+        Logger::Write("Processing GetExistingBooking request", $GLOBALS["CorrelationID"]);
+        try {
+            $userId = json_decode($_POST["userId"]);
+            $query = "SELECT *
+                FROM `trip_booking` as tb
+                INNER JOIN `trip` as t
+                ON tb.trip_id = t.id
+                INNER JOIN `user` as u
+                ON t.owner_id = u.Id
+                LEFT JOIN `trip_booking_status` as tbs
+                ON tb.trip_booking_status_code = tbs.code
+                WHERE user_id = $userId";
+                Logger::Write($query, $GLOBALS["CorrelationID"]);
+            $res = self::ExecuteQuery($query);
+            $results = array();
+            if($res) {
+                while($row = $res->fetch_assoc()){
+                    $results[] = $row;      
+                }            
+            }
+            exit(json_encode($results));
+        }
+        catch(Throwable $ex) {
+            Logger::Write("Error while retrieving existing booking: $ex", $GLOBALS["CorrelationID"]);
+            http_response_code(500);
+            exit(json_encode($ex->getMessage()));
+        }
     }
 
     function GetExistingBooking() {
@@ -182,13 +209,13 @@ class TripService {
         try {
             $existingBooking = json_decode($_POST["existingBooking"]);
             $query = "SELECT 
-                tp.id as bookingId,
-                tp.user_id as userId,
-                tp.trip_id as tripId,
-                tps.status as bookingStatus
-                FROM `trip_booking` as tp
-                LEFT JOIN `trip_booking_status` as tps
-                ON tp.trip_booking_status_code = tps.code
+                tb.id as bookingId,
+                tb.user_id as userId,
+                tb.trip_id as tripId,
+                tbs.status as bookingStatus
+                FROM `trip_booking` as tb
+                LEFT JOIN `trip_booking_status` as tbs
+                ON tb.trip_booking_status_code = tbs.code
                 WHERE user_id = $existingBooking->userId
                 AND trip_id = $existingBooking->tripId";
             $res = self::ExecuteQuery($query);

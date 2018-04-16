@@ -8,9 +8,18 @@ import { AppComponent } from '../../../app.component';
 })
 export class MytripsComponent implements OnInit {
 
-  constructor() { }
+  constructor(private app: AppComponent) { }
 
   ngOnInit() {
+    this.app.shared.redirectIfNotLogged();
+    this.populateControls();
+  }
+
+  populateControls() {
+    this.app.api.getBookings(this.app.shared.models.userModel.UserID).subscribe(
+      succ => console.log(succ),
+      err => console.log(err)
+    );
   }
 
 }

@@ -29,32 +29,39 @@ export class MessagesComponent implements OnInit {
       this.app.shared.router.navigateByUrl('');
       return;
     }
-    this.retrieveConversations();
-    console.log(this.app.shared.storage.browsedUserID);
     if (this.app.shared.storage.newConversation) {
       this.app.shared.storage.newConversation = false;
       this.app.api.getExistingConversations(this.currentUser.UserID, this.app.shared.storage.browsedUser.userId).subscribe(
         this.prepareMessageForBrowsedUser.bind(this),
         err => console.log(err)
       );
+    } else {
+      this.retrieveConversations();
     }
   }
 
   private retrieveConversations() {
     this.app.api.getConversations(this.currentUser.UserID).subscribe(
       this.manageAllConversationsArray.bind(this),
-      err => console.log(err)
+      err => console.log(err),
+
     );
   }
 
   private prepareMessageForBrowsedUser(res: any) {
     const conversationResponse: ConversationResponse = res[0];
     let newConversation = conversationResponse;
-    if (conversationResponse === undefined) {
-      newConversation = new ConversationResponse(0, this.app.shared.storage.browsedUser.name, 0);
-    }
-    this.allConversations.push(newConversation);
-    this.selectConversation(newConversation);
+    this.app.api.getConversations(this.currentUser.UserID).subscribe(
+      this.manageAllConversationsArray.bind(this),
+      err => console.log(err),
+      () => {
+        if (conversationResponse === undefined) {
+          newConversation = new ConversationResponse(0, this.app.shared.storage.browsedUser.name, 0);
+          this.allConversations.push(newConversation);
+        }
+        this.selectConversation(newConversation);
+      }
+    );
   }
 
   selectConversation(conversation: ConversationResponse) {
@@ -66,7 +73,6 @@ export class MessagesComponent implements OnInit {
       this.manageActiveChat(conversation);
       this.getMessages(conversation);
     }
-    console.log(conversation.ConversationTitle);
   }
 
   private manageActiveChat(conversation: ConversationResponse) {
@@ -93,7 +99,6 @@ export class MessagesComponent implements OnInit {
   }
 
   sendMessage(message: string) {
-    console.log(message);
     if (this.allMessages.length === 0) {
       this.insertNewConversation(message);
     } else {

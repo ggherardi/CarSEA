@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, DoCheck } from '@angular/core';
 import { AppComponent } from '../../../app.component';
 import { TripResponse, UserDetail, UserModel, NewBooking, BookingResponse } from '../../../_services/models';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -8,7 +8,7 @@ import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
   templateUrl: './tripdetail.component.html',
   styleUrls: ['./tripdetail.component.css']
 })
-export class TripdetailComponent implements OnInit {
+export class TripdetailComponent implements OnInit, DoCheck {
   @ViewChild('confirmBookingModal') confirmBookingModal;
   confirmBookingModalRef: NgbModalRef;
 
@@ -22,6 +22,10 @@ export class TripdetailComponent implements OnInit {
   ngOnInit() {
     this.loadCurrentUser();
     this.loadTripDetails();
+  }
+
+  ngDoCheck() {
+    this.loadCurrentUser();
   }
 
   private loadCurrentUser() {

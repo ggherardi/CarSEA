@@ -67,6 +67,15 @@ export class ApiService {
     return this.shared.post(serviceUrl, data);
   }
 
+  getBookings(userId: number): Observable<any[]> {
+    const serviceUrl = 'php/TripService.php';
+    const data = {
+      userId: userId,
+      action: 'getBookings'
+    };
+    return this.shared.post(serviceUrl, data);
+  }
+
   insertBooking(newBooking: NewBooking): Observable<any[]> {
     const serviceUrl = 'php/TripService.php';
     const stringifiedNewBooking = JSON.stringify(newBooking);

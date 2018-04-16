@@ -41,9 +41,11 @@ class MessageService {
     }
   
     private function InsertMessage($conversationID, $conversationParticipantID, $conversationMessage) {
-        $slashedMessage = addslashes($message);
-        if(strlen($slashedMessage < 1)) {
-            return;
+        Logger::Write("Inserting new message", $GLOBALS["CorrelationID"]);
+        $slashedMessage = addslashes($conversationMessage);
+        Logger::Write($slashedMessage, $GLOBALS["CorrelationID"]);
+        if(strlen($slashedMessage) < 1) {
+            throw new Exception("Message is too short, aborting new message insert");
         }
         $query = 
             "INSERT INTO conversation_message (ConversationMessageID, 
@@ -56,7 +58,8 @@ class MessageService {
                     $conversationParticipantID, 
                     '$slashedMessage', 
                     NOW())";
-        $this->ExecuteQuery($query);
+        $res = $this->ExecuteQuery($query);
+        Logger::Write("Insert new message result -> $res", $GLOBALS["CorrelationID"]);
     }
 
     private function InsertNewConversation(){

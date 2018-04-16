@@ -72,6 +72,13 @@ export class SharedComponent implements OnInit {
     this.router.navigateByUrl('/');
   }
 
+  redirectIfNotLogged() {
+    const userObj: UserModel = this.getCurrentUser();
+    if (userObj === undefined) {
+      this.router.navigateByUrl('');
+    }
+  }
+
   navigateIfLogged(url: string): boolean {
     const userObj: UserModel = this.getCurrentUser();
     if (userObj !== undefined) {
