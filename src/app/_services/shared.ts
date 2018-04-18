@@ -17,6 +17,7 @@ import { ApiService } from './api.service';
 
 @Injectable()
 export class SharedComponent implements OnInit {
+  profileCookieDuration: 5;
   userLogged = false;
 
   constructor(public router: Router, public httpService: HttpService, public models: Models,
@@ -58,7 +59,7 @@ export class SharedComponent implements OnInit {
     if (data === -1) {
       alert('Attenzione, le credenziali inserite non sono corrette!');
     } else {
-      this.cookies.setEncodedCookie(this.cookies.USER_COOKIE_NAME, data, 0.5);
+      this.cookies.setEncodedCookie(this.cookies.USER_COOKIE_NAME, data, this.profileCookieDuration);
       this.loadSession();
       // this.router.navigateByUrl('myprofile');
     }

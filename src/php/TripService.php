@@ -174,15 +174,30 @@ class TripService {
 
     function GetBookings() {
         TokenGenerator::ValidateToken();
-        Logger::Write("Processing GetExistingBooking request", $GLOBALS["CorrelationID"]);
+        Logger::Write("Processing GetBookings request", $GLOBALS["CorrelationID"]);
         try {
             $userId = json_decode($_POST["userId"]);
-            $query = "SELECT *
+            $query = "SELECT
+                tb.id as bookingId,
+                tb.user_id as userId,
+                tb.trip_id as tripId,
+                tb.trip_booking_status_code as bookingStatusCode,
+                tbs.status as bookingStatus,
+                c_departure.nome as departureCity,
+                c_arrival.nome as arrivalCity,
+                u.Username as ownerUsername,
+                u.Id as tripOwnerId,
+                t.price as price,
+                t.departure_date as departureDate
                 FROM `trip_booking` as tb
                 INNER JOIN `trip` as t
                 ON tb.trip_id = t.id
                 INNER JOIN `user` as u
                 ON t.owner_id = u.Id
+                INNER JOIN `city` as c_departure
+                ON t.departure_city = c_departure.id
+                INNER JOIN `city` as c_arrival
+                ON t.arrival_city = c_arrival.id
                 LEFT JOIN `trip_booking_status` as tbs
                 ON tb.trip_booking_status_code = tbs.code
                 WHERE user_id = $userId";

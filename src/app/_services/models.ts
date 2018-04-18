@@ -32,6 +32,7 @@ export class UserModel {
 
 export class UserDetail {
     userId: number;
+    username: string;
     name: string;
     surname: string;
     email: string;
@@ -167,6 +168,13 @@ export class BookingResponse {
     userId: number;
     tripId: number;
     bookingStatus: string;
+    departureCity: string;
+    arrivalCity: string;
+    tripOwnerId: number;
+    ownerUsername: string;
+    price: number;
+    departureDate: string;
+    bookingStatusCode: number;
 
     constructor(bookingId, userId, tripId, bookingStatus) {
         this.bookingId = bookingId;

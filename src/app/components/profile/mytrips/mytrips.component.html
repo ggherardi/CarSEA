@@ -1,0 +1,110 @@
+<div class="page-header mb-5 text-center">
+    <h1>Viaggi prenotati</h1>
+</div>
+<ngb-tabset>
+    <ngb-tab title="Attivi">
+        <ng-template ngbTabContent>
+            <table class="table table-responsive-sm">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">#</th>
+                        <th scope="col">Stato</th>
+                        <th scope="col">Partenza</th>
+                        <th scope="col">Arrivo</th>
+                        <th scope="col">Data</th>
+                        <th scope="col">conducente</th>
+                        <th scope="col">Prezzo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let booking of allActiveBookings; let i = index">
+                        <tr>
+                            <td>
+                                <div class="d-inline-block" ngbDropdown #myDrop="ngbDropdown">
+                                    <button class="btn btn-outline-primary d-none" id="dropdownManual" ngbDropdownAnchor (focus)="myDrop.open()">Toggle dropdown</button>
+                                    <div ngbDropdownMenu aria-labelledby="dropdownManual">
+                                        <button class="dropdown-item" (click)="goToMessages(booking)">
+                                            Contatta il conducente
+                                        </button>
+                                        <button class="dropdown-item" (click)="openCancelBookingModal()">
+                                            Annulla prenotazione
+                                        </button>
+                                        <button class="dropdown-item" (click)="goToTripDetails(booking)">
+                                            Vedi dettagli viaggio
+                                        </button>
+                                    </div>                           
+                                    <button class="btn btn-light callout-button" (click)="$event.stopPropagation(); myDrop.open();">                      
+                                        <i (click)="$event.stopPropagation(); calloutMenu.open();" class="fa fa-ellipsis-v"></i>
+                                    </button>                        
+                                </div>
+                            </td>
+                            <th scope="row">{{i+1}}</th>
+                            <td>{{booking?.bookingStatus}}</td>
+                            <td>{{booking?.departureCity}}</td>
+                            <td>{{booking?.arrivalCity}}</td>
+                            <td>{{booking?.departureDate | date:'d MMMM - HH:mm':'':'it'}}</td>
+                            <td>{{booking?.ownerUsername}}</td>
+                            <td>{{booking?.price}} €</td>
+                        </tr>
+                    </ng-container>
+                </tbody>
+            </table>
+        </ng-template>
+    </ngb-tab>
+    <ngb-tab title="Passati">
+        <ng-template ngbTabContent>
+            <table class="table table-hover">                
+                <thead class="thead-dark">
+                    <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Stato</th>
+                    <th scope="col">Partenza</th>
+                    <th scope="col">Arrivo</th>
+                    <th scope="col">Data</th>
+                    <th scope="col">conducente</th>
+                    <th scope="col">Prezzo €</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let booking of allPastBookings; let i = index">
+                        <tr>
+                            <th scope="row">{{i+1}}</th>
+                            <td>{{booking?.bookingStatus}}</td>
+                            <td>{{booking?.departureCity}}</td>
+                            <td>{{booking?.arrivalCity}}</td>
+                            <td>{{booking?.departureDate | date:'d MMMM - HH:mm':'':'it'}}</td>
+                            <td>{{booking?.ownerUsername}}</td>
+                            <td>{{booking?.price}}</td>
+                        </tr>
+                    </ng-container>
+                </tbody>
+            </table>
+        </ng-template>
+    </ngb-tab>
+</ngb-tabset>
+
+<ng-template #cancelBookingModal let-c="close">
+    <div class="card-body">
+        <blockquote class="blockquote mb-0">
+            <div class="card-deck text-center">
+                <div class="card">
+                    <div class="card-header">
+                        Annulla prenotazione
+                    </div>
+                    <div class="card-body">
+                        <p>
+                            Per annullare la prenotazione è necessario essersi accordati con il conduttore, che deve
+                            aver dato il proprio consenso. In caso contrario, la prenotazione verrà considerata come
+                            attiva e valida ai fini del pagamento.
+                        </p>
+                        <p>Procedere con l'annullamento della prenotazione?</p>
+                        <button class="btn btn-primary" (click)="createBooking()">Sì</button>
+                        <button class="btn btn-secondary" (click)="c('Close click')">No</button>
+                    </div>
+                </div>
+            </div>
+        </blockquote>
+    </div>
+</ng-template>
+    

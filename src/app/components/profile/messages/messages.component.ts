@@ -115,7 +115,7 @@ export class MessagesComponent implements OnInit {
 
   insertNewConversation(message: string) {
     const participants = [this.app.shared.storage.browsedUser.userId, this.currentUser.UserID];
-    const conversationTitle = `${this.app.shared.storage.browsedUser.name}${this.currentUser.Name}`;
+    const conversationTitle = `${this.app.shared.storage.browsedUser.username}${this.currentUser.Username}`;
     const newConversation = new NewConversation(conversationTitle, participants, message);
     this.app.api.insertConversation(newConversation).subscribe(
       this.manageInsertNewConversation.bind(this),
@@ -143,7 +143,7 @@ export class MessagesComponent implements OnInit {
 
   fixConversationTitles() {
     this.allConversations.forEach(c => {
-      c.ConversationTitle = c.ConversationTitle.replace(this.currentUser.Name, '');
+      c.ConversationTitle = c.ConversationTitle.replace(this.currentUser.Username, '');
     });
   }
 }
