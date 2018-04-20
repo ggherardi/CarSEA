@@ -1,3 +1,148 @@
-<p>
-  offeredtrips works!
-</p>
+<div class="page-header mb-5 text-center">
+  <h1>Viaggi offerti</h1>
+</div>
+<ngb-tabset>
+  <ngb-tab title="Attivi">
+      <ng-template ngbTabContent>
+          <table class="table table-responsive-sm">
+              <thead class="thead-light">
+                  <tr>
+                      <th scope="col"></th>
+                      <th scope="col">#</th>
+                      <th scope="col">Partenza</th>
+                      <th scope="col">Arrivo</th>
+                      <th scope="col">Data</th>
+                      <th scope="col">Posti</th>
+                      <th scope="col">Prezzo</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <ng-container *ngFor="let trip of allActiveTrips; let i = index">
+                    <tr>
+                        <td>
+                            <div class="d-inline-block" ngbDropdown #myDrop="ngbDropdown">
+                                <button class="btn btn-outline-primary d-none" id="dropdownManual" ngbDropdownAnchor (focus)="myDrop.open()">Toggle dropdown</button>
+                                <div ngbDropdownMenu aria-labelledby="dropdownManual">
+                                    <button class="dropdown-item" (click)="openEditForm(trip)">
+                                        Modifica viaggio
+                                    </button>
+                                    <button class="dropdown-item" (click)="openCancelBookingModal()">
+                                        Annulla viaggio
+                                    </button>
+                                </div>                           
+                                <button class="btn btn-light callout-button" (click)="$event.stopPropagation(); myDrop.open();">                      
+                                    <i (click)="$event.stopPropagation(); calloutMenu.open();" class="fa fa-ellipsis-v"></i>
+                                </button>                        
+                            </div>
+                        </td>
+                        <th scope="row">{{i+1}}</th>
+                        <td>{{trip?.departureCityName}}</td>
+                        <td>{{trip?.arrivalCityName}}</td>
+                        <td>{{trip?.departureDate | date:'d MMMM - HH:mm':'':'it'}}</td>
+                        <td>{{trip?.seats}}</td>
+                        <td>{{trip?.price}} €</td>
+                      </tr>
+                  </ng-container>
+              </tbody>
+          </table>
+      </ng-template>
+  </ngb-tab>
+  <ngb-tab title="Passati">
+      <ng-template ngbTabContent>
+          <table class="table table-hover">                
+              <thead class="thead-dark">
+                  <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Partenza</th>
+                  <th scope="col">Arrivo</th>
+                  <th scope="col">Data</th>
+                  <th scope="col">conducente</th>
+                  <th scope="col">Prezzo €</th>
+                  </tr>
+              </thead>
+              <tbody>
+                <ng-container *ngFor="let trip of allPastTrips; let i = index">
+                  <tr>
+                    <th scope="row">{{i+1}}</th>
+                    <td>{{trip?.departureCityName}}</td>
+                    <td>{{trip?.arrivalCityName}}</td>
+                    <td>{{trip?.departureDate | date:'d MMMM - HH:mm':'':'it'}}</td>
+                    <td>{{trip?.seats}}</td>
+                    <td>{{trip?.price}} €</td>
+                  </tr>
+                </ng-container>
+              </tbody>
+          </table>
+      </ng-template>
+  </ngb-tab>
+</ngb-tabset>
+
+<ng-template #editForm let-c="close">
+    <div class="card-body">
+        <blockquote class="blockquote mb-0">
+            <div class="card-deck text-center">
+                <div class="card">
+                    <div class="card-header">
+                        Modifica viaggio
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <div class="form-group">
+                                <!-- <app-apiautocomplete 
+                                [defaultValue]="makeDefaultValue"
+                                formControlName="make" 
+                                class="col-6" 
+                                [config]="makeAutocompleteConfig" 
+                                placeholder="Marca"
+                                (valueChanged)="handleMakeChange($event)"></app-apiautocomplete> -->
+                            </div>
+                            <div class="form-group">
+                              <label for="exampleInputEmail1"></label>
+                              <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                              <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                            </div>
+                            <div class="form-group">
+                              <label for="exampleTextarea">Example textarea</label>
+                              <textarea class="form-control" id="exampleTextarea" rows="3"></textarea>
+                            </div>
+                            <div class="form-check">
+                              <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input">
+                                Check me out
+                              </label>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                          </form>
+                        <button class="btn btn-primary" (click)="createBooking()">Sì</button>
+                        <button class="btn btn-secondary" (click)="c('Close click')">No</button>
+                    </div>
+                </div>
+            </div>
+        </blockquote>
+    </div>
+</ng-template>  
+
+<ng-template #cancelBookingModal let-c="close">
+  <div class="card-body">
+      <blockquote class="blockquote mb-0">
+          <div class="card-deck text-center">
+              <div class="card">
+                  <div class="card-header">
+                      Annulla prenotazione
+                  </div>
+                  <div class="card-body">
+                      <p>
+                          Per annullare la prenotazione è necessario essersi accordati con il conduttore, che deve
+                          aver dato il proprio consenso. In caso contrario, la prenotazione verrà considerata come
+                          attiva e valida ai fini del pagamento.
+                      </p>
+                      <p>Procedere con l'annullamento della prenotazione?</p>
+                      <button class="btn btn-primary" (click)="createBooking()">Sì</button>
+                      <button class="btn btn-secondary" (click)="c('Close click')">No</button>
+                  </div>
+              </div>
+          </div>
+      </blockquote>
+  </div>
+</ng-template>
+  

@@ -22,7 +22,7 @@ export class MytripsComponent implements OnInit {
   }
 
   private populateControls() {
-    this.app.api.getBookings(this.app.shared.models.userModel.UserID).subscribe(
+    this.app.api.getBookingsForUser(this.app.shared.models.userModel.UserID).subscribe(
       this.manageBookings.bind(this),
       err => console.log(err)
     );

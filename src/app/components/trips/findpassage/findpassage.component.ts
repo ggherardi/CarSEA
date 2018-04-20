@@ -81,18 +81,16 @@ export class FindpassageComponent implements OnInit {
   }
 
   private getTrips() {
-    const stringifiedFilters = this.gatherStringifyFilters();
-    if (!stringifiedFilters) {
+    const filters = this.gatherStringifyFilters();
+    if (!filters) {
       alert('Selezionare una città di partenza e una di arrivo');
       this.app.showSpinnerLoader = false;
       return;
     }
     this.app.showSpinnerLoader = true;
-    const data = {
-      action: 'getTrips',
-      filters: stringifiedFilters
-    };
-    this.app.shared.post('php/tripservice.php', data).subscribe(this.setAllTrips.bind(this), err => console.log(err));
+    this.app.api.getTripsWithFilters(filters).subscribe(
+      this.setAllTrips.bind(this),
+      err => console.log(err));
   }
 
   private timeChange(event) {
@@ -120,11 +118,11 @@ export class FindpassageComponent implements OnInit {
     this.allTrips = tempTrips.copy();
   }
 
-  private gatherStringifyFilters(): string {
+  private gatherStringifyFilters(): SearchFilters {
     let departureCity = this.filtersFormGroup.get('departureCityPicker').value;
     let arrivalCity = this.filtersFormGroup.get('arrivalCityPicker').value;
     if (!departureCity && !arrivalCity) {
-      return '';
+      return null;
     }
     departureCity = departureCity.id;
     arrivalCity = arrivalCity.id;
@@ -136,7 +134,7 @@ export class FindpassageComponent implements OnInit {
       this.getFilterDate()[0],
       this.getFilterDate()[1]
     );
-    return JSON.stringify(filters);
+    return filters;
   }
 
   private setAllTrips(data: any) {

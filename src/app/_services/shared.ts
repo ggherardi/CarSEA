@@ -17,7 +17,7 @@ import { ApiService } from './api.service';
 
 @Injectable()
 export class SharedComponent implements OnInit {
-  profileCookieDuration: 5;
+  profileCookieDuration = 5;
   userLogged = false;
 
   constructor(public router: Router, public httpService: HttpService, public models: Models,
