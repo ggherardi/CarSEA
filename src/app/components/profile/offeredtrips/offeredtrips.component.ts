@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AppComponent } from '../../../app.component';
 import { BookingResponse, TripResponse } from '../../../_services/models';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-offeredtrips',
@@ -9,15 +10,23 @@ import { BookingResponse, TripResponse } from '../../../_services/models';
 })
 export class OfferedtripsComponent implements OnInit {
   @ViewChild('editForm') editForm;
+  editTripForm: FormGroup;
 
   allActiveTrips: TripResponse[] = [];
   allPastTrips: TripResponse[] = [];
 
-  constructor(private app: AppComponent) { }
+  constructor(private app: AppComponent, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
     this.app.shared.redirectIfNotLogged();
+    this.initControls();
     this.getTrips();
+  }
+
+  private initControls() {
+    this.editTripForm = this.formBuilder.group({
+      
+    });
   }
 
   private getTrips() {

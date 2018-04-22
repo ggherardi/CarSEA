@@ -80,7 +80,8 @@ export class FindpassageComponent implements OnInit {
     setTimeout(this.getTrips.bind(this), 250);
   }
 
-  private getTrips() {
+  private getTrips(e) {
+    console.log(e);
     const filters = this.gatherStringifyFilters();
     if (!filters) {
       alert('Selezionare una città di partenza e una di arrivo');
@@ -90,7 +91,10 @@ export class FindpassageComponent implements OnInit {
     this.app.showSpinnerLoader = true;
     this.app.api.getTripsWithFilters(filters).subscribe(
       this.setAllTrips.bind(this),
-      err => console.log(err));
+      err => {
+        console.log(err);
+        this.app.showSpinnerLoader = false;
+      });
   }
 
   private timeChange(event) {
@@ -139,7 +143,6 @@ export class FindpassageComponent implements OnInit {
 
   private setAllTrips(data: any) {
     console.log(data);
-    this.app.showSpinnerLoader = false;
     const castedData: List<TripResponse> = List.createFromArray<TripResponse>(data);
     if (data.length > 0) {
       const resultsMaxPrice = Math.max.apply(Math, data.map(t => t.price));
@@ -148,6 +151,7 @@ export class FindpassageComponent implements OnInit {
     }
     this.storedTrips = castedData.copy();
     this.allTrips = this.storedTrips.copy();
+    this.app.showSpinnerLoader = false;
   }
 
   private getFilterDate(): string[] {

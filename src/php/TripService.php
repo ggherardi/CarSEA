@@ -9,6 +9,16 @@ use TokenGenerator;
 
 $GLOBALS["CorrelationID"] = uniqid("corrId_", true);
 
+class Trip {
+    public $tripId;
+    public $waypointCityName;
+
+    function __construct($tripId, $waypointCityName) {
+        $this->tripId = $tripId;
+        $this->waypointCityName = $waypointCityName;
+    }
+}
+
 class TripService {
     private $name;
     private $surname;
@@ -85,7 +95,8 @@ class TripService {
             $filters = json_decode($_POST["filters"]);
             $tripID = isset($_POST["tripID"]) ? $_POST["tripID"] : 0;
             $ownerID = isset($_POST["ownerID"]) ? $_POST["ownerID"] : 0;
-
+            Logger::Write("tripId: $tripID", $GLOBALS["CorrelationID"]);
+            Logger::Write("ownerId: $ownerID", $GLOBALS["CorrelationID"]);
             $query = "SELECT
                 u.Id as ownerId,
                 u.Nome as ownerName, 
@@ -95,8 +106,10 @@ class TripService {
                 t.price, t.seats, t.duration, t.distance,
                 depc.nome as departureCityName, 
                 arrc.nome as arrivalCityName,
+                GROUP_CONCAT('', wayc.id, '_', wayc.nome) as allWaypoints,
                 wayc.id as waypointId,
                 wayc.nome as waypointCityName
+                -- tb.id as bookingIds
                 FROM trip as t
                 LEFT JOIN user as u
                 ON u.Id = t.owner_id
@@ -108,25 +121,31 @@ class TripService {
                 ON arrc.id = t.arrival_city
                 LEFT JOIN city as wayc
                 ON wayc.id = tw.city_id
+                -- LEFT JOIN trip_booking as tb
+                -- ON t.id = tb.trip_id 
                 WHERE ";
-
-            $filtersQuery = 
-                "t.seats > 0
+               
+            if($tripID != 0) {
+                $whereCondition = "t.id = $tripID";
+            }
+            else if($ownerID != 0) {
+                $whereCondition = "t.owner_id  = $ownerID";
+            }
+            else {
+                $whereCondition =  "t.seats > 0
                 AND t.departure_city = $filters->departureCity
                 AND t.arrival_city = $filters->arrivalCity
                 AND t.departure_date >= '$today'
                 AND t.departure_date >= '$filters->dateStart' 
                 AND t.departure_date <= '$filters->dateEnd'
-                AND t.price <= $filters->price";
-            $query .= (
-                    $tripID != 0 ? "t.id = $tripID" :
-                    $ownerID != 0 ? "t.owner_id  = $ownerID" : 
-                    $filtersQuery);
-                    Logger::Write("$query", $GLOBALS["CorrelationID"]);
+                GROUP BY t.id";
+            }
+            $query .= $whereCondition;
+            Logger::Write("$query", $GLOBALS["CorrelationID"]);
             $res = self::ExecuteQuery($query);
             $results = array();
             if($res) {
-                while($row = $res->fetch_assoc()){
+                while($row = $res->fetch_assoc()){                    
                     $results[] = $row;      
                 }            
             }
@@ -140,21 +159,29 @@ class TripService {
         }
     }
 
+    //SPLITTA LA STRINGA CON GLI ID E I NOMI E FALLO DIVENTARE UN NUOVO OGGETTO
     function BuildResponseObject($results) {
         $auxResponseObject = array();
-        $responseObject = array();
+        $i = 0;
         foreach($results as $row) {
-            if($auxResponseObject[$row["tripId"]] == null) {
-                $auxResponseObject[$row["tripId"]] = $row;
+            $auxResponseObject[] = $row;
+            Logger::Write(json_encode("array:".$row["allWaypoints"]), $GLOBALS["CorrelationID"]);
+            if($row["allWaypoints"] != null) {
+                $waypointsArray = explode(",", $row["allWaypoints"]);
+                $auxWaypointsArray = array();
+                foreach($waypointsArray as $waypoint) {
+                    $splittedWaypoint = explode("_", $waypoint);
+                    $oWaypoint = new Trip($splittedWaypoint[0], $splittedWaypoint[1]);
+                    $auxWaypointsArray[] = $oWaypoint;
+                }
+                $row["allWaypoints"] = $auxWaypointsArray;
+                $auxResponseObject[$i]["allWaypoints"] = $auxWaypointsArray;
+                Logger::Write(json_encode($row["allWaypoints"]), $GLOBALS["CorrelationID"]);
             }
-            if($row["waypointId"] != null) {
-                $auxResponseObject[$row["tripId"]]["allWaypoints"][] = $row;
-            }
+            $i++;
         }
-        foreach($auxResponseObject as $item) {
-            $responseObject[] = $item;
-        }
-        return $responseObject;
+        Logger::Write(json_encode($auxResponseObject), $GLOBALS["CorrelationID"]);
+        return $auxResponseObject;
     }
 
     function InsertBooking() {

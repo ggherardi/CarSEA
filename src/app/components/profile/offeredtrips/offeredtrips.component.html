@@ -13,6 +13,7 @@
                       <th scope="col">Arrivo</th>
                       <th scope="col">Data</th>
                       <th scope="col">Posti</th>
+                      <th scope="col">Prenotazioni</th>
                       <th scope="col">Prezzo</th>
                   </tr>
               </thead>
@@ -24,7 +25,10 @@
                                 <button class="btn btn-outline-primary d-none" id="dropdownManual" ngbDropdownAnchor (focus)="myDrop.open()">Toggle dropdown</button>
                                 <div ngbDropdownMenu aria-labelledby="dropdownManual">
                                     <button class="dropdown-item" (click)="openEditForm(trip)">
-                                        Modifica viaggio
+                                        Gestisci prenotazioni
+                                    </button>
+                                    <button class="dropdown-item" (click)="openEditForm(trip)">
+                                        Dettagli viaggio
                                     </button>
                                     <button class="dropdown-item" (click)="openCancelBookingModal()">
                                         Annulla viaggio
@@ -40,6 +44,7 @@
                         <td>{{trip?.arrivalCityName}}</td>
                         <td>{{trip?.departureDate | date:'d MMMM - HH:mm':'':'it'}}</td>
                         <td>{{trip?.seats}}</td>
+                        <td>{{trip?.seats}}</td>
                         <td>{{trip?.price}} €</td>
                       </tr>
                   </ng-container>
@@ -49,7 +54,7 @@
   </ngb-tab>
   <ngb-tab title="Passati">
       <ng-template ngbTabContent>
-          <table class="table table-hover">                
+          <table class="table table-hover">
               <thead class="thead-dark">
                   <tr>
                   <th scope="col">#</th>
@@ -83,22 +88,16 @@
             <div class="card-deck text-center">
                 <div class="card">
                     <div class="card-header">
-                        Modifica viaggio
+                        Dettagli viaggio
                     </div>
                     <div class="card-body">
-                        <form>
+                        <form [formGroup]="editTripForm" (ngSubmit)="saveDetails(personalDetailsForm)">
                             <div class="form-group">
-                                <!-- <app-apiautocomplete 
-                                [defaultValue]="makeDefaultValue"
-                                formControlName="make" 
-                                class="col-6" 
-                                [config]="makeAutocompleteConfig" 
-                                placeholder="Marca"
-                                (valueChanged)="handleMakeChange($event)"></app-apiautocomplete> -->
+
                             </div>
                             <div class="form-group">
                               <label for="exampleInputEmail1"></label>
-                              <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                              <input formControlName="name" class="form-control" placeholder="Prezzo">
                               <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
                             </div>
                             <div class="form-group">
