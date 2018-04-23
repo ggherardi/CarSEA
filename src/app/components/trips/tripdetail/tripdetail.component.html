@@ -77,7 +77,7 @@
       </div>
   </div>
 </div>
-<div *ngIf="currentUser !== undefined" class="mt-3">
+<div *ngIf="currentUser !== undefined && currentUser.UserID !== app.shared.storage.browsedUserID" class="mt-3">
   <div *ngIf="!existsBooking" class="btn btn-primary" (click)="confirmBooking()"><i class="fas fa-car mr-2"></i>Prenota passaggio</div>
   <button *ngIf="existsBooking" class="btn btn-primary" disabled><i class="fas fa-car mr-2"></i>Hai già effettuato una prenotazione per questo viaggio</button>
   <div class="btn btn-success" (click)="goToMessages()"><i class="fas fa-envelope mr-2"></i>Manda un messaggio al conducente</div>

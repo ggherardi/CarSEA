@@ -133,6 +133,7 @@ class MessageService {
         }
     }
 
+    // Prendere unicamente le conversazioni con user id del ricevente
     private function GetExistingConversation() {
         TokenGenerator::ValidateToken();
         try {
@@ -150,10 +151,11 @@ class MessageService {
                 FROM conversation_participant as c_p
                 LEFT JOIN conversation as c
                 ON c.ConversationID = c_p.ConversationID
-                WHERE c_p.UserID = $senderId
-                AND c_p.ConversationID = (SELECT ConversationID 
-                                         FROM conversation_participant
-                                         WHERE UserID = $receiverId)";
+                WHERE c_p.ConversationID IN (SELECT ConversationID
+                                            FROM conversation_participant
+                                            WHERE UserID = $receiverId)
+                AND c_p.UserID <> $receiverId
+                AND c_p.UserID = $senderId";
             Logger::Write("query: $query", $GLOBALS["CorrelationID"]);
             $res = $this->dbContext->ExecuteQuery($query);
             $results = array();
@@ -162,6 +164,7 @@ class MessageService {
                     $results[] = $row;
                 }
             }
+            Logger::Write("res:". json_encode($results), $GLOBALS["CorrelationID"]);
             exit(json_encode($results));
         }
         catch(Throwable $ex) {

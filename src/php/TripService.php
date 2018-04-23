@@ -159,7 +159,6 @@ class TripService {
         }
     }
 
-    //SPLITTA LA STRINGA CON GLI ID E I NOMI E FALLO DIVENTARE UN NUOVO OGGETTO
     function BuildResponseObject($results) {
         $auxResponseObject = array();
         $i = 0;

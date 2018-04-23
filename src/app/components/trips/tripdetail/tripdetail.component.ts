@@ -14,7 +14,7 @@ export class TripdetailComponent implements OnInit, DoCheck {
 
   currentUser: UserModel;
   trip: TripResponse;
-  browserUser: UserDetail;
+  browsedUser: UserDetail;
   existsBooking = false;
 
   constructor(private app: AppComponent) { }
@@ -66,7 +66,7 @@ export class TripdetailComponent implements OnInit, DoCheck {
 
   private setUser(res) {
     this.app.shared.storage.browsedUser = JSON.parse(res);
-    this.browserUser = this.app.shared.storage.browsedUser;
+    this.browsedUser = this.app.shared.storage.browsedUser;
   }
 
   loadExistingBooking() {
