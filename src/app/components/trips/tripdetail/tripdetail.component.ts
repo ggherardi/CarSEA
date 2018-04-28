@@ -20,6 +20,7 @@ export class TripdetailComponent implements OnInit, DoCheck {
   constructor(private app: AppComponent) { }
 
   ngOnInit() {
+    console.log('test');
     this.loadCurrentUser();
     this.loadTripDetails();
   }

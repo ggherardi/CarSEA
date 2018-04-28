@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AppComponent } from '../../../app.component';
-import { BookingResponse, TripResponse } from '../../../_services/models';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { BookingResponse, TripResponse, BookingStatus } from '../../../_services/models';
 
 @Component({
   selector: 'app-offeredtrips',
@@ -9,24 +8,21 @@ import { FormGroup, FormBuilder } from '@angular/forms';
   styleUrls: ['./offeredtrips.component.css']
 })
 export class OfferedtripsComponent implements OnInit {
-  @ViewChild('editForm') editForm;
-  editTripForm: FormGroup;
+  @ViewChild('bookingModal') bookingModal;
 
+  availableSeats: number;
+  allBookings: BookingResponse[] = [];
+  allPendingBookings: BookingResponse[] = [];
+  allApprovedBookings: BookingResponse[] = [];
+  allRejectedBookings: BookingResponse[] = [];
   allActiveTrips: TripResponse[] = [];
   allPastTrips: TripResponse[] = [];
 
-  constructor(private app: AppComponent, private formBuilder: FormBuilder) { }
+  constructor(private app: AppComponent) { }
 
   ngOnInit() {
     this.app.shared.redirectIfNotLogged();
-    this.initControls();
     this.getTrips();
-  }
-
-  private initControls() {
-    this.editTripForm = this.formBuilder.group({
-      
-    });
   }
 
   private getTrips() {
@@ -42,14 +38,41 @@ export class OfferedtripsComponent implements OnInit {
     this.allPastTrips = allTrips.slice().filter(b => new Date(b.departureDate).getTime() < Date.now());
   }
 
-  private getBookings() {
-    this.app.api.getBookingsForTrip(34).subscribe(
-      succ => console.log(succ),
+  private manageBookings(trip: TripResponse) {
+    this.availableSeats = trip.seats;
+    this.app.api.getBookingsForTrip(trip.tripId).subscribe(
+      this.openBookingsModal.bind(this),
       err => console.log(err)
     );
   }
 
-  private openEditForm() {
-    this.app.shared.openModal(this.editForm);
+  private openBookingsModal(res: BookingResponse[]) {
+    console.log(res);
+    if (res.length > 0) {
+      this.allBookings = res;
+      this.allPendingBookings = this.allBookings.filter(b => b.bookingStatusCode === BookingStatus.Pending);
+      this.allApprovedBookings = this.allBookings.filter(b => b.bookingStatusCode === BookingStatus.Accepted);
+      this.allRejectedBookings = this.allBookings.filter(b => b.bookingStatusCode === BookingStatus.Rejected
+                                                            || b.bookingStatusCode === BookingStatus.Canceled);
+      this.app.shared.openModal(this.bookingModal);
+    }
+  }
+
+  private setBookingArrays() {
+    alert('test');
+  }
+
+  private goToTripDetails(tripId) {
+    this.app.shared.storage.browsedUserID = this.app.shared.models.userModel.UserID;
+    this.app.shared.storage.browsedTripID = tripId;
+    this.app.shared.router.navigateByUrl('tripdetail');
+  }
+
+  approvalBookingClickEvent(booking: BookingResponse, approved: boolean) {
+    const bookingNewStatus: BookingStatus = approved ? BookingStatus.Accepted : BookingStatus.Rejected;
+    this.app.api.setBookingStatus(booking, bookingNewStatus).subscribe(
+      this.manageBookings.bind(this),
+      err => console.log(err)
+    );
   }
 }

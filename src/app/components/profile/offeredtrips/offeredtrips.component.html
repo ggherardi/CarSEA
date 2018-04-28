@@ -24,10 +24,10 @@
                             <div class="d-inline-block" ngbDropdown #myDrop="ngbDropdown">
                                 <button class="btn btn-outline-primary d-none" id="dropdownManual" ngbDropdownAnchor (focus)="myDrop.open()">Toggle dropdown</button>
                                 <div ngbDropdownMenu aria-labelledby="dropdownManual">
-                                    <button class="dropdown-item" (click)="openEditForm(trip)">
+                                    <button *ngIf="trip?.allBookings?.length > 0" class="dropdown-item" (click)="manageBookings(trip)">
                                         Gestisci prenotazioni
                                     </button>
-                                    <button class="dropdown-item" (click)="openEditForm(trip)">
+                                    <button class="dropdown-item" (click)="goToTripDetails(trip.tripId)">
                                         Dettagli viaggio
                                     </button>
                                     <button class="dropdown-item" (click)="openCancelBookingModal()">
@@ -35,7 +35,7 @@
                                     </button>
                                 </div>                           
                                 <button class="btn btn-light callout-button" (click)="$event.stopPropagation(); myDrop.open();">                      
-                                    <i (click)="$event.stopPropagation(); calloutMenu.open();" class="fa fa-ellipsis-v"></i>
+                                    <i class="fa fa-ellipsis-v"></i>
                                 </button>                        
                             </div>
                         </td>
@@ -44,81 +44,142 @@
                         <td>{{trip?.arrivalCityName}}</td>
                         <td>{{trip?.departureDate | date:'d MMMM - HH:mm':'':'it'}}</td>
                         <td>{{trip?.seats}}</td>
-                        <td>{{trip?.seats}}</td>
+                        <td>{{trip?.allBookings?.length}}</td>
                         <td>{{trip?.price}} €</td>
                       </tr>
                   </ng-container>
               </tbody>
           </table>
-      </ng-template>
-  </ngb-tab>
-  <ngb-tab title="Passati">
-      <ng-template ngbTabContent>
-          <table class="table table-hover">
-              <thead class="thead-dark">
-                  <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">Partenza</th>
-                  <th scope="col">Arrivo</th>
-                  <th scope="col">Data</th>
-                  <th scope="col">conducente</th>
-                  <th scope="col">Prezzo €</th>
-                  </tr>
-              </thead>
-              <tbody>
+        <div *ngIf="allActiveTrips.length === 0" class="text-center">
+            <span>Nessun elemento</span>
+        </div>    
+        </ng-template>
+    </ngb-tab>
+    <ngb-tab title="Passati">
+        <ng-template ngbTabContent>
+            <table class="table table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Partenza</th>
+                    <th scope="col">Arrivo</th>
+                    <th scope="col">Data</th>
+                    <th scope="col">conducente</th>
+                    <th scope="col">Prezzo €</th>
+                    </tr>
+                </thead>
+                <tbody>
                 <ng-container *ngFor="let trip of allPastTrips; let i = index">
-                  <tr>
+                    <tr>
                     <th scope="row">{{i+1}}</th>
                     <td>{{trip?.departureCityName}}</td>
                     <td>{{trip?.arrivalCityName}}</td>
                     <td>{{trip?.departureDate | date:'d MMMM - HH:mm':'':'it'}}</td>
                     <td>{{trip?.seats}}</td>
                     <td>{{trip?.price}} €</td>
-                  </tr>
+                    </tr>
                 </ng-container>
-              </tbody>
-          </table>
-      </ng-template>
-  </ngb-tab>
+                </tbody>
+            </table>
+            <div *ngIf="allPastTrips.length === 0" class="text-center">
+                <span>Nessun elemento</span>
+            </div>    
+        </ng-template>
+    </ngb-tab>
 </ngb-tabset>
 
-<ng-template #editForm let-c="close">
-    <div class="card-body">
+<ng-template #bookingModal let-c="close">
+    <!-- <div class="card-body"> -->
         <blockquote class="blockquote mb-0">
-            <div class="card-deck text-center">
+            <div class="card-deck text-center bookingModal">
                 <div class="card">
                     <div class="card-header">
-                        Dettagli viaggio
+                        Gestione prenotazioni
                     </div>
                     <div class="card-body">
-                        <form [formGroup]="editTripForm" (ngSubmit)="saveDetails(personalDetailsForm)">
-                            <div class="form-group">
-
-                            </div>
-                            <div class="form-group">
-                              <label for="exampleInputEmail1"></label>
-                              <input formControlName="name" class="form-control" placeholder="Prezzo">
-                              <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-                            </div>
-                            <div class="form-group">
-                              <label for="exampleTextarea">Example textarea</label>
-                              <textarea class="form-control" id="exampleTextarea" rows="3"></textarea>
-                            </div>
-                            <div class="form-check">
-                              <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input">
-                                Check me out
-                              </label>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                          </form>
-                        <button class="btn btn-primary" (click)="createBooking()">Sì</button>
-                        <button class="btn btn-secondary" (click)="c('Close click')">No</button>
+                        <ngb-tabset>
+                            <ngb-tab title="In attesa">
+                                <ng-template ngbTabContent>
+                                    <table class="table table-responsive-sm modal-table">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th scope="col">Passeggero</th>
+                                                <th scope="col">Stato</th>
+                                                <th scope="col"></th>
+                                                <th scope="col"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <ng-container *ngFor="let booking of allPendingBookings">
+                                                <tr>
+                                                    <td>{{booking?.ownerUsername}}</td>
+                                                    <td>{{booking?.bookingStatus}}</td>
+                                                    <td>
+                                                        <i *ngIf="availableSeats > 0" (click)="approvalBookingClickEvent(booking, true)" 
+                                                        class="far fa-thumbs-up approve"></i></td>
+                                                    <td  (click)="setBookingArrays()"><i 
+                                                        class="far fa-thumbs-down reject"></i></td>
+                                                </tr>
+                                            </ng-container>
+                                        </tbody>
+                                    </table>
+                                    <div *ngIf="allPendingBookings.length === 0">
+                                        <span>Nessun elemento</span>
+                                    </div>    
+                                </ng-template>
+                            </ngb-tab>
+                            <ngb-tab title="Accettate">
+                                <ng-template ngbTabContent>
+                                    <table class="table table-responsive-sm modal-table">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th scope="col">Passeggero</th>
+                                                <th scope="col">Stato</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>                        
+                                            <ng-container *ngFor="let booking of allApprovedBookings">
+                                                <tr>
+                                                    <td>{{booking?.ownerUsername}}</td>
+                                                    <td>{{booking?.bookingStatus}}</td>
+                                                </tr>
+                                            </ng-container>
+                                        </tbody>
+                                    </table>
+                                    <div *ngIf="allApprovedBookings.length === 0">
+                                        <span>Nessun elemento</span>
+                                    </div>    
+                                </ng-template>
+                            </ngb-tab>
+                            <ngb-tab title="Rifiutate/Cancellate">
+                                <ng-template ngbTabContent>
+                                    <table class="table table-responsive-sm modal-table">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th scope="col">Passeggero</th>
+                                                <th scope="col">Stato</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <ng-container *ngFor="let booking of allRejectedBookings">
+                                                <tr>
+                                                    <td>{{booking?.ownerUsername}}</td>
+                                                    <td>{{booking?.bookingStatus}}</td>
+                                                </tr>
+                                            </ng-container>
+                                        </tbody>
+                                    </table>
+                                    <div *ngIf="allRejectedBookings.length === 0">
+                                        <span>Nessun elemento</span>
+                                    </div>    
+                                </ng-template>
+                            </ngb-tab>
+                        </ngb-tabset>    
                     </div>
                 </div>
             </div>
         </blockquote>
-    </div>
+    <!-- </div> -->
 </ng-template>  
 
 <ng-template #cancelBookingModal let-c="close">

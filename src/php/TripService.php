@@ -9,16 +9,6 @@ use TokenGenerator;
 
 $GLOBALS["CorrelationID"] = uniqid("corrId_", true);
 
-class Trip {
-    public $tripId;
-    public $waypointCityName;
-
-    function __construct($tripId, $waypointCityName) {
-        $this->tripId = $tripId;
-        $this->waypointCityName = $waypointCityName;
-    }
-}
-
 class TripService {
     private $name;
     private $surname;
@@ -107,9 +97,7 @@ class TripService {
                 depc.nome as departureCityName, 
                 arrc.nome as arrivalCityName,
                 GROUP_CONCAT('', wayc.id, '_', wayc.nome) as allWaypoints,
-                wayc.id as waypointId,
-                wayc.nome as waypointCityName
-                -- tb.id as bookingIds
+                GROUP_CONCAT(DISTINCT tb.id) as allBookings
                 FROM trip as t
                 LEFT JOIN user as u
                 ON u.Id = t.owner_id
@@ -121,8 +109,8 @@ class TripService {
                 ON arrc.id = t.arrival_city
                 LEFT JOIN city as wayc
                 ON wayc.id = tw.city_id
-                -- LEFT JOIN trip_booking as tb
-                -- ON t.id = tb.trip_id 
+                LEFT JOIN trip_booking as tb
+                ON t.id = tb.trip_id 
                 WHERE ";
                
             if($tripID != 0) {
@@ -137,10 +125,10 @@ class TripService {
                 AND t.arrival_city = $filters->arrivalCity
                 AND t.departure_date >= '$today'
                 AND t.departure_date >= '$filters->dateStart' 
-                AND t.departure_date <= '$filters->dateEnd'
-                GROUP BY t.id";
+                AND t.departure_date <= '$filters->dateEnd'";
             }
             $query .= $whereCondition;
+            $query .= " GROUP BY t.id";
             Logger::Write("$query", $GLOBALS["CorrelationID"]);
             $res = self::ExecuteQuery($query);
             $results = array();
@@ -164,18 +152,23 @@ class TripService {
         $i = 0;
         foreach($results as $row) {
             $auxResponseObject[] = $row;
-            Logger::Write(json_encode("array:".$row["allWaypoints"]), $GLOBALS["CorrelationID"]);
             if($row["allWaypoints"] != null) {
                 $waypointsArray = explode(",", $row["allWaypoints"]);
                 $auxWaypointsArray = array();
                 foreach($waypointsArray as $waypoint) {
                     $splittedWaypoint = explode("_", $waypoint);
-                    $oWaypoint = new Trip($splittedWaypoint[0], $splittedWaypoint[1]);
+                    $oWaypoint = new Models\Trip($splittedWaypoint[0], $splittedWaypoint[1]);
                     $auxWaypointsArray[] = $oWaypoint;
                 }
-                $row["allWaypoints"] = $auxWaypointsArray;
                 $auxResponseObject[$i]["allWaypoints"] = $auxWaypointsArray;
-                Logger::Write(json_encode($row["allWaypoints"]), $GLOBALS["CorrelationID"]);
+            }
+            if($row["allBookings"] != null) {
+                $bookingsArray = explode(",", $row["allBookings"]);
+                $auxBookingsArray = array();
+                foreach($bookingsArray as $booking) {
+                    $auxBookingsArray[] = $booking;
+                }
+                $auxResponseObject[$i]["allBookings"] = $auxBookingsArray;
             }
             $i++;
         }
@@ -262,15 +255,15 @@ class TripService {
                 tb.trip_booking_status_code as bookingStatusCode,
                 tbs.status as bookingStatus,
                 u.Username as ownerUsername,
-                u.Id as tripOwnerId,
+                u.Id as tripOwnerId
                 FROM `trip_booking` as tb
                 INNER JOIN `user` as u
                 ON tb.user_id = u.Id
                 LEFT JOIN `trip_booking_status` as tbs
                 ON tb.trip_booking_status_code = tbs.code
                 WHERE tb.trip_id = $tripId";
-            $res = self::ExecuteQuery($query);
             Logger::Write($query, $GLOBALS["CorrelationID"]);
+            $res = self::ExecuteQuery($query);
             $results = array();
             if($res) {
                 while($row = $res->fetch_assoc()){
@@ -312,6 +305,36 @@ class TripService {
         }
     }
 
+    function SetBookingStatus() {
+        TokenGenerator::ValidateToken();
+        Logger::Write("Processing SetBookingstatus request", $GLOBALS["CorrelationID"]);
+        try {
+            $this->dbContext->StartTransaction();
+            $tripId = isset($_POST["tripId"]) ? $_POST["tripId"] : 0;
+            $bookingId = isset($_POST["bookingId"]) ? $_POST["bookingId"] : 0;
+            $bookingStatus = isset($_POST["bookingStatus"]) ? $_POST["bookingStatus"] : 0;
+            $query =  "UPDATE trip_booking
+                        SET trip_booking_status_code = $bookingStatus
+                        WHERE id = $bookingId";;
+            $res = self::ExecuteQuery($query);
+            Logger::Write("$bookingStatus", $GLOBALS["CorrelationID"]);
+            if($bookingStatus == 1) {
+                $query =  "UPDATE trip
+                SET seats = seats - 1
+                WHERE id = $tripId";;
+            }
+            $res = self::ExecuteQuery($query);
+            $this->dbContext->CommitTransaction();
+            exit(json_encode($row));
+        }
+        catch(Throwable $ex) {
+            Logger::Write("Error while processing SetBookingStatus request: $ex", $GLOBALS["CorrelationID"]);
+            http_response_code(500);
+            $this->dbContext->RollBack();
+            exit(json_encode($ex->getMessage()));
+        }
+    }
+
     // Switcha l'operazione richiesta lato client
     function Init(){
         $this->dbContext = new DBConnection();
@@ -333,6 +356,9 @@ class TripService {
                 break;
             case "getExistingBooking":
                 self::GetExistingBooking();
+                break;
+            case "setBookingStatus":
+                self::SetBookingStatus();
                 break;
             default: 
                 exit(json_encode($_POST));

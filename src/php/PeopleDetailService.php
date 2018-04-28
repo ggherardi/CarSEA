@@ -82,8 +82,7 @@ class PeopleDetailService {
 
             $query = 
                 "UPDATE user_detail
-                SET age = '$details->age',
-                description = '".addslashes($details->description)."'
+                SET age = '$details->age', description = '".addslashes($details->description)."'
                 WHERE user_id = $details->userId";
                             Logger::Write($query, $GLOBALS["CorrelationID"]);
             $res = self::ExecuteQuery($query);

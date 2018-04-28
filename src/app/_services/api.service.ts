@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from './httpService';
 import { Observable } from 'rxjs/Observable';
-import { NewConversation, NewMessage, NewBooking, SearchFilters } from './models';
+import { NewConversation, NewMessage, NewBooking, SearchFilters, BookingStatus, BookingResponse } from './models';
 import { SharedComponent } from './shared';
 
 enum EndPoint {
@@ -114,6 +114,17 @@ export class ApiService {
     const data = {
       newBooking: stringifiedNewBooking,
       action: 'insertBooking'
+    };
+    return this.shared.post(endpoint, data);
+  }
+
+  setBookingStatus(booking: BookingResponse, bookingStatus: BookingStatus): Observable<any[]> {
+    const endpoint = EndPoint.Trips;
+    const data = {
+      tripId: booking.tripId,
+      bookingId: booking.bookingId,
+      bookingStatus: bookingStatus,
+      action: 'setBookingStatus'
     };
     return this.shared.post(endpoint, data);
   }

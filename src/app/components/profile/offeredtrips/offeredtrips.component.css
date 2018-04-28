@@ -1,0 +1,13 @@
+.modal-table, .bookingModal {
+    font-size: 15px;
+}
+
+.approve {
+    color: yellowgreen;
+    cursor: pointer;
+}
+
+.reject {
+    color: orangered;
+    cursor: pointer;
+}

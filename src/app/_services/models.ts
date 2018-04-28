@@ -3,7 +3,14 @@ import { Headers, Response, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { LatLng, LatLngBounds } from '@agm/core/services/google-maps-types';
 
-// Classe singleton per i vari modelli, incluso l'utente
+export enum BookingStatus {
+    Pending = '0',
+    Accepted = '1',
+    Rejected = '2',
+    Canceled = '3'
+}
+
+// Classe singleton per il modello dell'utente
 @Injectable()
 export class Models {
     userModel: UserModel;
@@ -137,6 +144,7 @@ export class TripResponse extends Trip {
     allWaypoints: TripResponse[];
     waypointCityName: string;
     waypointId: number;
+    allBookings: number[];
 
     constructor(duration, distance, departureDate, departureCityName, arrivalCityName,
                 ownerName, tripId, allWaypoints, waypointCityName, waypointId) {
@@ -174,7 +182,7 @@ export class BookingResponse {
     ownerUsername: string;
     price: number;
     departureDate: string;
-    bookingStatusCode: number;
+    bookingStatusCode: string;
 
     constructor(bookingId, userId, tripId, bookingStatus) {
         this.bookingId = bookingId;
