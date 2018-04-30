@@ -10,7 +10,7 @@ import { BookingResponse, TripResponse, BookingStatus } from '../../../_services
 export class OfferedtripsComponent implements OnInit {
   @ViewChild('bookingModal') bookingModal;
 
-  availableSeats: number;
+  tripInModal: TripResponse;
   allBookings: BookingResponse[] = [];
   allPendingBookings: BookingResponse[] = [];
   allApprovedBookings: BookingResponse[] = [];
@@ -39,7 +39,7 @@ export class OfferedtripsComponent implements OnInit {
   }
 
   private manageBookings(trip: TripResponse) {
-    this.availableSeats = trip.seats;
+    this.tripInModal = trip;
     this.app.api.getBookingsForTrip(trip.tripId).subscribe(
       this.openBookingsModal.bind(this),
       err => console.log(err)
@@ -49,17 +49,17 @@ export class OfferedtripsComponent implements OnInit {
   private openBookingsModal(res: BookingResponse[]) {
     console.log(res);
     if (res.length > 0) {
-      this.allBookings = res;
-      this.allPendingBookings = this.allBookings.filter(b => b.bookingStatusCode === BookingStatus.Pending);
-      this.allApprovedBookings = this.allBookings.filter(b => b.bookingStatusCode === BookingStatus.Accepted);
-      this.allRejectedBookings = this.allBookings.filter(b => b.bookingStatusCode === BookingStatus.Rejected
-                                                            || b.bookingStatusCode === BookingStatus.Canceled);
+      this.setBookingsArrays(res);
       this.app.shared.openModal(this.bookingModal);
     }
   }
 
-  private setBookingArrays() {
-    alert('test');
+  private setBookingsArrays(res: BookingResponse[]) {
+    this.allBookings = res;
+    this.allPendingBookings = this.allBookings.filter(b => b.bookingStatusCode === BookingStatus.Pending);
+    this.allApprovedBookings = this.allBookings.filter(b => b.bookingStatusCode === BookingStatus.Accepted);
+    this.allRejectedBookings = this.allBookings.filter(b => b.bookingStatusCode === BookingStatus.Rejected
+                                                          || b.bookingStatusCode === BookingStatus.Canceled);
   }
 
   private goToTripDetails(tripId) {
@@ -68,10 +68,18 @@ export class OfferedtripsComponent implements OnInit {
     this.app.shared.router.navigateByUrl('tripdetail');
   }
 
-  approvalBookingClickEvent(booking: BookingResponse, approved: boolean) {
+  private approvalBookingClickEvent(booking: BookingResponse, approved: boolean) {
     const bookingNewStatus: BookingStatus = approved ? BookingStatus.Accepted : BookingStatus.Rejected;
     this.app.api.setBookingStatus(booking, bookingNewStatus).subscribe(
-      this.manageBookings.bind(this),
+      this.getTrips.bind(this),
+      err => console.log(err),
+      this.reloadModal.bind(this)
+    );
+  }
+
+  private reloadModal() {
+    this.app.api.getBookingsForTrip(this.tripInModal.tripId).subscribe(
+      this.setBookingsArrays.bind(this),
       err => console.log(err)
     );
   }

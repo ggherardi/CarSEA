@@ -114,11 +114,15 @@
                                                 <tr>
                                                     <td>{{booking?.ownerUsername}}</td>
                                                     <td>{{booking?.bookingStatus}}</td>
-                                                    <td>
-                                                        <i *ngIf="availableSeats > 0" (click)="approvalBookingClickEvent(booking, true)" 
-                                                        class="far fa-thumbs-up approve"></i></td>
-                                                    <td  (click)="setBookingArrays()"><i 
-                                                        class="far fa-thumbs-down reject"></i></td>
+                                                    <td  *ngIf="tripInModal.seats > 0" 
+                                                        class="approve"
+                                                        (click)="approvalBookingClickEvent(booking, true)">
+                                                        <i class="far fa-thumbs-up approve"></i>
+                                                    </td>
+                                                    <td (click)="approvalBookingClickEvent(booking, false)"
+                                                        class="reject">
+                                                        <i class="far fa-thumbs-down reject"></i>
+                                                    </td>
                                                 </tr>
                                             </ng-container>
                                         </tbody>
