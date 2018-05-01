@@ -61,7 +61,6 @@ export class SharedComponent implements OnInit {
     } else {
       this.cookies.setEncodedCookie(this.cookies.USER_COOKIE_NAME, data, this.profileCookieDuration);
       this.loadSession();
-      // this.router.navigateByUrl('myprofile');
     }
   }
 
@@ -110,10 +109,6 @@ export class SharedComponent implements OnInit {
       this.cookies.refreshCookie();
       token = userCookie.Token;
     }
-      // this.httpService.JWToken = userCookie.Token;
-    // } else {
-    //   this.httpService.JWToken = '';
-    // }
     return token;
   }
 
