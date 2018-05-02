@@ -41,6 +41,9 @@ export class SharedComponent implements OnInit {
     return this.httpService.get(url, token);
   }
 
+  /** Effettua il login con l'username e la password passati argomenti, dopodiché richiama
+   * il metodo che effettua il set dei cookie sul client. Infine esegue la callback passata
+   * come ultimo argomento */
   login(username: string, password: string, callback: any = function(a){}): void {
     const data = {
       action: 'login',
@@ -64,6 +67,7 @@ export class SharedComponent implements OnInit {
     }
   }
 
+  /** Effettua il logout e riporta l'utente alla home */
   logout() {
     this.cookies.disposeCookie(this.cookies.USER_COOKIE_NAME);
     this.userLogged = false;
@@ -72,6 +76,7 @@ export class SharedComponent implements OnInit {
     this.router.navigateByUrl('/');
   }
 
+  /** Effettua il redirect alla home nel caso l'utente non sia loggato */
   redirectIfNotLogged() {
     const userObj: UserModel = this.getCurrentUser();
     if (userObj === undefined) {
@@ -79,6 +84,7 @@ export class SharedComponent implements OnInit {
     }
   }
 
+  /** Naviga all'url passato come argomento unicamente se l'utente è loggato */
   navigateIfLogged(url: string): boolean {
     const userObj: UserModel = this.getCurrentUser();
     if (userObj !== undefined) {
@@ -90,10 +96,12 @@ export class SharedComponent implements OnInit {
     return true;
   }
 
+  /** Recupera l'utente corrente */
   getCurrentUser(): UserModel {
     return this.cookies.getObjectFromCookie(this.cookies.USER_COOKIE_NAME);
   }
 
+  /** Carica la sessione dal cookie */
   loadSession() {
     const storedUserDetails = this.cookies.getObjectFromCookie(this.cookies.USER_COOKIE_NAME);
     if (storedUserDetails !== undefined) {
@@ -102,6 +110,7 @@ export class SharedComponent implements OnInit {
     }
   }
 
+  /** Recupera il Token dal cookie */
   getToken(): string {
     let token = '';
     const userCookie: UserModel = this.cookies.getObjectFromCookie(this.cookies.USER_COOKIE_NAME);
@@ -112,6 +121,7 @@ export class SharedComponent implements OnInit {
     return token;
   }
 
+  /** Recupera i dettagli dell'utente */
   loadUserDetails(userId: number): Observable<any> {
     const data = {
       action: 'retrieveDetails',
@@ -120,6 +130,7 @@ export class SharedComponent implements OnInit {
     return this.post('php/PeopleDetailService.php', data);
   }
 
+  /** Apre il modal specificato nel content passato come argomento */
   openModal(content): NgbModalRef {
     const modalRef: NgbModalRef = this.modalService.open(content);
     modalRef.result.then((result) => {
@@ -130,6 +141,7 @@ export class SharedComponent implements OnInit {
     return modalRef;
   }
 
+  /** Chiude il modal specificato nel content passato come argomento */
   closeModal(content: NgbModalRef) {
     content.close();
   }

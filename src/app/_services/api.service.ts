@@ -13,6 +13,7 @@ enum EndPoint {
 export class ApiService {
   constructor(private shared: SharedComponent, private http: HttpService) { }
 
+  /** Recupera i Passaggi che rientrane nei filtri passati */
   getTripsWithFilters(filters: SearchFilters): Observable<any[]> {
     const endpoint =  EndPoint.Trips;
     const stringifiedFilters = JSON.stringify(filters);
@@ -23,6 +24,7 @@ export class ApiService {
     return this.shared.post(endpoint, data);
   }
 
+  /** Recupera i Passaggi offerti dello user con l'ID passato come argomento */
   getTripsForUser(ownerID: number): Observable<any[]> {
     const endpoint = EndPoint.Trips;
     const data = {
@@ -32,6 +34,7 @@ export class ApiService {
     return this.shared.post(endpoint, data);
   }
 
+  /** Recupera tutte le conversazioni dello user con l'ID passato come argomento */
   getConversations(userId: number): Observable<any[]> {
     const endpoint = EndPoint.Messages;
     const data = {
@@ -41,6 +44,7 @@ export class ApiService {
     return this.shared.post(endpoint, data);
   }
 
+  /** Inserisce una nuova conversazione nel DB */
   insertConversation(newConversation: NewConversation): Observable<any[]> {
     const endpoint = EndPoint.Messages;
     const stringifiedNewConversation = JSON.stringify(newConversation);
@@ -51,6 +55,7 @@ export class ApiService {
     return this.shared.post(endpoint, data);
   }
 
+  /** Recupera, se esiste, la conversazione tra due utenti */
   getExistingConversations(senderId: number, receiverId: number): Observable<any[]> {
     const endpoint = EndPoint.Messages;
     const data = {
@@ -61,6 +66,7 @@ export class ApiService {
     return this.shared.post(endpoint, data);
   }
 
+  /** Recupera tutti i messaggi per la conversazione con l'ID passato come argomenti */
   getMessages(conversationID: number): Observable<any[]> {
     const endpoint = EndPoint.Messages;
     const data = {
@@ -70,6 +76,7 @@ export class ApiService {
     return this.shared.post(endpoint, data);
   }
 
+  /** Inserisce un nuovo messaggio nel DB */
   insertMessage(message: NewMessage): Observable<any[]> {
     const endpoint = EndPoint.Messages;
     const stringifiedMessage = JSON.stringify(message);
@@ -80,6 +87,7 @@ export class ApiService {
     return this.shared.post(endpoint, data);
   }
 
+  /** Recupera la prenotazione specificata dal DB */
   getExistingBooking(existingBooking: NewBooking): Observable<any[]> {
     const endpoint = EndPoint.Trips;
     const stringifiedExistingBooking = JSON.stringify(existingBooking);
@@ -90,6 +98,7 @@ export class ApiService {
     return this.shared.post(endpoint, data);
   }
 
+  /** Recupera tutte le prenotazioni per lo user con l'ID passato come argomento */
   getBookingsForUser(userId: number): Observable<any[]> {
     const endpoint = EndPoint.Trips;
     const data = {
@@ -99,6 +108,7 @@ export class ApiService {
     return this.shared.post(endpoint, data);
   }
 
+  /** Recupera tutte le prenotazioni con il Passaggio con l'ID passato come argomento */
   getBookingsForTrip(tripId: number): Observable<any[]> {
     const endpoint = EndPoint.Trips;
     const data = {
@@ -108,6 +118,7 @@ export class ApiService {
     return this.shared.post(endpoint, data);
   }
 
+  /** Inserisce una nuova prenotazione nel DB */
   insertBooking(newBooking: NewBooking): Observable<any[]> {
     const endpoint = EndPoint.Trips;
     const stringifiedNewBooking = JSON.stringify(newBooking);
@@ -118,6 +129,7 @@ export class ApiService {
     return this.shared.post(endpoint, data);
   }
 
+  /** Cambia lo stato della prenotazione passata come argomento */
   setBookingStatus(booking: BookingResponse, bookingStatus: BookingStatus): Observable<any[]> {
     const endpoint = EndPoint.Trips;
     const data = {
