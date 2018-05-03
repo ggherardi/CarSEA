@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Creato il: Apr 16, 2018 alle 01:07
+-- Creato il: Mag 03, 2018 alle 01:05
 -- Versione del server: 5.5.45
 -- Versione PHP: 7.0.21
 
@@ -27562,7 +27562,7 @@ CREATE TABLE `conversation` (
 
 INSERT INTO `conversation` (`ConversationID`, `ConversationTitle`, `ConversationArchived`) VALUES
 (12, 'prova', 0),
-(23, 'username1pollpo', 0);
+(30, 'username1pollo', 0);
 
 -- --------------------------------------------------------
 
@@ -27594,7 +27594,7 @@ INSERT INTO `conversation_message` (`ConversationMessageID`, `ConversationID`, `
 (16, 12, 8, 'come va?', '2018-04-12 18:28:52'),
 (17, 12, 7, 'bene', '2018-04-12 19:08:25'),
 (18, 12, 8, 'tu?', '2018-04-12 19:08:30'),
-(27, 23, 30, 'testone', '2018-04-15 12:04:53');
+(30, 30, 44, 'ciao', '2018-04-18 00:33:50');
 
 -- --------------------------------------------------------
 
@@ -27615,8 +27615,8 @@ CREATE TABLE `conversation_participant` (
 INSERT INTO `conversation_participant` (`ConversationParticipantID`, `UserID`, `ConversationID`) VALUES
 (7, 45, 12),
 (8, 3, 12),
-(29, 44, 23),
-(30, 3, 23);
+(43, 44, 30),
+(44, 3, 30);
 
 -- --------------------------------------------------------
 
@@ -27631,7 +27631,7 @@ CREATE TABLE `trip` (
   `arrival_city` bigint(20) NOT NULL,
   `departure_date` datetime NOT NULL,
   `price` double NOT NULL,
-  `seats` int(11) NOT NULL,
+  `seats` int(11) UNSIGNED NOT NULL,
   `description` varchar(500) DEFAULT NULL,
   `duration` int(11) UNSIGNED NOT NULL,
   `distance` int(10) UNSIGNED NOT NULL
@@ -27642,7 +27642,7 @@ CREATE TABLE `trip` (
 --
 
 INSERT INTO `trip` (`id`, `owner_id`, `departure_city`, `arrival_city`, `departure_date`, `price`, `seats`, `description`, `duration`, `distance`) VALUES
-(7, 3, 8596, 8569, '2018-02-28 22:10:00', 30, 5, 'asdasdf', 21412, 582259),
+(7, 3, 8596, 8569, '2018-02-28 22:10:00', 30, 4, 'asdasdf', 21412, 582259),
 (8, 3, 8579, 8551, '2018-05-31 10:20:00', 40, 5, 'Test', 56444, 1414990),
 (9, 3, 8579, 8551, '2018-05-31 09:50:00', 100, 3, 'prova prova', 78723, 2117430),
 (10, 3, 8579, 8551, '2018-05-31 15:10:00', 50, 5, 'aerdsada', 61789, 1559350),
@@ -27652,7 +27652,7 @@ INSERT INTO `trip` (`id`, `owner_id`, `departure_city`, `arrival_city`, `departu
 (14, 3, 8579, 8551, '2018-05-31 11:00:00', 35, 2, 'sdfasdfdf', 53310, 1389432),
 (15, 3, 8596, 8551, '2018-05-31 05:59:00', 33, 2, 'sadasd', 19458, 486070),
 (24, 3, 8595, 6181, '2018-05-31 12:00:00', 10, 5, 'asasdfasdf', 10478, 208252),
-(32, 3, 8595, 6181, '2018-05-31 09:00:00', 10, 5, 'asasdfasdf', 10478, 208252),
+(32, 3, 8595, 6181, '2018-05-31 09:00:00', 10, 0, 'asasdfasdf', 10478, 208252),
 (33, 3, 8595, 6181, '2018-05-31 15:00:00', 45, 2, 'RiminiRecanatiProva', 13441, 220032),
 (34, 45, 8569, 8551, '2018-05-31 15:00:00', 45, 3, 'Viaggio di prova', 12873, 213073),
 (50, 3, 8596, 8551, '2019-01-13 10:20:00', 20, 3, 'dsadfhgsadfhsfg', 19447, 486070),
@@ -27677,7 +27677,11 @@ CREATE TABLE `trip_booking` (
 --
 
 INSERT INTO `trip_booking` (`id`, `user_id`, `trip_id`, `trip_booking_status_code`) VALUES
-(3, 3, 73, 0);
+(3, 3, 73, 0),
+(4, 3, 34, 0),
+(5, 45, 73, 0),
+(6, 3, 32, 1),
+(7, 42, 32, 2);
 
 -- --------------------------------------------------------
 
@@ -27696,9 +27700,9 @@ CREATE TABLE `trip_booking_status` (
 --
 
 INSERT INTO `trip_booking_status` (`id`, `code`, `status`) VALUES
-(4, 0, 'Accettata'),
-(5, 1, 'Rifiutata'),
-(6, 2, 'In attesa di approvazione'),
+(4, 0, 'In attesa di approvazione'),
+(5, 1, 'Accettata'),
+(6, 2, 'Rifiutata'),
 (7, 3, 'Annullata');
 
 -- --------------------------------------------------------
@@ -27845,7 +27849,9 @@ ALTER TABLE `trip`
 -- Indici per le tabelle `trip_booking`
 --
 ALTER TABLE `trip_booking`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `trip_id` (`trip_id`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indici per le tabelle `trip_booking_status`
@@ -27902,19 +27908,19 @@ ALTER TABLE `city`
 -- AUTO_INCREMENT per la tabella `conversation`
 --
 ALTER TABLE `conversation`
-  MODIFY `ConversationID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `ConversationID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT per la tabella `conversation_message`
 --
 ALTER TABLE `conversation_message`
-  MODIFY `ConversationMessageID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `ConversationMessageID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT per la tabella `conversation_participant`
 --
 ALTER TABLE `conversation_participant`
-  MODIFY `ConversationParticipantID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `ConversationParticipantID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT per la tabella `trip`
@@ -27926,7 +27932,7 @@ ALTER TABLE `trip`
 -- AUTO_INCREMENT per la tabella `trip_booking`
 --
 ALTER TABLE `trip_booking`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT per la tabella `trip_booking_status`
@@ -27983,6 +27989,13 @@ ALTER TABLE `trip`
   ADD CONSTRAINT `trip_ibfk_1` FOREIGN KEY (`departure_city`) REFERENCES `city` (`id`),
   ADD CONSTRAINT `trip_ibfk_2` FOREIGN KEY (`arrival_city`) REFERENCES `city` (`id`),
   ADD CONSTRAINT `trip_ibfk_7` FOREIGN KEY (`owner_id`) REFERENCES `user` (`Id`);
+
+--
+-- Limiti per la tabella `trip_booking`
+--
+ALTER TABLE `trip_booking`
+  ADD CONSTRAINT `trip_booking_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`Id`),
+  ADD CONSTRAINT `trip_booking_ibfk_1` FOREIGN KEY (`trip_id`) REFERENCES `trip` (`id`);
 
 --
 -- Limiti per la tabella `trip_waypoint`
