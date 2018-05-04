@@ -51,7 +51,6 @@ export class BodyComponent implements OnInit {
     const filters = this.gatherStringifyFilters();
     if (!filters) {
       alert('Selezionare una città di partenza e una di arrivo');
-      this.app.showSpinnerLoader = false;
       return;
     }
     this.app.shared.storage.searchFilters = filters;
@@ -60,20 +59,22 @@ export class BodyComponent implements OnInit {
 
   /** Raccoglie i filtri per effettuarela ricerca */
   private gatherStringifyFilters(): SearchFilters {
-    let departureCity = this.tripSearch.get('departureCityPicker').value;
-    let arrivalCity = this.tripSearch.get('arrivalCityPicker').value;
-    if (!departureCity && !arrivalCity) {
+    const departureCityObject = this.tripSearch.get('departureCityPicker').value;
+    const arrivalCityObject = this.tripSearch.get('arrivalCityPicker').value;
+    if (!departureCityObject && !arrivalCityObject) {
       return null;
     }
-    departureCity = departureCity.id;
-    arrivalCity = arrivalCity.id;
+    const departureCityId = departureCityObject.id;
+    const arrivalCityId = arrivalCityObject.id;
 
     const filters = new SearchFilters(
-      departureCity,
-      arrivalCity,
+      departureCityId,
+      arrivalCityId,
       1000,
       this.getFilterDate()[0],
-      this.getFilterDate()[1]
+      this.getFilterDate()[1],
+      departureCityObject,
+      arrivalCityObject
     );
     return filters;
   }

@@ -199,14 +199,19 @@ export class SearchFilters {
     price: number;
     dateStart: string;
     dateEnd: string;
+    departureCityObject: City;
+    arrivalCityObject: City;
 
     constructor(departureCity: number, arrivalCity: number, price: number,
-                dateStart: string, dateEnd: string) {
+                dateStart: string, dateEnd: string, departureCityObject?: City,
+                arrivalCityObject?: City) {
         this.departureCity = departureCity;
         this.arrivalCity = arrivalCity;
         this.price = price;
         this.dateStart = dateStart;
         this.dateEnd = dateEnd;
+        this.departureCityObject = departureCityObject;
+        this.arrivalCityObject = arrivalCityObject;
     }
 }
 

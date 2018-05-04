@@ -16,7 +16,7 @@ export class FindpassageComponent implements OnInit {
   autocompleteConfig: ApiAutocompleteConfig = {
     apiUrl: 'php/CitiesService.php',
     apiAction: 'search',
-    formattingFunction: (data) => `${data['id_regione']} - ${data['value']}`,
+    formattingFunction: (data) => `${data['value']}`,
     valueFormattingFunction: (data) => `${data.value}`
   };
   storedTrips: List<TripResponse> = List.create<TripResponse>();
@@ -53,10 +53,13 @@ export class FindpassageComponent implements OnInit {
     this.selectedPrice = this.maxPrice;
     this.initControls();
     this.buildForm();
-    if (this.app.shared.storage.searchFilters) {
-      this.getTripsWithFilters(this.app.shared.storage.searchFilters);
-      this.app.shared.storage.searchFilters = null;
-    }
+    setTimeout(() => {
+      if (this.app.shared.storage.searchFilters) {
+        // this.getTripsWithFilters(this.app.shared.storage.searchFilters);
+        this.populateFormWithFilters(this.app.shared.storage.searchFilters);
+        this.app.shared.storage.searchFilters = null;
+      }
+    }, (100));
   }
 
   private initControls() {
@@ -77,6 +80,18 @@ export class FindpassageComponent implements OnInit {
       datePicker: [today],
       pricePicker: [this.maxPrice]
     });
+  }
+
+  private populateFormWithFilters(filters: SearchFilters) {
+    this.filtersFormGroup.get('departureCityPicker').setValue(filters.departureCityObject);
+    this.filtersFormGroup.get('arrivalCityPicker').setValue(filters.arrivalCityObject);
+    const tempDate = filters.dateStart.split(' ')[0].split('-');
+    const date = {
+      year: tempDate[0],
+      month: tempDate[1],
+      day: tempDate[2]
+    };
+    this.filtersFormGroup.get('datePicker').setValue(date);
   }
 
   private dateChange(event) {
@@ -158,7 +173,9 @@ export class FindpassageComponent implements OnInit {
     }
     this.storedTrips = castedData.copy();
     this.allTrips = this.storedTrips.copy();
-    this.app.showSpinnerLoader = false;
+    if (this.app.showSpinnerLoader) {
+      this.app.showSpinnerLoader = false;
+    }
   }
 
   private getFilterDate(): string[] {
