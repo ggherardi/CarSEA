@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import { AppComponent } from '../../../app.component';
 import { ApiAutocompleteConfig } from '../../shared/apiautocomplete/apiautocomplete.component';
+import { SearchFilters } from '../../../_services/models';
 
 @Component({
   selector: 'app-body',
@@ -30,7 +31,8 @@ export class BodyComponent implements OnInit {
     this.buildForm();
   }
 
-  buildForm() {
+  /** Inizializza il form di ricerca Passaggi */
+  private buildForm() {
     const date = new Date();
     const today = {
       year: date.getFullYear(),
@@ -40,8 +42,47 @@ export class BodyComponent implements OnInit {
     this.tripSearch = this.formBuilder.group({
       departureCityPicker: [''],
       arrivalCityPicker: [''],
-      timePicker: [[0, 24]],
       datePicker: [today]
     });
   }
+
+  /** Recupera i Passaggi dal DB */
+  private getTrips() {
+    const filters = this.gatherStringifyFilters();
+    if (!filters) {
+      alert('Selezionare una città di partenza e una di arrivo');
+      this.app.showSpinnerLoader = false;
+      return;
+    }
+    this.app.shared.storage.searchFilters = filters;
+    this.app.shared.router.navigateByUrl('findpassage');
+  }
+
+  /** Raccoglie i filtri per effettuarela ricerca */
+  private gatherStringifyFilters(): SearchFilters {
+    let departureCity = this.tripSearch.get('departureCityPicker').value;
+    let arrivalCity = this.tripSearch.get('arrivalCityPicker').value;
+    if (!departureCity && !arrivalCity) {
+      return null;
+    }
+    departureCity = departureCity.id;
+    arrivalCity = arrivalCity.id;
+
+    const filters = new SearchFilters(
+      departureCity,
+      arrivalCity,
+      1000,
+      this.getFilterDate()[0],
+      this.getFilterDate()[1]
+    );
+    return filters;
+  }
+
+  private getFilterDate(): string[] {
+    const date = this.tripSearch.get('datePicker').value;
+    const formattedStartDate = this.app.shared.formatDate(date, 0);
+    const formattedEndDate =  this.app.shared.formatDate(date, 24);
+    return [formattedStartDate, formattedEndDate];
+  }
+
 }

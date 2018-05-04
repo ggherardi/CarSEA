@@ -1,4 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
+/* Verde generico: #17a2b8 */
 body {
   width: 80%;
   margin: 0 auto;
@@ -58,6 +59,10 @@ textarea {
   width: 50%;
 }
 
+.brand-green-color {
+  color: #17a2b8!important;
+}
+
 .center-block {
   display: block;
   margin-left: auto;
@@ -114,6 +119,11 @@ textarea {
   margin-bottom: 30px;
   font-size: 20px;
   text-align: center;
+}
+
+.background-green {
+  background-color: #17a2b8;
+  color: #fff;
 }
 
 .background-hover-green:hover {

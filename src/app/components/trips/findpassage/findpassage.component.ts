@@ -53,6 +53,10 @@ export class FindpassageComponent implements OnInit {
     this.selectedPrice = this.maxPrice;
     this.initControls();
     this.buildForm();
+    if (this.app.shared.storage.searchFilters) {
+      this.getTripsWithFilters(this.app.shared.storage.searchFilters);
+      this.app.shared.storage.searchFilters = null;
+    }
   }
 
   private initControls() {
@@ -81,8 +85,11 @@ export class FindpassageComponent implements OnInit {
   }
 
   private getTrips(e) {
-    console.log(e);
     const filters = this.gatherStringifyFilters();
+    this.getTripsWithFilters(filters);
+  }
+
+  private getTripsWithFilters(filters: SearchFilters) {
     if (!filters) {
       alert('Selezionare una città di partenza e una di arrivo');
       this.app.showSpinnerLoader = false;
@@ -157,15 +164,8 @@ export class FindpassageComponent implements OnInit {
   private getFilterDate(): string[] {
     const time = this.changeTimeEvent !== undefined ? this.changeTimeEvent : this.filtersFormGroup.get('timePicker').value;
     const date = this.filtersFormGroup.get('datePicker').value;
-    const formattedStartDate = this.formatDate(date, time[0]);
-    const formattedEndDate =  this.formatDate(date, time[1]);
+    const formattedStartDate = this.app.shared.formatDate(date, time[0]);
+    const formattedEndDate =  this.app.shared.formatDate(date, time[1]);
     return [formattedStartDate, formattedEndDate];
-  }
-
-  private formatDate(date: any, time: any): string {
-    const month = date.month < 10 ? `0${date.month}` : date.month;
-    const day = date.day < 10 ? `0${date.day}` : date.day;
-    time = time >= 10 ? time : (`0${time}`).slice(0, 2);
-    return `${date.year}-${month}-${day} ${time}:00`;
   }
 }

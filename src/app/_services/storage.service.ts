@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { UserDetail, UserModel } from './models';
+import { UserDetail, UserModel, SearchFilters } from './models';
 
 @Injectable()
 export class StorageService {
@@ -7,6 +7,7 @@ export class StorageService {
   public browsedUserID: number;
   public browsedUser: UserDetail;
   public browsedTripID: number;
+  public searchFilters: SearchFilters;
 
   public newConversation: Boolean;
   constructor() { }

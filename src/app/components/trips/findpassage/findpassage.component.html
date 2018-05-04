@@ -33,11 +33,7 @@
   </div>
   <div class="col-12 col-sm-8 offset-sm-1">
     <div id="trips-column">
-      <div class="row trips-order">
-      </div>
-      <div class="row">
-          <div class="col-12 trips-repeater-container"></div>
-      </div>
+      <div *ngIf=""></div>
       <div *ngFor="let trip of allTrips | paginate: { itemsPerPage: 5, currentPage: p }" class="trips-repeater-row">
         <app-tripabstract [Trip]="trip"></app-tripabstract>
       </div>

@@ -12,20 +12,15 @@
                 <app-apiautocomplete [config]="autocompleteConfig" formControlName="arrivalCityPicker" placeholder="Arrivo a"></app-apiautocomplete>
                 <div class="input-group">
                   <input formControlName="datePicker" class="form-control date-picker" placeholder="yyyy-mm-dd"
-                    name="datePicker" ngbDatepicker #d="ngbDatepicker" (ngModelChange)="dateChange($event)">
+                    name="datePicker" ngbDatepicker #d="ngbDatepicker">
                   <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+                    <button class="btn btn-secondary background-green" (click)="d.toggle()" type="button">
                       <i class="fas fa-calendar-alt"></i>
                     </button>
                   </div>
                 </div>
                 <p></p>
-                <button #btnFindTrips (click)="getTrips(btnFindTrips)" class="btn btn-info">Cerca nuovi viaggi</button>
-                <p></p>
-                <div>
-                  <p>Orario: {{ startTime }}h - {{ endTime }}h</p>
-                  <nouislider formControlName="timePicker" [config]="timePickerConfig" [min]="0" [max]="24"></nouislider>
-                </div>
+                <button #btnFindTrips (click)="getTrips()" class="btn btn-info">Cerca nuovi viaggi</button>
               </form>
           </div>
       </div>
