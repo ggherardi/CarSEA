@@ -1,5 +1,23 @@
-<p>
-  adminpanel works!
-</p>
-<div (click)="insertCities()">INSERT CITIES</div>
-<div (click)="deleteCities()">DELETE CITIES</div>
+<h2>Viaggi più frequenti</h2>
+<table class="table table-responsive-sm">
+  <thead class="thead-light">
+      <tr>
+          <th scope="col"></th>
+          <th scope="col">Partenza</th>
+          <th scope="col">Arrivo</th>
+          <th scope="col">Prezzo medio</th>
+          <th scope="col">N. Passaggi</th>
+      </tr>
+  </thead>
+  <tbody>
+      <ng-container *ngFor="let trip of allMostFrequentTrips; let i = index">
+          <tr>
+              <th scope="row">{{i+1}}</th>
+              <td>{{trip?.departureCity}}</td>
+              <td>{{trip?.arrivalCity}}</td>
+              <td>{{trip?.averagePrice}}</td>
+              <td>{{trip?.tripsCount}}</td>
+          </tr>
+      </ng-container>
+  </tbody>
+</table>

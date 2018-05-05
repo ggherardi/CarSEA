@@ -10,11 +10,6 @@ use TokenGenerator;
 $GLOBALS["CorrelationID"] = uniqid("corrId_", true);
 
 class TripService {
-    private $name;
-    private $surname;
-    private $username;
-    private $email;
-    private $password;
     private $dbContext;
 
     function __construct() {

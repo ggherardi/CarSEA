@@ -158,8 +158,8 @@ export class SharedComponent implements OnInit {
 
   /** Formatta la data in modo corretto per essere utilizzata nel DB */
   formatDate(date: any, time: any): string {
-    const month = date.month < 10 && date.month.length < 2 ? `0${date.month}` : date.month;
-    const day = date.day < 10 && date.day.length < 2 ? `0${date.day}` : date.day;
+    const month = date.month < 10 && date.month.toString().length < 2 ? `0${date.month}` : date.month;
+    const day = date.day < 10 && date.day.toString().length < 2 ? `0${date.day}` : date.day;
     time = time >= 10 ? time : (`0${time}`).slice(0, 2);
     return `${date.year}-${month}-${day} ${time}:00`;
   }

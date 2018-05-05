@@ -269,3 +269,13 @@ export class NewMessage {
         this.ConversationMessage = conversationMessage;
     }
 }
+
+/* Modelli per statistiche */
+export class FrequentTrip {
+    departureCity: string;
+    arrivalCity: string;
+    averagePrice: number;
+    tripsCount: number;
+
+    constructor() {}
+}

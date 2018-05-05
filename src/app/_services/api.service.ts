@@ -6,7 +6,8 @@ import { SharedComponent } from './shared';
 
 enum EndPoint {
     Trips = 'php/TripService.php',
-    Messages = 'php/MessageService.php'
+    Messages = 'php/MessageService.php',
+    Statistics = 'php/StatisticService.php'
 }
 
 @Injectable()
@@ -137,6 +138,15 @@ export class ApiService {
       bookingId: booking.bookingId,
       bookingStatus: bookingStatus,
       action: 'setBookingStatus'
+    };
+    return this.shared.post(endpoint, data);
+  }
+
+  /** Recupera i viaggi più frequenti dal DB */
+  getMostFrequentTrips() {
+    const endpoint = EndPoint.Statistics;
+    const data = {
+      action: 'getMostFrequentTrips'
     };
     return this.shared.post(endpoint, data);
   }

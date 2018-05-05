@@ -20,7 +20,8 @@ export class SidebarComponent implements OnInit, DoCheck {
   };
   private baseMenuItemsArray: any[] = [
     { title: 'Offri un passaggio', link: 'newtrip/pathchooser' },
-    { title: 'Cerca un passaggio', link: 'findpassage' }
+    { title: 'Cerca un passaggio', link: 'findpassage' },
+    { title: 'Statistiche', link: 'adminpanel' }
   ];
 
   private config = {

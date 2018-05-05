@@ -55,7 +55,6 @@ export class FindpassageComponent implements OnInit {
     this.buildForm();
     setTimeout(() => {
       if (this.app.shared.storage.searchFilters) {
-        // this.getTripsWithFilters(this.app.shared.storage.searchFilters);
         this.populateFormWithFilters(this.app.shared.storage.searchFilters);
         this.app.shared.storage.searchFilters = null;
       }

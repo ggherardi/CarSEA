@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AppComponent } from '../../../app.component';
+import { FrequentTrip } from '../../../_services/models';
 
 @Component({
   selector: 'app-adminpanel',
@@ -7,35 +8,30 @@ import { AppComponent } from '../../../app.component';
   styleUrls: ['./adminpanel.component.css?ver=${new Date().getTime()}']
 })
 export class AdminpanelComponent implements OnInit {
+  allMostFrequentTrips: FrequentTrip[] = [];
 
   constructor(private app: AppComponent) { }
 
   ngOnInit() {
+    this.retrieveMostFrequentTrips();
   }
 
-  deleteCities() {
-    this.app.shared.get('php/cities2.json').subscribe(res => this.insertCitiesCallback(res, 'deleteCities'));
+  retrieveMostFrequentTrips() {
+    this.app.api.getMostFrequentTrips().subscribe(
+      this.manageRetrieveMostFrequentTrips.bind(this),
+      err => console.log(err)
+    );
   }
 
-  insertCities() {
-    this.app.shared.get('php/cities2.json').subscribe(res => this.insertCitiesCallback(res, 'insertCities'));
+  manageRetrieveMostFrequentTrips(res: FrequentTrip[]) {
+    if (res.length > 0) {
+      this.allMostFrequentTrips = res.sort((a, b) => {
+        if (a.tripsCount > b.tripsCount) {
+          return -1;
+        } else {
+          return 1;
+        }
+      });
+    }
   }
-
-  private insertCitiesCallback(res, action) {
-    let i = 1;
-    res.forEach(el => {
-      const data = {
-        action: action,
-        id_regione: el.id_regione,
-        id_provincia: el.id,
-        nome: el.nome,
-        latitudine: el.latitudine,
-        longitudine: el.longitudine
-      };
-      console.log('[' + i++ +  ']' + action + ': ' + data.nome);
-      // this.app.shared.httpService.postAjax('php/CitiesServices.php', data, function(r){ console.log(r); });
-    });
-    console.log(res);
-  }
-
 }
