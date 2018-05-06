@@ -1,11 +1,13 @@
 <?php
 include 'PHPConst.php';
 include 'DBConnection.php';
-include 'models\Models.php';
 include 'TokenGenerator.php';
 use TokenGenerator;
 use Logger;
-use Models;
+
+function __autoload($className) {
+    require_once "./models/$className.php";
+}
 
 $GLOBALS["CorrelationID"] = uniqid("corrId_", true);
 $correlationId = $GLOBALS["CorrelationID"];
@@ -56,7 +58,7 @@ class AuthenticationService {
                 $validRow = $row;
             }
             if(password_verify($this->password, $fetchedPassword)){
-                $user = new Models\UserModel($validRow["Username"], $validRow["Id"], $validRow["Nome"]);
+                $user = new UserModel($validRow["Username"], $validRow["Id"], $validRow["Nome"]);
                 Logger::Write("User $this->username validated, generating Token.", $GLOBALS["CorrelationID"]);
                 $token = TokenGenerator::EncryptToken(json_encode($user));
                 $user->Token = $token;

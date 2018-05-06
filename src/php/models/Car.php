@@ -1,5 +1,4 @@
 <?php 
-namespace Models {
     class Car {
         public $id;
         public $year;
@@ -13,5 +12,4 @@ namespace Models {
             $this->model = $model;
         }
     }
-}
 ?>

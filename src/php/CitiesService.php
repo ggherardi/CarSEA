@@ -2,10 +2,12 @@
 
 include 'PHPConst.php';
 include 'DBConnection.php';
-include 'models\Models.php';
 include 'TokenGenerator.php';
 use TokenGenerator;
-use Models;
+
+function __autoload($className) {
+    require_once "./models/$className.php";
+}
 
 $GLOBALS["CorrelationID"] = uniqid("corrId_", true);
 
@@ -60,7 +62,7 @@ class CitiesService {
         $allResults = [];
 
         while($row = $res->fetch_assoc()) {      
-            $allResults[] = new Models\City($row["id"], $row["id_regione"], $row["id_provincia"], $row["nome"], $row["latitudine"], $row["longitudine"]); 
+            $allResults[] = new City($row["id"], $row["id_regione"], $row["id_provincia"], $row["nome"], $row["latitudine"], $row["longitudine"]); 
         }
         return $allResults;
     }

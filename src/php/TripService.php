@@ -1,11 +1,13 @@
 <?php
 include 'PHPConst.php';
 include 'DBConnection.php';
-include 'models\Models.php';
 include 'TokenGenerator.php';
 use Logger;
-use Models;
 use TokenGenerator;
+
+function __autoload($className) {
+    require_once "./models/$className.php";
+}
 
 $GLOBALS["CorrelationID"] = uniqid("corrId_", true);
 
@@ -152,7 +154,7 @@ class TripService {
                 $auxWaypointsArray = array();
                 foreach($waypointsArray as $waypoint) {
                     $splittedWaypoint = explode("_", $waypoint);
-                    $oWaypoint = new Models\Trip($splittedWaypoint[0], $splittedWaypoint[1]);
+                    $oWaypoint = new Trip($splittedWaypoint[0], $splittedWaypoint[1]);
                     $auxWaypointsArray[] = $oWaypoint;
                 }
                 $auxResponseObject[$i]["allWaypoints"] = $auxWaypointsArray;

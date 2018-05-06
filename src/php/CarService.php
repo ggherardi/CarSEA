@@ -2,10 +2,12 @@
 
 include 'PHPConst.php';
 include 'DBConnection.php';
-include 'models\Models.php';
 include 'TokenGenerator.php';
 use TokenGenerator;
-use Models;
+
+function __autoload($className) {
+    require_once "./models/$className.php";
+}
 
 $GLOBALS["CorrelationID"] = uniqid("corrId_", true);
 
@@ -53,7 +55,7 @@ class CarService {
         Logger::Write("$query", $GLOBALS["CorrelationID"]);
         $allResults = [];
         while($row = $res->fetch_assoc()) {
-            $allResults[] = new Models\Car($row["id"], $row["year"], $row["make"], $row["model"]); 
+            $allResults[] = new Car($row["id"], $row["year"], $row["make"], $row["model"]); 
         }
         return $allResults;
     }

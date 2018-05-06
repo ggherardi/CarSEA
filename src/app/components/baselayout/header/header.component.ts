@@ -59,6 +59,7 @@ export class HeaderComponent implements OnInit, DoCheck {
     const password = form.get('password').value;
     this.showSpinnerLoader = true;
     this.app.shared.login(username, password, this.callbackClearForm.bind(this));
+    this.showSpinnerLoader = false;
   }
 
   logoutFromForm(): void {

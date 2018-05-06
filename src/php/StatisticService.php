@@ -1,10 +1,8 @@
 <?php
 include 'PHPConst.php';
 include 'DBConnection.php';
-include 'models\Models.php';
 include 'TokenGenerator.php';
 use Logger;
-use Models;
 use TokenGenerator;
 
 $GLOBALS["CorrelationID"] = uniqid("corrId_", true);

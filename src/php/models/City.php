@@ -1,5 +1,4 @@
 <?php 
-namespace Models {
     class City {
         public $id;
         public $id_regione;
@@ -17,5 +16,4 @@ namespace Models {
             $this->longitudine = $longitudine;
         }
     }
-}
 ?>
