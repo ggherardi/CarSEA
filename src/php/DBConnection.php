@@ -10,8 +10,8 @@ class DBConnection {
     public $Password;
     public $DB;
 
-    // function __construct($servername = "localhost", $username = "giandude", $password = "", $db = "my_giandude"){
-    function __construct($servername = "127.0.0.1", $username = "root", $password = "root", $db = "carsea"){
+    function __construct($servername = "localhost", $username = "giandude", $password = "", $db = "my_giandude"){
+    // function __construct($servername = "127.0.0.1", $username = "root", $password = "root", $db = "carsea"){
         $this->ServerName = $servername;
         $this->UserName = $username;
         $this->Password = $password;

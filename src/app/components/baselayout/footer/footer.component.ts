@@ -7,20 +7,20 @@ import { AppComponent } from '../../../app.component';
   templateUrl: './footer.component.html?ver=${new Date().getTime()}',
   styleUrls: ['./footer.component.css?ver=${new Date().getTime()}']
 })
-export class FooterComponent implements OnInit, DoCheck {
-  user: any;
+export class FooterComponent implements OnInit {
   constructor(private app: AppComponent) { }
 
   ngOnInit() {
-    this.user = this.app.shared.models.userModel;
   }
 
-  ngDoCheck() {
-    this.user = this.app.shared.models.userModel;
-  }
-
-  changeVar() {
-
+  download(file) {
+    let filename = '';
+    switch (file) {
+      case 'richiesta':
+      filename = 'Richiesta realizzazione Web Application.pdf';
+      break;
+    }
+    this.app.shared.get(`/documentazione/${filename}`).subscribe();
   }
 
 }
